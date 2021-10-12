@@ -1,0 +1,57 @@
+{
+  "private": true,
+  "name": "carefree-antd-root",
+  "version": "1.0.4",
+  "scripts": {
+    "init": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean --yes",
+    "build": "father-build",
+    "publish": "lerna publish",
+    "release": "npm run build && npm publish",
+    "start": "dumi dev",
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "deploy": "npm run docs:build && npm run docs:deploy",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "test": "umi-test",
+    "test:update": "umi-test --updateSnapshot",
+    "test:coverage": "umi-test --coverage"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@umijs/fabric": "2.8.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "react": "17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/react": "12.1.2",
+    "@testing-library/react-hooks": "7.0.2",
+    "@types/jest": "27.0.2",
+    "@umijs/test": "3.5.20",
+    "dumi": "1.1.30",
+    "father-build": "1.20.1",
+    "gh-pages": "3.0.0",
+    "lerna": "4.0.0",
+    "lint-staged": "11.2.3",
+    "antd": "4.16.13",
+    "prettier": "2.4.1",
+    "react-test-renderer": "17.0.2",
+    "yorkie": "2.0.0",
+    "@types/react": "17.0.28"
+  }
+}
