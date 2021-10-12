@@ -4,6 +4,7 @@
   "version": "1.0.4",
   "scripts": {
     "init": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
+    "build:ui": "npm run bootstrap && npm run build",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "build": "father-build",

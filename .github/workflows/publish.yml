@@ -17,7 +17,7 @@ jobs:
         node-version: 14
  
     - run: npm install
-    - run: npm run build 
+    - run: npm run build:ui 
     - run: npm run docs:build
 
     - name: Create Doc
@@ -57,7 +57,7 @@ jobs:
           ```
           ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
-          
+
     # - uses: fregante/release-with-changelog@v3
     #   if: steps.create_tag.outputs.successful
     #   with:
