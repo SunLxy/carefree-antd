@@ -8,8 +8,9 @@ nav:
 group:
   path: /
 ---
-  
-  `SimpleForm`组件表单属性继承 `antd Form` 表单属性
+
+> `SimpleForm`组件表单属性继承 `antd Form` 表单属性
+
 
 ## 基础表单
 
