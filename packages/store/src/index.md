@@ -9,4 +9,11 @@ group:
   path: /
 ---
 
-### 依赖安装
+### antd from 表单做字段联动
+
+```tsx
+import React from 'react';
+import Demo from './demo';
+
+export default () => <Demo />;
+```
