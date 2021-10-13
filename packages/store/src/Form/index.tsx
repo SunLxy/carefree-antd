@@ -15,6 +15,10 @@ const FormContext = React.createContext<FormContextProps>({
   store: {},
 });
 
+export const useFormContext = () => {
+  return React.useContext(FormContext);
+};
+
 export function defaultGetValueFromEvent(
   valuePropName: string,
   ...args: any[]
@@ -54,7 +58,7 @@ export const useForm = (props?: UseFormProps) => {
 
 const Item = (props) => {
   const { name, children } = props;
-  const { onValuesChange, store } = React.useContext(FormContext);
+  const { onValuesChange, store } = useFormContext();
   const onChange = (value) => {
     if (onValuesChange && name) {
       onValuesChange(name, defaultGetValueFromEvent('value', value));
