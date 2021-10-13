@@ -27,11 +27,17 @@ const FormItems = () => {
   const watchList = {
     basicForm_a: (value) => {
       if (value === '23') {
+        // 获取表单中的所有值
+        const objs = form.getFieldsValue();
+        console.log('objs--a->', JSON.stringify(objs));
         form.setFieldsValue({ b: '232' });
       }
     },
     basicForm_b: (value) => {
       if (value === '232') {
+        // 获取表单中的所有值
+        const objs = form.getFieldsValue();
+        console.log('objs--b->', JSON.stringify(objs));
         form.setFieldsValue({ c: '23245' });
       }
     },
