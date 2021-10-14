@@ -25,7 +25,7 @@ import {
   UploadProps,
 } from 'antd';
 import { Rule } from 'rc-field-form/lib/interface';
-import { itemRender, SearchBtn } from './utils';
+import { itemRender, SearchBtn, FormContext, WatchListProps } from './utils';
 import classnames from 'classnames';
 import './index.css';
 
@@ -109,6 +109,8 @@ export interface SimpleFormProps extends FormProps {
   attrStyle?: React.CSSProperties;
   /** 每个 表单输入控件公共属性 除样式其他属性 */
   attrProps?: Partial<ItemChildAttr>;
+  // 监听字段
+  watchList?: WatchListProps;
 }
 
 const SimpleForm = (props: SimpleFormProps) => {
@@ -127,9 +129,11 @@ const SimpleForm = (props: SimpleFormProps) => {
     itemStyle = {},
     attrStyle = {},
     attrProps = {},
+    watchList,
     ...rest
   } = props;
   const [expand, setExpand] = useState(false);
+  const [firstMont, setFirstMont] = useState(false);
 
   const getRender = () => {
     if (isSearch && displayPre) {
@@ -141,7 +145,14 @@ const SimpleForm = (props: SimpleFormProps) => {
           if (diff > childList.length) {
             return (
               <React.Fragment>
-                {itemRender(config, colProps, itemStyle, attrStyle, attrProps)}
+                {itemRender(
+                  config,
+                  colProps,
+                  itemStyle,
+                  attrStyle,
+                  attrProps,
+                  watchList,
+                )}
                 {childList}
               </React.Fragment>
             );
@@ -149,47 +160,84 @@ const SimpleForm = (props: SimpleFormProps) => {
             const diffChild = childList.slice(0, diff);
             return (
               <React.Fragment>
-                {itemRender(config, colProps, itemStyle, attrStyle, attrProps)}
+                {itemRender(
+                  config,
+                  colProps,
+                  itemStyle,
+                  attrStyle,
+                  attrProps,
+                  watchList,
+                )}
                 {diffChild}
               </React.Fragment>
             );
           }
-          return itemRender(config, colProps, itemStyle, attrStyle, attrProps);
+          return itemRender(
+            config,
+            colProps,
+            itemStyle,
+            attrStyle,
+            attrProps,
+            watchList,
+          );
         }
         const configPre = config.slice(0, displayPre);
-        return itemRender(configPre, colProps, itemStyle, attrStyle, attrProps);
+        return itemRender(
+          configPre,
+          colProps,
+          itemStyle,
+          attrStyle,
+          attrProps,
+          watchList,
+        );
       }
     }
     return (
       <React.Fragment>
-        {itemRender(config, colProps, itemStyle, attrStyle, attrProps)}
+        {itemRender(
+          config,
+          colProps,
+          itemStyle,
+          attrStyle,
+          attrProps,
+          watchList,
+        )}
         {children}
       </React.Fragment>
     );
   };
-
   const clx = classnames('carefree-form', className);
 
+  React.useEffect(() => {
+    let timer;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      setFirstMont(true);
+    }, 300);
+  }, []);
+
   return (
-    <Form {...rest} className={clx}>
-      <Row gutter={24} {...rowProps}>
-        {getRender()}
-        {isSearch && (
-          <Col span={6} {...colProps}>
-            <SearchBtn
-              onRest={onRest}
-              expand={expand}
-              setExpand={setExpand}
-              displayPre={displayPre}
-              searchBtnItem={searchBtnItem}
-              searchBtnProps={searchBtnProps}
-              searchBtnRestProps={searchBtnRestProps}
-              itemStyle={itemStyle}
-            />
-          </Col>
-        )}
-      </Row>
-    </Form>
+    <FormContext.Provider value={{ firstMont, watchList: watchList || {} }}>
+      <Form {...rest} className={clx}>
+        <Row gutter={24} {...rowProps}>
+          {getRender()}
+          {isSearch && (
+            <Col span={6} {...colProps}>
+              <SearchBtn
+                onRest={onRest}
+                expand={expand}
+                setExpand={setExpand}
+                displayPre={displayPre}
+                searchBtnItem={searchBtnItem}
+                searchBtnProps={searchBtnProps}
+                searchBtnRestProps={searchBtnRestProps}
+                itemStyle={itemStyle}
+              />
+            </Col>
+          )}
+        </Row>
+      </Form>
+    </FormContext.Provider>
   );
 };
 SimpleForm.useForm = Form.useForm;

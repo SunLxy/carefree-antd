@@ -1,3 +1,4 @@
 import SimpleForm from './SimpleForm';
-export default SimpleForm
+export { useFormContext, useFormWatchList } from './SimpleForm/utils';
+export default SimpleForm;
 export * from './SimpleForm';

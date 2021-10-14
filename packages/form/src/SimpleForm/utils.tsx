@@ -42,6 +42,52 @@ import {
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
+export interface WatchListProps {
+  [s: string]: (value: any) => void;
+}
+export interface FormContextProps {
+  firstMont?: boolean;
+  watchList?: WatchListProps;
+}
+
+export const FormContext = React.createContext<FormContextProps>({});
+
+export const useFormContext = () => React.useContext(FormContext);
+
+export const useFormWatchList = (props: { [x: string]: any }) => {
+  const timer = React.useRef<any>();
+  const contex = useFormContext();
+  let fun: ((value: any) => void) | undefined;
+  if (contex) {
+    const { watchList, firstMont } = contex;
+    fun = watchList[props.id];
+  }
+  React.useEffect(() => {
+    if ((contex || {}).firstMont) {
+      clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        if (typeof fun === 'function') {
+          fun((props || {}).value);
+        }
+      }, 300);
+    }
+    return () => clearTimeout(timer.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify((props || {}).value)]);
+};
+
+export const Warp = (props: { [x: string]: any }) => {
+  const { children, ...rest } = props || {};
+  useFormWatchList(props);
+  if (typeof children === 'function') {
+    return children({ ...rest });
+  }
+  if (React.isValidElement(children)) {
+    return React.cloneElement(children, { ...rest });
+  }
+  return children;
+};
+
 /** 每一项渲染 */
 export const itemRender = (
   config: SimpleFormConfigProps[],
@@ -49,6 +95,7 @@ export const itemRender = (
   itemStyle: React.CSSProperties,
   attrStyle: React.CSSProperties,
   attrProps: Partial<ItemChildAttr>,
+  watchList: WatchListProps | undefined,
 ) => {
   return config.map((item, index) => {
     const {
@@ -247,6 +294,9 @@ export const itemRender = (
           {rend}
         </Form.List>
       );
+    }
+    if (watchList && Object.keys(watchList).length) {
+      renderItem = <Warp>{renderItem}</Warp>;
     }
     return (
       <Col span={6} key={index} {...warpColProps} {...colProps}>
