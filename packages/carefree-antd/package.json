@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "`SimpleForm`组件表单属性继承 `antd Form` 表单属性",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -15,18 +15,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "antd": "4.16.13",
-    "react": "17.x",
     "@ant-design/icons": "4.6.3",
+    "antd": "4.16.13",
     "classnames": "2.3.1",
-    "dayjs": "1.10.6"
+    "dayjs": "1.10.6",
+    "react": "17.x"
   },
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-transform-runtime": "7.15.8"
   },
   "dependencies": {
-    "carefree-antd-form": "1.0.4",
-    "@babel/runtime-corejs3": "7.15.4"
+    "@babel/runtime-corejs3": "7.15.4",
+    "carefree-antd-form": "1.0.5"
   }
 }
