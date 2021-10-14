@@ -221,5 +221,7 @@ interface SimpleFormProps extends FormProps {
   colProps?: ColProps;
   /** 每个 item 中公共 style 样式 */
   itemStyle?: React.CSSProperties;
+  // 监听字段
+  watchList?: WatchListProps;
 }
 ```

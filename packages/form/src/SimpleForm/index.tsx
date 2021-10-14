@@ -25,7 +25,15 @@ import {
   UploadProps,
 } from 'antd';
 import { Rule } from 'rc-field-form/lib/interface';
-import { itemRender, SearchBtn, FormContext, WatchListProps } from './utils';
+import {
+  itemRender,
+  SearchBtn,
+  FormContext,
+  WatchListProps,
+  ItemWatch,
+  useFormContext,
+  useFormWatchList,
+} from './utils';
 import classnames from 'classnames';
 import './index.css';
 
@@ -243,4 +251,9 @@ const SimpleForm = (props: SimpleFormProps) => {
 SimpleForm.useForm = Form.useForm;
 SimpleForm.Item = Form.Item;
 SimpleForm.List = Form.List;
+// 下面这几个都是监听字段变化的
+SimpleForm.ItemWatch = ItemWatch;
+SimpleForm.useFormContext = useFormContext;
+SimpleForm.useFormWatchList = useFormWatchList;
+
 export default SimpleForm;

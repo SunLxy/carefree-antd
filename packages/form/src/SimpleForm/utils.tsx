@@ -55,23 +55,18 @@ export const FormContext = React.createContext<FormContextProps>({});
 export const useFormContext = () => React.useContext(FormContext);
 
 export const useFormWatchList = (props: { [x: string]: any }) => {
-  const timer = React.useRef<any>();
   const contex = useFormContext();
   let fun: ((value: any) => void) | undefined;
   if (contex) {
-    const { watchList, firstMont } = contex;
-    fun = watchList[props.id];
+    const { watchList } = contex;
+    fun = watchList[(props || {}).id];
   }
   React.useEffect(() => {
     if ((contex || {}).firstMont) {
-      clearTimeout(timer.current);
-      timer.current = setTimeout(() => {
-        if (typeof fun === 'function') {
-          fun((props || {}).value);
-        }
-      }, 300);
+      if (typeof fun === 'function') {
+        fun((props || {}).value);
+      }
     }
-    return () => clearTimeout(timer.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify((props || {}).value)]);
 };
@@ -86,6 +81,15 @@ export const Warp = (props: { [x: string]: any }) => {
     return React.cloneElement(children, { ...rest });
   }
   return children;
+};
+// 监听子组件
+export const ItemWatch = (props: FormItemProps) => {
+  const { children, ...rest } = props;
+  return (
+    <Form.Item {...rest}>
+      <Warp>{children}</Warp>;
+    </Form.Item>
+  );
 };
 
 /** 每一项渲染 */
