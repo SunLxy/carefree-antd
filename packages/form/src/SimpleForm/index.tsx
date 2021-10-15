@@ -138,11 +138,12 @@ const SimpleForm = (props: SimpleFormProps) => {
     attrStyle = {},
     attrProps = {},
     watchList,
+    form,
     ...rest
   } = props;
   const [expand, setExpand] = useState(false);
   const [firstMont, setFirstMont] = useState(false);
-
+  const [forms] = Form.useForm(form);
   const getRender = () => {
     if (isSearch && displayPre) {
       if (!expand) {
@@ -225,7 +226,9 @@ const SimpleForm = (props: SimpleFormProps) => {
   }, []);
 
   return (
-    <FormContext.Provider value={{ firstMont, watchList: watchList || {} }}>
+    <FormContext.Provider
+      value={{ firstMont, watchList: watchList || {}, form: forms }}
+    >
       <Form {...rest} className={clx}>
         <Row gutter={24} {...rowProps}>
           {getRender()}

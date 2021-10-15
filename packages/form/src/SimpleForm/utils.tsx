@@ -42,12 +42,14 @@ import {
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
+import { FormInstance } from 'antd/lib/form/hooks/useForm';
 export interface WatchListProps {
-  [s: string]: (value: any) => void;
+  [s: string]: (value: any, formValue?: any) => void;
 }
 export interface FormContextProps {
   firstMont?: boolean;
   watchList?: WatchListProps;
+  form?: FormInstance<any>;
 }
 
 export const FormContext = React.createContext<FormContextProps>({});
@@ -56,15 +58,16 @@ export const useFormContext = () => React.useContext(FormContext);
 
 export const useFormWatchList = (props: { [x: string]: any }) => {
   const contex = useFormContext();
-  let fun: ((value: any) => void) | undefined;
+  let fun: ((value: any, formValue?: any) => void) | undefined;
   if (contex) {
     const { watchList } = contex;
     fun = watchList[(props || {}).id];
   }
   React.useEffect(() => {
     if ((contex || {}).firstMont) {
+      const { getFieldsValue } = contex.form;
       if (typeof fun === 'function') {
-        fun((props || {}).value);
+        fun((props || {}).value, getFieldsValue(true));
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
