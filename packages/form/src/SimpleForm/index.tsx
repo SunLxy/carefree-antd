@@ -33,9 +33,11 @@ import {
   ItemWatch,
   useFormContext,
   useFormWatchList,
+  useFormItemFun,
 } from './utils';
 import classnames from 'classnames';
 import './index.css';
+import { FormInstance } from 'antd/lib/form/hooks/useForm';
 
 export type ItemChildType =
   | 'Custom'
@@ -121,7 +123,10 @@ export interface SimpleFormProps extends FormProps {
   watchList?: WatchListProps;
 }
 
-const SimpleForm = (props: SimpleFormProps) => {
+const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
+  props: SimpleFormProps,
+  ref,
+) => {
   const {
     config = [],
     isSearch,
@@ -138,12 +143,12 @@ const SimpleForm = (props: SimpleFormProps) => {
     attrStyle = {},
     attrProps = {},
     watchList,
-    form,
     ...rest
   } = props;
+  const formRef = React.useRef<FormInstance>();
+
   const [expand, setExpand] = useState(false);
   const [firstMont, setFirstMont] = useState(false);
-  const [forms] = Form.useForm(form);
   const getRender = () => {
     if (isSearch && displayPre) {
       if (!expand) {
@@ -225,11 +230,17 @@ const SimpleForm = (props: SimpleFormProps) => {
     }, 300);
   }, []);
 
+  React.useImperativeHandle(ref, () => formRef.current);
+
   return (
     <FormContext.Provider
-      value={{ firstMont, watchList: watchList || {}, form: forms }}
+      value={{
+        firstMont,
+        watchList: watchList || {},
+        itemRefHook: formRef.current,
+      }}
     >
-      <Form {...rest} className={clx}>
+      <Form {...rest} className={clx} ref={formRef}>
         <Row gutter={24} {...rowProps}>
           {getRender()}
           {isSearch && (
@@ -251,6 +262,28 @@ const SimpleForm = (props: SimpleFormProps) => {
     </FormContext.Provider>
   );
 };
+
+const SimpleFormWarp = React.forwardRef<FormInstance, FormProps>(
+  InternalForm,
+) as <Values = any>(
+  props: React.PropsWithChildren<FormProps<Values>> & {
+    ref?: React.Ref<FormInstance<Values>>;
+  },
+) => React.ReactElement;
+
+type InternalFormType = typeof SimpleFormWarp;
+interface FormInterface extends InternalFormType {
+  useForm: typeof Form.useForm;
+  Item: typeof Form.Item;
+  List: typeof Form.List;
+  ItemWatch: typeof ItemWatch;
+  useFormContext: typeof useFormContext;
+  useFormWatchList: typeof useFormWatchList;
+  useFormItemFun: typeof useFormItemFun;
+}
+
+const SimpleForm = SimpleFormWarp as FormInterface;
+
 SimpleForm.useForm = Form.useForm;
 SimpleForm.Item = Form.Item;
 SimpleForm.List = Form.List;
@@ -258,5 +291,6 @@ SimpleForm.List = Form.List;
 SimpleForm.ItemWatch = ItemWatch;
 SimpleForm.useFormContext = useFormContext;
 SimpleForm.useFormWatchList = useFormWatchList;
+SimpleForm.useFormItemFun = useFormItemFun;
 
 export default SimpleForm;

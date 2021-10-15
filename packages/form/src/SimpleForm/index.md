@@ -20,6 +20,9 @@ import 'antd/dist/antd.css';
 
 export default () => (
   <SimpleForm
+    watchList={{
+      namea: () => {},
+    }}
     layout="vertical"
     config={[
       {
