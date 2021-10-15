@@ -143,6 +143,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
     attrStyle = {},
     attrProps = {},
     watchList,
+    form,
     ...rest
   } = props;
   const formRef = React.useRef<FormInstance>();
@@ -229,7 +230,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
       setFirstMont(true);
     }, 300);
   }, []);
-
+  const [forms] = Form.useForm(form);
   React.useImperativeHandle(ref, () => formRef.current);
 
   return (
@@ -237,10 +238,11 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
       value={{
         firstMont,
         watchList: watchList || {},
+        form: forms,
         itemRefHook: formRef.current,
       }}
     >
-      <Form {...rest} className={clx} ref={formRef}>
+      <Form {...rest} form={forms} className={clx} ref={formRef}>
         <Row gutter={24} {...rowProps}>
           {getRender()}
           {isSearch && (

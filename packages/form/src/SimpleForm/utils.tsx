@@ -53,6 +53,7 @@ import {
 export interface FormContextProps {
   firstMont?: boolean;
   watchList?: WatchListProps;
+  form?: FormInstance<any>;
   itemRefHook?: FormInstance<any>;
 }
 
@@ -103,7 +104,6 @@ export const useFormWatchList = (props: { [x: string]: any }) => {
     const { watchList } = contex;
     fun = watchList[(props || {}).id];
   }
-
   React.useEffect(() => {
     if ((contex || {}).firstMont) {
       const { getFieldsValue } = contex.itemRefHook;
