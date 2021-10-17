@@ -10,6 +10,12 @@ group:
 ---
 
 > `SimpleForm`组件表单属性继承 `antd Form` 表单属性
+>
+> 1. `ItemWatch` 监听变化组件
+> 2. `useFormWatchList` 监听变化 hooks
+> 3. `useFormContext` 用于传递子组件 开启 监听需要的内容
+> 4. `useFormItemFun` 子组件内部状态方法调用
+> 5. 其他的与 antd from 一样
 
 ## 基础表单
 
@@ -144,7 +150,7 @@ export default () => (
 ## 参数
 
 ```ts
-type ItemChildType =
+export type ItemChildType =
   | 'Custom'
   | 'Input'
   | 'InputNumber'
@@ -161,10 +167,11 @@ type ItemChildType =
   | 'TimePicker'
   | 'TreeSelect'
   | 'Upload';
-type ItemChildAttr =
+
+export type ItemChildAttr<T = any, K = any> =
   | InputProps
   | InputNumberProps
-  | SelectProps<any>
+  | SelectProps<T>
   | AutoCompleteProps
   | CascaderProps
   | CheckboxProps
@@ -175,10 +182,11 @@ type ItemChildAttr =
   | SliderSingleProps
   | SwitchProps
   | TimePickerProps
-  | TreeSelectProps<any>
+  | TreeSelectProps<K>
   | UploadProps;
 
-interface SimpleFormConfigProps {
+/** config 配置项  */
+export interface SimpleFormConfigProps<T = any, K = any> {
   /** 类型 */
   type: ItemChildType;
   /** formItem 表单 label 值 */
@@ -186,24 +194,22 @@ interface SimpleFormConfigProps {
   /** formItem 表单 name 值 */
   name?: string | number | (string | number)[];
   /** formItem 表单 其他属性值*/
-  itemAttr?: Omit<FormItemProps, 'rules' | 'label' | 'name'>;
+  itemAttr?: Omit<FormItemProps, 'rules' | 'label' | 'name'> & {
+    /** 用于当前的Item项是否用于监听，(前提是watchList设置了) */ watch?: boolean;
+  };
   /** formItem 表单 children 中组件参数*/
-  attr?: Partial<ItemChildAttr>;
+  attr?: Partial<ItemChildAttr<T, K>>;
   /** formItem 表单 规则*/
   rules?: Rule[];
-  render?:
-    | React.ReactNode
-    | React.ReactElement
-    | string
-    | ((...arg: any) => React.ReactNode);
+  render?: React.ReactNode | ((...arg: any) => React.ReactNode);
   /** 是否使用 list */
   isItemList?: boolean;
   /** 每一项 Col配置 */
   colProps?: ColProps;
 }
 
-interface SimpleFormProps extends FormProps {
-  config?: SimpleFormConfigProps[];
+export interface SimpleFormProps<T = any, K = any> extends FormProps {
+  config?: SimpleFormConfigProps<T, K>[];
   // 是否显示查询按钮和重置按钮
   isSearch?: boolean;
   /** 只显示前面部分查询条件 */
@@ -224,6 +230,10 @@ interface SimpleFormProps extends FormProps {
   colProps?: ColProps;
   /** 每个 item 中公共 style 样式 */
   itemStyle?: React.CSSProperties;
+  /** 每个 表单输入控件公共属性 样式 */
+  attrStyle?: React.CSSProperties;
+  /** 每个 表单输入控件公共属性 除样式其他属性 */
+  attrProps?: Partial<ItemChildAttr>;
   // 监听字段
   watchList?: WatchListProps;
 }
