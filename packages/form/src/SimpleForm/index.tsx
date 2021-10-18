@@ -163,10 +163,10 @@ const InternalForm: React.ForwardRefRenderFunction<
   );
 };
 
-const SimpleFormWarp = React.forwardRef<FormInstance, FormProps>(
+const SimpleFormWarp = React.forwardRef<FormInstance, SimpleFormProps>(
   InternalForm,
 ) as <Values = any>(
-  props: React.PropsWithChildren<FormProps<Values>> & {
+  props: React.PropsWithChildren<SimpleFormProps<Values>> & {
     ref?: React.Ref<FormInstance<Values>>;
   },
 ) => React.ReactElement;
