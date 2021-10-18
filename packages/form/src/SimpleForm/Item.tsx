@@ -19,6 +19,8 @@ import {
   Col,
 } from 'antd';
 import { SimpleFormConfigProps, ItemChildAttr } from '.';
+import { TextAreaProps } from 'antd/lib/input/TextArea';
+
 import {
   FormItemProps,
   ButtonProps,
@@ -42,9 +44,7 @@ import {
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
-
-import { useFormWatchList } from './hooks';
-import { WatchListProps } from './interface';
+import { useFormWatchList, useFormContext } from './hooks';
 
 export const Warp = (props: { [x: string]: any }) => {
   const { children, ...rest } = props || {};
@@ -68,14 +68,15 @@ export const ItemWatch = (props: FormItemProps) => {
 };
 
 /** 每一项渲染 */
-export const itemRender = (
-  config: SimpleFormConfigProps[],
-  warpColProps: ColProps,
-  itemStyle: React.CSSProperties,
-  attrStyle: React.CSSProperties,
-  attrProps: Partial<ItemChildAttr>,
-  watchList: WatchListProps | undefined,
-) => {
+export const itemRender = (config: SimpleFormConfigProps[]) => {
+  const {
+    colProps: warpColProps = {},
+    itemStyle = {},
+    attrStyle = {},
+    attrProps = {},
+    watchList,
+  } = useFormContext();
+
   return config.map((item, index) => {
     const {
       type,
@@ -103,6 +104,18 @@ export const itemRender = (
         />
       );
     }
+    if (type === 'TextArea') {
+      const inputAttr = attr as TextAreaProps;
+      const attrs = attrProps as TextAreaProps;
+      renderItem = (
+        <Input.TextArea
+          {...attrs}
+          {...inputAttr}
+          style={{ ...attrStyle, ...inputStyle }}
+        />
+      );
+    }
+
     if (type === 'InputNumber') {
       const inputAttr = attr as InputNumberProps;
       const attrs = attrProps as InputNumberProps;
@@ -217,7 +230,7 @@ export const itemRender = (
       const inputAttr = attr as RadioProps;
       const attrs = attrProps as RadioProps;
       renderItem = (
-        <Radio
+        <Radio.Group
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}

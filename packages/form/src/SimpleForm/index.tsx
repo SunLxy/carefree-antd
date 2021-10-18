@@ -63,14 +63,7 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
           if (diff > childList.length) {
             return (
               <React.Fragment>
-                {itemRender(
-                  config,
-                  colProps,
-                  itemStyle,
-                  attrStyle,
-                  attrProps,
-                  watchList,
-                )}
+                {itemRender(config)}
                 {childList}
               </React.Fragment>
             );
@@ -78,48 +71,20 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
             const diffChild = childList.slice(0, diff);
             return (
               <React.Fragment>
-                {itemRender(
-                  config,
-                  colProps,
-                  itemStyle,
-                  attrStyle,
-                  attrProps,
-                  watchList,
-                )}
+                {itemRender(config)}
                 {diffChild}
               </React.Fragment>
             );
           }
-          return itemRender(
-            config,
-            colProps,
-            itemStyle,
-            attrStyle,
-            attrProps,
-            watchList,
-          );
+          return itemRender(config);
         }
         const configPre = config.slice(0, displayPre);
-        return itemRender(
-          configPre,
-          colProps,
-          itemStyle,
-          attrStyle,
-          attrProps,
-          watchList,
-        );
+        return itemRender(configPre);
       }
     }
     return (
       <React.Fragment>
-        {itemRender(
-          config,
-          colProps,
-          itemStyle,
-          attrStyle,
-          attrProps,
-          watchList,
-        )}
+        {itemRender(config)}
         {children}
       </React.Fragment>
     );
@@ -141,6 +106,10 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
       value={{
         firstMont,
         watchList: watchList || {},
+        colProps: colProps,
+        itemStyle: itemStyle,
+        attrStyle: attrStyle,
+        attrProps: attrProps,
         form: forms,
         itemRefHook: formRef.current,
       }}
