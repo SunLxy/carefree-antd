@@ -26,10 +26,10 @@ export type {
   SimpleFormProps,
 };
 
-const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
-  props: SimpleFormProps,
-  ref,
-) => {
+const InternalForm: React.ForwardRefRenderFunction<
+  FormInstance,
+  SimpleFormProps
+> = (props, ref) => {
   const {
     config = [],
     isSearch,
