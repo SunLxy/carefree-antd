@@ -101,7 +101,7 @@ export const itemRender = (
       isItemList,
       colProps = {},
     } = item;
-    const { style = {}, watch = true } = itemAttr || {};
+    const { style = {}, watch = true, ...itemOther } = itemAttr || {};
     const { style: inputStyle = {} } = attr || {};
 
     let renderItem = undefined;
@@ -298,7 +298,7 @@ export const itemRender = (
         {...colProps}
       >
         <Form.Item
-          {...itemAttr}
+          {...itemOther}
           name={name}
           label={label}
           rules={rules}
