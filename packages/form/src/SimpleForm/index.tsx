@@ -136,10 +136,6 @@ const InternalForm: React.ForwardRefRenderFunction<
       value={{
         firstMont,
         watchList: watchList || {},
-        colProps: colProps,
-        itemStyle: itemStyle,
-        attrStyle: attrStyle,
-        attrProps: attrProps,
         form: forms,
         itemRefHook: formRef.current,
       }}

@@ -130,14 +130,6 @@ export interface FormContextProps {
   form?: FormInstance<any>;
   /**   Form.useForm() 与这个一致 */
   itemRefHook?: FormInstance<any>;
-  /** 每一项 Col配置 */
-  colProps?: ColProps;
-  /** 每个 item 中公共 style 样式 */
-  itemStyle?: React.CSSProperties;
-  /** 每个 表单输入控件公共属性 样式 */
-  attrStyle?: React.CSSProperties;
-  /** 每个 表单输入控件公共属性 除样式其他属性 */
-  attrProps?: Partial<ItemChildAttr>;
 }
 
 export type ChildPropsType = (InternalFormInstance | {}) & {

@@ -29,7 +29,7 @@ export default () => (
     watchList={{
       namea: () => {},
     }}
-    colProps={{ span: 24 }}
+    // colProps={{ span: 24 }}
     layout="vertical"
     config={[
       {

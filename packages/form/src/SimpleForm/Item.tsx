@@ -35,7 +35,6 @@ import {
   TreeSelectProps,
   InputNumberProps,
   SelectProps,
-  CheckboxProps,
   MentionProps,
   RadioProps,
   SwitchProps,
@@ -45,7 +44,8 @@ import {
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
-import { useFormWatchList, useFormContext } from './hooks';
+import { useFormWatchList } from './hooks';
+import { WatchListProps } from './interface';
 
 export const Warp = (props: { [x: string]: any }) => {
   const { children, ...rest } = props || {};
@@ -77,6 +77,16 @@ export const itemRender = (
     attrStyle = {},
     attrProps = {},
     watchList,
+  }: {
+    /** 每一项 Col配置 */
+    colProps: ColProps;
+    /** 每个 item 中公共 style 样式 */
+    itemStyle: React.CSSProperties;
+    /** 每个 表单输入控件公共属性 样式 */
+    attrStyle: React.CSSProperties;
+    /** 每个 表单输入控件公共属性 除样式其他属性 */
+    attrProps: Partial<ItemChildAttr>;
+    watchList: WatchListProps;
   },
 ) => {
   return config.map((item, index) => {
@@ -105,8 +115,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'TextArea') {
+    } else if (type === 'TextArea') {
       const inputAttr = attr as TextAreaProps;
       const attrs = attrProps as TextAreaProps;
       renderItem = (
@@ -116,9 +125,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-
-    if (type === 'InputNumber') {
+    } else if (type === 'InputNumber') {
       const inputAttr = attr as InputNumberProps;
       const attrs = attrProps as InputNumberProps;
       renderItem = (
@@ -128,8 +135,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'AutoComplete') {
+    } else if (type === 'AutoComplete') {
       const inputAttr = attr as AutoCompleteProps;
       const attrs = attrProps as AutoCompleteProps;
       renderItem = (
@@ -139,8 +145,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Cascader') {
+    } else if (type === 'Cascader') {
       const inputAttr = attr as CascaderProps;
       const attrs = attrProps as CascaderProps;
       renderItem = (
@@ -150,8 +155,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'DatePicker') {
+    } else if (type === 'DatePicker') {
       const inputAttr = attr as DatePickerProps;
       const attrs = attrProps as DatePickerProps;
       renderItem = (
@@ -161,8 +165,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Rate') {
+    } else if (type === 'Rate') {
       const inputAttr = attr as RateProps;
       const attrs = attrProps as RateProps;
       renderItem = (
@@ -172,8 +175,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Slider') {
+    } else if (type === 'Slider') {
       const inputAttr = attr as SliderSingleProps;
       const attrs = attrProps as SliderSingleProps;
       renderItem = (
@@ -183,8 +185,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'TreeSelect') {
+    } else if (type === 'TreeSelect') {
       const inputAttr = attr as TreeSelectProps<any>;
       const attrs = attrProps as TreeSelectProps<any>;
       renderItem = (
@@ -194,8 +195,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Select') {
+    } else if (type === 'Select') {
       const inputAttr = attr as SelectProps<any>;
       const attrs = attrProps as SelectProps<any>;
       renderItem = (
@@ -205,8 +205,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Checkbox') {
+    } else if (type === 'Checkbox') {
       const inputAttr = attr as CheckboxGroupProps;
       const attrs = attrProps as CheckboxGroupProps;
       renderItem = (
@@ -216,8 +215,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Mentions') {
+    } else if (type === 'Mentions') {
       const inputAttr = attr as MentionProps;
       const attrs = attrProps as MentionProps;
       renderItem = (
@@ -227,8 +225,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Radio') {
+    } else if (type === 'Radio') {
       const inputAttr = attr as RadioProps;
       const attrs = attrProps as RadioProps;
       renderItem = (
@@ -238,8 +235,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Switch') {
+    } else if (type === 'Switch') {
       const inputAttr = attr as SwitchProps;
       const attrs = attrProps as SwitchProps;
       renderItem = (
@@ -249,8 +245,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'TimePicker') {
+    } else if (type === 'TimePicker') {
       const inputAttr = attr as TimePickerProps;
       const attrs = attrProps as TimePickerProps;
       renderItem = (
@@ -260,8 +255,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Upload') {
+    } else if (type === 'Upload') {
       const inputAttr = attr as UploadProps;
       const attrs = attrProps as UploadProps;
       renderItem = (
@@ -271,8 +265,7 @@ export const itemRender = (
           style={{ ...attrStyle, ...inputStyle }}
         />
       );
-    }
-    if (type === 'Custom') {
+    } else if (type === 'Custom') {
       renderItem = render;
     }
     if (isItemList) {
@@ -293,7 +286,17 @@ export const itemRender = (
       renderItem = <Warp>{renderItem}</Warp>;
     }
     return (
-      <Col span={6} key={index} {...warpColProps} {...colProps}>
+      <Col
+        xs={24}
+        sm={24}
+        md={12}
+        lg={8}
+        xl={6}
+        xxl={4}
+        key={index}
+        {...warpColProps}
+        {...colProps}
+      >
         <Form.Item
           {...itemAttr}
           name={name}
@@ -361,7 +364,7 @@ export const SearchBtn: React.FC<SearchBtnProps> = (props) => {
           ) : (
             <React.Fragment>
               <DownOutlined />
-              显示
+              展开
             </React.Fragment>
           )}
         </a>
