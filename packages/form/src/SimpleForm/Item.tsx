@@ -20,6 +20,7 @@ import {
 } from 'antd';
 import { SimpleFormConfigProps, ItemChildAttr } from '.';
 import { TextAreaProps } from 'antd/lib/input/TextArea';
+import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
 
 import {
   FormItemProps,
@@ -205,10 +206,10 @@ export const itemRender = (config: SimpleFormConfigProps[]) => {
       );
     }
     if (type === 'Checkbox') {
-      const inputAttr = attr as CheckboxProps;
-      const attrs = attrProps as CheckboxProps;
+      const inputAttr = attr as CheckboxGroupProps;
+      const attrs = attrProps as CheckboxGroupProps;
       renderItem = (
-        <Checkbox
+        <Checkbox.Group
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
