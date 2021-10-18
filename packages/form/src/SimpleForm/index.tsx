@@ -63,7 +63,13 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
           if (diff > childList.length) {
             return (
               <React.Fragment>
-                {itemRender(config)}
+                {itemRender(config, {
+                  colProps,
+                  itemStyle,
+                  attrStyle,
+                  attrProps,
+                  watchList,
+                })}
                 {childList}
               </React.Fragment>
             );
@@ -71,20 +77,44 @@ const InternalForm: React.ForwardRefRenderFunction<FormInstance, FormProps> = (
             const diffChild = childList.slice(0, diff);
             return (
               <React.Fragment>
-                {itemRender(config)}
+                {itemRender(config, {
+                  colProps,
+                  itemStyle,
+                  attrStyle,
+                  attrProps,
+                  watchList,
+                })}
                 {diffChild}
               </React.Fragment>
             );
           }
-          return itemRender(config);
+          return itemRender(config, {
+            colProps,
+            itemStyle,
+            attrStyle,
+            attrProps,
+            watchList,
+          });
         }
         const configPre = config.slice(0, displayPre);
-        return itemRender(configPre);
+        return itemRender(configPre, {
+          colProps,
+          itemStyle,
+          attrStyle,
+          attrProps,
+          watchList,
+        });
       }
     }
     return (
       <React.Fragment>
-        {itemRender(config)}
+        {itemRender(config, {
+          colProps,
+          itemStyle,
+          attrStyle,
+          attrProps,
+          watchList,
+        })}
         {children}
       </React.Fragment>
     );

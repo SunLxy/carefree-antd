@@ -69,15 +69,16 @@ export const ItemWatch = (props: FormItemProps) => {
 };
 
 /** 每一项渲染 */
-export const itemRender = (config: SimpleFormConfigProps[]) => {
-  const {
+export const itemRender = (
+  config: SimpleFormConfigProps[],
+  {
     colProps: warpColProps = {},
     itemStyle = {},
     attrStyle = {},
     attrProps = {},
     watchList,
-  } = useFormContext();
-
+  },
+) => {
   return config.map((item, index) => {
     const {
       type,
