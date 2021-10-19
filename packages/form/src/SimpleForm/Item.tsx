@@ -287,12 +287,13 @@ export const itemRender = (
     }
     return (
       <Col
-        xs={24}
-        sm={24}
-        md={12}
-        lg={8}
-        xl={6}
-        xxl={4}
+        // xs={{ span: 24 }}
+        // sm={{ span: 24 }}
+        // md={{ span: 12 }}
+        // lg={{ span: 8 }}
+        // xl={{ span: 6 }}
+        // xxl={{ span: 4 }}
+        span={6}
         key={index}
         {...warpColProps}
         {...colProps}
