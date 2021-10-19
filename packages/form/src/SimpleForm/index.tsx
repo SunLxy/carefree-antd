@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Form, FormProps, Row, Col } from 'antd';
+import { Form, Row, Col } from 'antd';
 
 import {
   useFormContext,
   useFormWatchList,
-  useFormItemFun,
   FormContext,
+  useChildItemFun,
+  getChildItemFun,
 } from './hooks';
 import { ItemWatch, SearchBtn, itemRender } from './Item';
 
@@ -176,10 +177,13 @@ interface FormInterface extends InternalFormType {
   useForm: typeof Form.useForm;
   Item: typeof Form.Item;
   List: typeof Form.List;
+  Provider: typeof Form.Provider;
+
   ItemWatch: typeof ItemWatch;
   useFormContext: typeof useFormContext;
   useFormWatchList: typeof useFormWatchList;
-  useFormItemFun: typeof useFormItemFun;
+  useChildItemFun: typeof useChildItemFun;
+  getChildItemFun: typeof getChildItemFun;
 }
 
 const SimpleForm = SimpleFormWarp as FormInterface;
@@ -187,10 +191,14 @@ const SimpleForm = SimpleFormWarp as FormInterface;
 SimpleForm.useForm = Form.useForm;
 SimpleForm.Item = Form.Item;
 SimpleForm.List = Form.List;
+SimpleForm.Provider = Form.Provider;
+
 // 下面这几个都是监听字段变化的
 SimpleForm.ItemWatch = ItemWatch;
 SimpleForm.useFormContext = useFormContext;
 SimpleForm.useFormWatchList = useFormWatchList;
-SimpleForm.useFormItemFun = useFormItemFun;
+
+SimpleForm.useChildItemFun = useChildItemFun;
+SimpleForm.getChildItemFun = getChildItemFun;
 
 export default SimpleForm;

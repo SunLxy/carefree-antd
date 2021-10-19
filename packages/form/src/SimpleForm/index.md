@@ -27,7 +27,9 @@ import 'antd/dist/antd.css';
 export default () => (
   <SimpleForm
     watchList={{
-      namea: () => {},
+      namea: (value, allValue, forms) => {
+        console.log('打印---》', value, allValue, forms);
+      },
     }}
     colProps={{ xxl: 4, lg: 8 }}
     layout="vertical"

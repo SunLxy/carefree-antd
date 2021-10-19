@@ -282,22 +282,12 @@ export const itemRender = (
         </Form.List>
       );
     }
+    // 这种方式 (不建议使用) 可以结合 Form.Provider 中 onFormChange/(Form中onFieldsChange) 和 SimpleForm 的 getChildItemFun 方法一起使用 获取updateData 方法进行数据联动更新
     if (watchList && Object.keys(watchList).length && watch) {
       renderItem = <Warp>{renderItem}</Warp>;
     }
     return (
-      <Col
-        // xs={{ span: 24 }}
-        // sm={{ span: 24 }}
-        // md={{ span: 12 }}
-        // lg={{ span: 8 }}
-        // xl={{ span: 6 }}
-        // xxl={{ span: 4 }}
-        span={6}
-        key={index}
-        {...warpColProps}
-        {...colProps}
-      >
+      <Col span={6} key={index} {...warpColProps} {...colProps}>
         <Form.Item
           {...itemOther}
           name={name}
