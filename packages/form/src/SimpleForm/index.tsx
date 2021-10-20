@@ -138,7 +138,7 @@ const InternalForm: React.ForwardRefRenderFunction<
   const [forms] = Form.useForm(form);
   const [hide] = useFormItemHide(formHide);
   React.useImperativeHandle(ref, () => formRef.current);
-  hide.setInitialValues(initialHide, true);
+  hide.setInitialValues(initialHide || {}, true);
 
   return (
     <HideContext.Provider value={hide}>
