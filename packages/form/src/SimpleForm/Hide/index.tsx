@@ -68,7 +68,9 @@ class Hide extends React.Component<HideProps, HideState> {
   }
 }
 
-export default (props: Omit<HideProps, 'hideContent'>) => {
+export default (
+  props: Omit<HideProps, 'hideContent'> & { [x: string]: any },
+) => {
   const hideContent = React.useContext(HideContext);
   return <Hide {...props} hideContent={hideContent} />;
 };
