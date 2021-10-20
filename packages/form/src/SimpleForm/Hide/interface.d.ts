@@ -12,25 +12,21 @@ export interface FieldEntity {
 }
 
 export interface GetItemStoreProps {
-  init?: (entity: FieldEntity) => void;
-  register?: (entity: FieldEntity) => () => void;
-  getStoreState?: (pathName?: InternalNamePath) => {};
-  updateValue?: (pathName: NamePath, value: boolean) => void;
-  getValue?: (pathName: NamePath) => boolean | undefined;
+  init: (entity: FieldEntity) => void;
+  register: (entity: FieldEntity) => () => void;
+  getStoreState: (pathName?: InternalNamePath) => {
+    [x: string]: boolean | undefined;
+  };
+  updateValue: (pathName: NamePath, value: boolean) => void;
+  getValue: (pathName: NamePath) => boolean | undefined;
 }
 
 export interface GetStoreProps {
-  getComponents?: () => FieldEntity[];
-  getStoreState?: (pathName?: InternalNamePath) => {};
-  getItemStore?: () => GetItemStoreProps;
-  setInitialValues?: (init: {}, is: boolean) => void;
-  updateValue?: (pathName: NamePath, value: boolean) => void;
-}
-
-export interface StoreProps
-  extends GetStoreProps,
-    Omit<GetItemStoreProps, 'updateValue'> {
-  store: {};
-  componentLists: FieldEntity[];
-  getStore: () => GetStoreProps;
+  getComponents: () => FieldEntity[];
+  getStoreState: (pathName?: InternalNamePath) => {
+    [x: string]: boolean | undefined;
+  };
+  getItemStore: () => GetItemStoreProps;
+  setInitialValues: (init: {}, is: boolean) => void;
+  updateValue: (pathName: NamePath, value: boolean) => void;
 }

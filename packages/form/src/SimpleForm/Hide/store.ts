@@ -124,7 +124,7 @@ const useStore = (form?: GetStoreProps) => {
     if (form) {
       formRef.current = form;
     } else {
-      const formStore = new Store();
+      const formStore: Store = new Store();
       formRef.current = formStore.getStore();
     }
   }

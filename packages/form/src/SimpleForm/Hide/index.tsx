@@ -2,10 +2,7 @@ import React from 'react';
 import { HideContext } from './context';
 import { GetStoreProps, NamePath } from './interface';
 
-export interface HideState {
-  mounted: boolean;
-  cancelRegisterFunc: () => void;
-}
+export interface HideState {}
 
 export interface HideProps {
   hideContent: GetStoreProps;
@@ -16,6 +13,7 @@ export interface HideProps {
 class Hide extends React.Component<HideProps, HideState> {
   private mounted = false;
   private cancelRegisterFunc = () => {};
+
   constructor(props: HideProps) {
     super(props);
     if (props.hideContent) {
