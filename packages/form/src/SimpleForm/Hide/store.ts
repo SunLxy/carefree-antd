@@ -16,7 +16,7 @@ class Store {
   store = {};
 
   //保存组件
-  componentLists = [];
+  componentLists: FieldEntity[] = [];
   // 初始化
   private init = (entery: FieldEntity) => {
     const { initialValue } = entery.props || {};
