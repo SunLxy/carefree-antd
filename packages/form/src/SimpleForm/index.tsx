@@ -10,6 +10,9 @@ import {
 } from './hooks';
 import { ItemWatch, SearchBtn, itemRender } from './Item';
 
+import { HideContext } from './Hide/context';
+import useFormItemHide from './Hide/store';
+
 import classnames from 'classnames';
 import './index.css';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
@@ -47,6 +50,8 @@ const InternalForm: React.ForwardRefRenderFunction<
     attrStyle = {},
     attrProps = {},
     watchList,
+    formHide,
+    initialHide,
     form,
     ...rest
   } = props;
@@ -130,37 +135,41 @@ const InternalForm: React.ForwardRefRenderFunction<
     }, 300);
   }, []);
   const [forms] = Form.useForm(form);
+  const [hide] = useFormItemHide(formHide);
   React.useImperativeHandle(ref, () => formRef.current);
+  hide.setInitialValues(initialHide, true);
 
   return (
-    <FormContext.Provider
-      value={{
-        firstMont,
-        watchList: watchList || {},
-        form: forms,
-        itemRefHook: formRef.current,
-      }}
-    >
-      <Form {...rest} form={forms} className={clx} ref={formRef}>
-        <Row gutter={24} {...rowProps}>
-          {getRender()}
-          {isSearch && (
-            <Col span={6} {...colProps}>
-              <SearchBtn
-                onRest={onRest}
-                expand={expand}
-                setExpand={setExpand}
-                displayPre={displayPre}
-                searchBtnItem={searchBtnItem}
-                searchBtnProps={searchBtnProps}
-                searchBtnRestProps={searchBtnRestProps}
-                itemStyle={itemStyle}
-              />
-            </Col>
-          )}
-        </Row>
-      </Form>
-    </FormContext.Provider>
+    <HideContext.Provider value={hide}>
+      <FormContext.Provider
+        value={{
+          firstMont,
+          watchList: watchList || {},
+          form: forms,
+          itemRefHook: formRef.current,
+        }}
+      >
+        <Form {...rest} form={forms} className={clx} ref={formRef}>
+          <Row gutter={24} {...rowProps}>
+            {getRender()}
+            {isSearch && (
+              <Col span={6} {...colProps}>
+                <SearchBtn
+                  onRest={onRest}
+                  expand={expand}
+                  setExpand={setExpand}
+                  displayPre={displayPre}
+                  searchBtnItem={searchBtnItem}
+                  searchBtnProps={searchBtnProps}
+                  searchBtnRestProps={searchBtnRestProps}
+                  itemStyle={itemStyle}
+                />
+              </Col>
+            )}
+          </Row>
+        </Form>
+      </FormContext.Provider>
+    </HideContext.Provider>
   );
 };
 
@@ -184,6 +193,8 @@ interface FormInterface extends InternalFormType {
   useFormWatchList: typeof useFormWatchList;
   useChildItemFun: typeof useChildItemFun;
   getChildItemFun: typeof getChildItemFun;
+
+  useFormItemHide: typeof useFormItemHide;
 }
 
 const SimpleForm = SimpleFormWarp as FormInterface;
@@ -200,5 +211,7 @@ SimpleForm.useFormWatchList = useFormWatchList;
 
 SimpleForm.useChildItemFun = useChildItemFun;
 SimpleForm.getChildItemFun = getChildItemFun;
+
+SimpleForm.useFormItemHide = useFormItemHide;
 
 export default SimpleForm;

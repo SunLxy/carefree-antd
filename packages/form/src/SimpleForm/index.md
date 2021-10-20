@@ -26,9 +26,16 @@ import 'antd/dist/antd.css';
 
 export default () => (
   <SimpleForm
+    initialHide={{ name1: true }}
     watchList={{
-      namea: (value, allValue, forms) => {
-        console.log('打印---》', value, allValue, forms);
+      namea: (value, allValue, forms, hide) => {
+        const { updateValue } = hide;
+        if (value === '12') {
+          hide.updateValue('name1', true);
+        } else {
+          hide.updateValue('name1', false);
+        }
+        console.log('打印---》', value, hide, hide.getComponent());
       },
     }}
     colProps={{ xxl: 4, lg: 8 }}
@@ -43,6 +50,7 @@ export default () => (
         label: '测试1',
         name: 'name1',
         type: 'Input',
+        isHide: true,
       },
       {
         label: '测试2',
@@ -125,29 +133,52 @@ import { Input, Col } from 'antd';
 import SimpleForm from 'carefree-antd-form';
 import 'antd/dist/antd.css';
 
-export default () => (
-  <SimpleForm layout="vertical" isSearch={true} displayPre={1}>
-    <Col span={6}>
-      <SimpleForm.Item
-        label="测试antd"
-        name="names"
-        style={{ marginBottom: 5 }}
-      >
-        <Input />
-      </SimpleForm.Item>
-    </Col>
-    <Col span={6}>
-      <SimpleForm.Item label="测试3" name="names3" style={{ marginBottom: 5 }}>
-        <Input />
-      </SimpleForm.Item>
-    </Col>
-    <Col span={6}>
-      <SimpleForm.Item label="测试4" name="names4" style={{ marginBottom: 5 }}>
-        <Input />
-      </SimpleForm.Item>
-    </Col>
-  </SimpleForm>
-);
+export default () => {
+  const [form] = SimpleForm.useForm();
+  const [state, setState] = React.useState({});
+  const { getFieldValue } = form;
+
+  return (
+    <SimpleForm
+      form={form}
+      layout="vertical"
+      isSearch={true}
+      onValuesChange={(value) => {
+        setState({ ...value });
+      }}
+    >
+      <Col span={6}>
+        <SimpleForm.Item
+          label="测试antd"
+          name="names0"
+          style={{ marginBottom: 5 }}
+        >
+          <Input />
+        </SimpleForm.Item>
+      </Col>
+      <Col span={6}>
+        <SimpleForm.Item
+          label="测试3"
+          name="names3"
+          style={{ marginBottom: 5 }}
+        >
+          <Input />
+        </SimpleForm.Item>
+      </Col>
+      {getFieldValue(`names${0}`) !== '12' && (
+        <Col span={6}>
+          <SimpleForm.Item
+            label="测试4"
+            name="names4"
+            style={{ marginBottom: 5 }}
+          >
+            <Input />
+          </SimpleForm.Item>
+        </Col>
+      )}
+    </SimpleForm>
+  );
+};
 ```
 
 ## 参数

@@ -7,6 +7,8 @@ import {
 } from 'rc-field-form/lib/interface';
 import { FormContextProps, ChildPropsType } from './interface';
 
+import { useHideContext } from './Hide/context';
+
 export const FormContext = React.createContext<FormContextProps>({});
 
 export const useFormContext = () => React.useContext(FormContext);
@@ -41,11 +43,16 @@ export const useChildItemFun = (form: FormInstance) => {
 // 这种方法其他可以使用 Form.
 export const useFormWatchList = (props: { [x: string]: any }) => {
   const contex = useFormContext();
+  const hideContext = useHideContext();
   let fun:
-    | ((value: any, formValue?: any, child?: ChildPropsType) => void)
+    | ((
+        value: any,
+        formValue?: any,
+        child?: ChildPropsType,
+        hideContext?: any,
+      ) => void)
     | undefined;
   let childProps: ChildPropsType = useChildItemFun(contex.itemRefHook);
-
   if (contex) {
     const { watchList } = contex;
     fun = watchList[(props || {}).id];
@@ -54,7 +61,12 @@ export const useFormWatchList = (props: { [x: string]: any }) => {
     if ((contex || {}).firstMont) {
       const { getFieldsValue } = contex.itemRefHook;
       if (typeof fun === 'function') {
-        fun((props || {}).value, getFieldsValue(true), { ...childProps });
+        fun(
+          (props || {}).value,
+          getFieldsValue(true),
+          { ...childProps },
+          hideContext,
+        );
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

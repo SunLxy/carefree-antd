@@ -21,7 +21,6 @@ import {
 import { SimpleFormConfigProps, ItemChildAttr } from '.';
 import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
-
 import {
   FormItemProps,
   ButtonProps,
@@ -46,6 +45,15 @@ import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
 import { useFormWatchList } from './hooks';
 import { WatchListProps } from './interface';
+
+import Hide from './Hide';
+
+const getPathName = (name) => {
+  if (Array.isArray(name)) {
+    return name.join('');
+  }
+  return name;
+};
 
 export const Warp = (props: { [x: string]: any }) => {
   const { children, ...rest } = props || {};
@@ -99,11 +107,11 @@ export const itemRender = (
       rules,
       render,
       isItemList,
+      isHide,
       colProps = {},
     } = item;
     const { style = {}, watch = true, ...itemOther } = itemAttr || {};
     const { style: inputStyle = {} } = attr || {};
-
     let renderItem = undefined;
     if (type === 'Input') {
       const inputAttr = attr as InputProps;
@@ -283,10 +291,15 @@ export const itemRender = (
       );
     }
     // 这种方式 (不建议使用) 可以结合 Form.Provider 中 onFormChange/(Form中onFieldsChange) 和 SimpleForm 的 getChildItemFun 方法一起使用 获取updateData 方法进行数据联动更新
-    if (watchList && Object.keys(watchList).length && watch) {
-      renderItem = <Warp>{renderItem}</Warp>;
+    if (
+      watchList &&
+      Object.keys(watchList).length &&
+      watch &&
+      watchList[getPathName(name)]
+    ) {
+      renderItem = <Warp key={index}>{renderItem}</Warp>;
     }
-    return (
+    renderItem = (
       <Col span={6} key={index} {...warpColProps} {...colProps}>
         <Form.Item
           {...itemOther}
@@ -299,6 +312,14 @@ export const itemRender = (
         </Form.Item>
       </Col>
     );
+    if (isHide && name) {
+      return (
+        <Hide key={index} name={name}>
+          {renderItem}
+        </Hide>
+      );
+    }
+    return renderItem;
   });
 };
 

@@ -21,6 +21,7 @@ import {
   TimePickerProps,
   UploadProps,
 } from 'antd';
+import { GetStoreProps } from './Hide/interface';
 
 import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { Rule } from 'rc-field-form/lib/interface';
@@ -88,6 +89,8 @@ export interface SimpleFormConfigProps<T = any, K = any> {
   isItemList?: boolean;
   /** 每一项 Col配置 */
   colProps?: ColProps;
+  // 是否启用组件隐藏显示
+  isHide?: boolean;
 }
 
 export interface SimpleFormProps<T = any, K = any> extends FormProps {
@@ -118,6 +121,10 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   attrProps?: Partial<ItemChildAttr>;
   /** 监听字段 */
   watchList?: WatchListProps;
+  /** Form.useFormItemHide 返回值  */
+  formHide?: GetStoreProps;
+  /** 初始值 隐藏显示 字段对应的值 */
+  initialHide?: { [x: string]: boolean };
 }
 
 /** 外层嵌套的context的值 */
