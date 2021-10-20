@@ -2,7 +2,7 @@ export type InternalNamePath = (string | number)[];
 export type NamePath = string | number | InternalNamePath;
 
 export interface FieldEntity {
-  getNamePath: () => (string | number | undefined)[];
+  getNamePath: () => (string | number)[];
   refresh: () => void;
   getValue: () => boolean | undefined;
   props: {
