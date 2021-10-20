@@ -7,7 +7,7 @@ export interface FieldEntity {
   getValue: () => boolean | undefined;
   props: {
     name: NamePath;
-    initialValue: boolean;
+    initialValue?: boolean;
   };
 }
 

@@ -22,59 +22,74 @@ group:
 ```tsx
 import React from 'react';
 import SimpleForm from 'carefree-antd-form';
+import { Button } from 'antd';
 import 'antd/dist/antd.css';
 
-export default () => (
-  <SimpleForm
-    initialHide={{ name1: true }}
-    watchList={{
-      namea: (value, allValue, forms, hide) => {
-        const { updateValue } = hide;
-        if (value === '12') {
-          hide.updateValue('name1', true);
-        } else {
-          hide.updateValue('name1', false);
-        }
-        console.log('打印---》', value, hide, hide.getComponent());
-      },
-    }}
-    colProps={{ xxl: 4, lg: 8 }}
-    layout="vertical"
-    config={[
-      {
-        label: '测试',
-        name: 'namea',
-        type: 'Input',
-      },
-      {
-        label: '测试1',
-        name: 'name1',
-        type: 'Input',
-        isHide: true,
-      },
-      {
-        label: '测试2',
-        name: 'name2',
-        type: 'Input',
-      },
-      {
-        label: '测试3',
-        name: 'name3',
-        type: 'Input',
-      },
-      {
-        label: '测试4',
-        name: 'name4',
-        type: 'Input',
-      },
-      {
-        label: '测试5',
-        name: 'name5',
-        type: 'Input',
-      },
-    ]}
-  />
-);
+export default () => {
+  const [form] = SimpleForm.useForm();
+
+  const onClick = () => {
+    form.validateFields().then((value) => {
+      console.log(value);
+    });
+  };
+
+  return (
+    <div>
+      <Button onClick={onClick}>检查form表单提交移除的项是否可以获取值</Button>
+      <SimpleForm
+        form={form}
+        initialHide={{ name1: true }}
+        watchList={{
+          namea: (value, allValue, forms, hide) => {
+            const { updateValue } = hide;
+            if (value === '12') {
+              hide.updateValue('name1', true);
+            } else {
+              hide.updateValue('name1', false);
+            }
+            console.log('打印---》', value, allValue, hide, forms);
+          },
+        }}
+        colProps={{ xxl: 4, lg: 8 }}
+        layout="vertical"
+        config={[
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+          },
+          {
+            label: '测试1',
+            name: 'name1',
+            type: 'Input',
+            isHide: true,
+          },
+          {
+            label: '测试2',
+            name: 'name2',
+            type: 'Input',
+          },
+          {
+            label: '测试3',
+            name: 'name3',
+            type: 'Input',
+          },
+          {
+            label: '测试4',
+            name: 'name4',
+            type: 'Input',
+          },
+          {
+            label: '测试5',
+            name: 'name5',
+            type: 'Input',
+          },
+        ]}
+      />
+    </div>
+  );
+};
 ```
 
 ## 查询表单
@@ -270,5 +285,9 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   attrProps?: Partial<ItemChildAttr>;
   // 监听字段
   watchList?: WatchListProps;
+  /** Form.useFormItemHide 返回值  */
+  formHide?: GetStoreProps;
+  /** 初始值 隐藏显示 字段对应的值 */
+  initialHide?: { [x: string]: boolean };
 }
 ```

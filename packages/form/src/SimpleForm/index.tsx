@@ -12,6 +12,7 @@ import { ItemWatch, SearchBtn, itemRender } from './Item';
 
 import { HideContext } from './Hide/context';
 import useFormItemHide from './Hide/store';
+import HideItem from './Hide/index';
 
 import classnames from 'classnames';
 import './index.css';
@@ -195,6 +196,7 @@ interface FormInterface extends InternalFormType {
   getChildItemFun: typeof getChildItemFun;
 
   useFormItemHide: typeof useFormItemHide;
+  HideItem: typeof HideItem;
 }
 
 const SimpleForm = SimpleFormWarp as FormInterface;
@@ -213,5 +215,6 @@ SimpleForm.useChildItemFun = useChildItemFun;
 SimpleForm.getChildItemFun = getChildItemFun;
 
 SimpleForm.useFormItemHide = useFormItemHide;
+SimpleForm.HideItem = HideItem;
 
 export default SimpleForm;

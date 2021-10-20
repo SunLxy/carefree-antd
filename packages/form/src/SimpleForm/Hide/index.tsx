@@ -10,7 +10,7 @@ export interface HideState {
 export interface HideProps {
   hideContent: GetStoreProps;
   name: NamePath;
-  initialValue: boolean;
+  initialValue?: boolean;
 }
 
 class Hide extends React.Component<HideProps, HideState> {
@@ -68,7 +68,7 @@ class Hide extends React.Component<HideProps, HideState> {
   }
 }
 
-export default (props) => {
+export default (props: Omit<HideProps, 'hideContent'>) => {
   const hideContent = React.useContext(HideContext);
   return <Hide {...props} hideContent={hideContent} />;
 };
