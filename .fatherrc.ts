@@ -2,14 +2,14 @@ export default {
   cjs: { type: 'babel', lazy: true },
   esm: {
     type: 'babel',
-    importLibToEs: true,
+    // importLibToEs: true,
   },
-  extraBabelPlugins: [
-    [
-      '@babel/plugin-transform-runtime',
-      {
-        corejs: 3,
-      },
-    ],
-  ],
+  // extraBabelPlugins: [
+  //   [
+  //     '@babel/plugin-transform-runtime',
+  //     {
+  //       corejs: 3,
+  //     },
+  //   ],
+  // ],
 };

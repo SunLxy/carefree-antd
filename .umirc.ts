@@ -10,9 +10,15 @@ export default defineConfig({
   mode: 'site',
   alias: {
     'carefree-antd-form': resolve(__dirname, './packages/form/src/index.ts'),
+    'carefree-sortable': resolve(__dirname, './packages/sortable/src/index.ts'),
   },
   resolve: {
-    includes: ['docs', 'packages/form/src', 'packages/store/src'],
+    includes: [
+      'docs',
+      'packages/form/src',
+      'packages/store/src',
+      'packages/sortable/src',
+    ],
   },
 
   // locales: [['zh-CN', '中文']],

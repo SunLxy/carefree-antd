@@ -12,5 +12,5 @@ group:
 ### 依赖安装
 
 ```bash
-$ npm i carefree-antd-form
+ npm i carefree-antd-form
 ```
