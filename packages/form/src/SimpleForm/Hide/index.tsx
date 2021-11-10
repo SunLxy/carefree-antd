@@ -8,6 +8,7 @@ export interface HideProps {
   hideContent: GetStoreProps;
   name: NamePath;
   initialValue?: boolean;
+  formName: string | number;
 }
 
 class Hide extends React.Component<HideProps, HideState> {
@@ -39,11 +40,11 @@ class Hide extends React.Component<HideProps, HideState> {
   }
 
   getNamePath = () => {
-    const { name } = this.props;
+    const { name, formName } = this.props;
     if (!Array.isArray(name)) {
-      return [name];
+      return (formName && [formName, name]) || [name];
     }
-    return name;
+    return (formName && [formName].concat(name)) || name;
   };
   // 更新组件
   refresh = () => {

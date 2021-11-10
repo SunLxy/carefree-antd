@@ -43,16 +43,16 @@ import {
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
-import { useFormWatchList } from './hooks';
+import { useFormWatchList } from './Watch';
 import { WatchListProps } from './interface';
 
 import Hide from './Hide';
 
-const getPathName = (name) => {
+const getPathName = (name, formName) => {
   if (Array.isArray(name)) {
-    return name.join('');
+    return (formName && [formName].concat(name).join('.')) || name.join('.');
   }
-  return name;
+  return (formName && `${formName}.${name}`) || name;
 };
 
 export const Warp = (props: { [x: string]: any }) => {
@@ -85,6 +85,7 @@ export const itemRender = (
     attrStyle = {},
     attrProps = {},
     watchList,
+    name: formName,
   }: {
     /** 每一项 Col配置 */
     colProps: ColProps;
@@ -95,6 +96,7 @@ export const itemRender = (
     /** 每个 表单输入控件公共属性 除样式其他属性 */
     attrProps: Partial<ItemChildAttr>;
     watchList: WatchListProps;
+    name: string;
   },
 ) => {
   return config.map((item, index) => {
@@ -295,7 +297,7 @@ export const itemRender = (
       watchList &&
       Object.keys(watchList).length &&
       watch &&
-      watchList[getPathName(name)]
+      watchList[getPathName(name, formName)]
     ) {
       renderItem = <Warp key={index}>{renderItem}</Warp>;
     }
@@ -314,7 +316,7 @@ export const itemRender = (
     );
     if (isHide && name) {
       return (
-        <Hide key={index} name={name}>
+        <Hide key={index} name={name} formName={formName}>
           {renderItem}
         </Hide>
       );

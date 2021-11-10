@@ -31,6 +31,8 @@ import {
   InternalNamePath,
 } from 'rc-field-form/lib/interface';
 
+import { Subscribe } from './hooks';
+
 export type ItemChildType =
   | 'Custom'
   | 'Input'
@@ -125,6 +127,8 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   formHide?: GetStoreProps;
   /** 初始值 隐藏显示 字段对应的值 */
   initialHide?: { [x: string]: boolean };
+  // 用于多个form表单
+  subscribe?: Subscribe;
 }
 
 /** 外层嵌套的context的值 */

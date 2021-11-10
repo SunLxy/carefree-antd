@@ -5,13 +5,10 @@ import {
   InternalNamePath,
   FormInstance,
 } from 'rc-field-form/lib/interface';
-import { FormContextProps, ChildPropsType } from './interface';
-
-import { useHideContext } from './Hide/context';
-
-export const FormContext = React.createContext<FormContextProps>({});
-
-export const useFormContext = () => React.useContext(FormContext);
+import { ChildPropsType } from '../interface';
+import { useHideContext } from '../Hide/context';
+import { Subscribe, useFormSubscribeProvider } from '../Collect';
+import { useFormContext } from '../FormContext';
 
 // 根据 Form.useForm() 返回值 [from] 进行获取子项中更新值的方法
 export const getChildItemFun = (form: FormInstance) => {
@@ -43,6 +40,7 @@ export const useChildItemFun = (form: FormInstance) => {
 // 这种方法其他可以使用 Form.
 export const useFormWatchList = (props: { [x: string]: any }) => {
   const contex = useFormContext();
+  const sub = useFormSubscribeProvider();
   const hideContext = useHideContext();
   let fun:
     | ((
@@ -50,6 +48,7 @@ export const useFormWatchList = (props: { [x: string]: any }) => {
         formValue?: any,
         child?: ChildPropsType,
         hideContext?: any,
+        cx?: { forms: Subscribe['subForm']; hides: Subscribe['subHides'] },
       ) => void)
     | undefined;
   let childProps: ChildPropsType = useChildItemFun(contex.itemRefHook);
@@ -66,6 +65,7 @@ export const useFormWatchList = (props: { [x: string]: any }) => {
           getFieldsValue(true),
           { ...childProps },
           hideContext,
+          { forms: sub.subForms, hides: sub.subHides },
         );
       }
     }

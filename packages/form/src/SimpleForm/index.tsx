@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { Form, Row, Col } from 'antd';
+import { FormContext, useFormContext } from './FormContext';
+
+import { useFormWatchList, useChildItemFun, getChildItemFun } from './Watch';
 
 import {
-  useFormContext,
-  useFormWatchList,
-  FormContext,
-  useChildItemFun,
-  getChildItemFun,
-} from './hooks';
-import { ItemWatch, SearchBtn, itemRender } from './Item';
+  FormSubscribeProvider,
+  useFormSubscribeProvider,
+  useSubscribeReginsterId,
+  useSubscribe,
+} from './Collect';
 
 import { HideContext } from './Hide/context';
 import useFormItemHide from './Hide/store';
 import HideItem from './Hide/index';
+
+import { ItemWatch, SearchBtn, itemRender } from './Item';
 
 import classnames from 'classnames';
 import './index.css';
@@ -54,6 +57,7 @@ const InternalForm: React.ForwardRefRenderFunction<
     formHide,
     initialHide,
     form,
+    subscribe,
     ...rest
   } = props;
   const formRef = React.useRef<FormInstance>();
@@ -76,6 +80,7 @@ const InternalForm: React.ForwardRefRenderFunction<
                   attrStyle,
                   attrProps,
                   watchList,
+                  name: props.name,
                 })}
                 {childList}
               </React.Fragment>
@@ -90,6 +95,7 @@ const InternalForm: React.ForwardRefRenderFunction<
                   attrStyle,
                   attrProps,
                   watchList,
+                  name: props.name,
                 })}
                 {diffChild}
               </React.Fragment>
@@ -101,6 +107,7 @@ const InternalForm: React.ForwardRefRenderFunction<
             attrStyle,
             attrProps,
             watchList,
+            name: props.name,
           });
         }
         const configPre = config.slice(0, displayPre);
@@ -110,6 +117,7 @@ const InternalForm: React.ForwardRefRenderFunction<
           attrStyle,
           attrProps,
           watchList,
+          name: props.name,
         });
       }
     }
@@ -121,6 +129,7 @@ const InternalForm: React.ForwardRefRenderFunction<
           attrStyle,
           attrProps,
           watchList,
+          name: props.name,
         })}
         {children}
       </React.Fragment>
@@ -139,6 +148,14 @@ const InternalForm: React.ForwardRefRenderFunction<
   const [hide] = useFormItemHide(formHide);
   React.useImperativeHandle(ref, () => formRef.current);
   hide.setInitialValues(initialHide || {}, true);
+  // 当前这个适用于 多个form表单获取值
+  const [sub] = useSubscribe(subscribe);
+  useSubscribeReginsterId({
+    name: props.name,
+    form: forms,
+    subscribe: sub,
+    hide: hide,
+  });
 
   return (
     <HideContext.Provider value={hide}>
@@ -197,6 +214,11 @@ interface FormInterface extends InternalFormType {
 
   useFormItemHide: typeof useFormItemHide;
   HideItem: typeof HideItem;
+
+  useSubscribe: typeof useSubscribe; // 初始化
+  FormSubscribeProvider: typeof FormSubscribeProvider; //
+  useFFormSubscribeProvider: typeof useFormSubscribeProvider; // 使用
+  useSubscribeReginsterId: typeof useSubscribeReginsterId; // 注册
 }
 
 const SimpleForm = SimpleFormWarp as FormInterface;
@@ -216,5 +238,11 @@ SimpleForm.getChildItemFun = getChildItemFun;
 
 SimpleForm.useFormItemHide = useFormItemHide;
 SimpleForm.HideItem = HideItem;
+
+// 以下是为了收集form多个表单
+SimpleForm.useSubscribe = useSubscribe;
+SimpleForm.FormSubscribeProvider = FormSubscribeProvider;
+SimpleForm.useFFormSubscribeProvider = useFormSubscribeProvider;
+SimpleForm.useSubscribeReginsterId = useSubscribeReginsterId;
 
 export default SimpleForm;
