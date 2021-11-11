@@ -292,5 +292,7 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   formHide?: GetStoreProps;
   /** 初始值 隐藏显示 字段对应的值 */
   initialHide?: { [x: string]: boolean };
+  // 用于多个form表单
+  subscribe?: Subscribe;
 }
 ```
