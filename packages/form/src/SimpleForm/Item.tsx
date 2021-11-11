@@ -50,9 +50,9 @@ import Hide from './Hide';
 
 const getPathName = (name, formName) => {
   if (Array.isArray(name)) {
-    return (formName && [formName].concat(name).join('.')) || name.join('.');
+    return (formName && [formName].concat(name).join('_')) || name.join('_');
   }
-  return (formName && `${formName}.${name}`) || name;
+  return (formName && `${formName}_${name}`) || name;
 };
 
 export const Warp = (props: { [x: string]: any }) => {
