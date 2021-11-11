@@ -16,6 +16,9 @@ group:
 > 3. `useFormContext` 用于传递子组件 开启 监听需要的内容
 > 4. `useFormItemFun` 子组件内部状态方法调用
 > 5. 其他的与 antd from 一样
+> 6. `useChildItemFun`和`getChildItemFun` 获取 form 内部更新单个字段值方法
+> 7. `useFormItemHide`和`HideItem` 用于组件隐藏使用
+> 8. `useSubscribe`、`FormSubscribeProvider` 、`useFormSubscribeProvider` 、`useSubscribeReginsterId` 用于收集 form 表单
 
 ## 基础表单
 
