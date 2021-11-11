@@ -21,6 +21,8 @@ import {
 import { SimpleFormConfigProps, ItemChildAttr } from '.';
 import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
+import { RangePickerProps } from 'antd/lib/date-picker/index';
+
 import {
   FormItemProps,
   ButtonProps,
@@ -47,6 +49,7 @@ import { useFormWatchList } from './Watch';
 import { WatchListProps } from './interface';
 
 import Hide from './Hide';
+const { RangePicker } = DatePicker;
 
 const getPathName = (name, formName) => {
   if (Array.isArray(name)) {
@@ -270,6 +273,17 @@ export const itemRender = (
       const attrs = attrProps as UploadProps;
       renderItem = (
         <Upload
+          {...attrs}
+          {...inputAttr}
+          style={{ ...attrStyle, ...inputStyle }}
+        />
+      );
+    } else if (type === 'RangePicker') {
+      // RangePickerProps
+      const inputAttr = attr as RangePickerProps;
+      const attrs = attrProps as RangePickerProps;
+      renderItem = (
+        <RangePicker
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}

@@ -217,7 +217,7 @@ interface FormInterface extends InternalFormType {
 
   useSubscribe: typeof useSubscribe; // 初始化
   FormSubscribeProvider: typeof FormSubscribeProvider; //
-  useFFormSubscribeProvider: typeof useFormSubscribeProvider; // 使用
+  useFormSubscribeProvider: typeof useFormSubscribeProvider; // 使用
   useSubscribeReginsterId: typeof useSubscribeReginsterId; // 注册
 }
 
@@ -232,17 +232,16 @@ SimpleForm.Provider = Form.Provider;
 SimpleForm.ItemWatch = ItemWatch;
 SimpleForm.useFormContext = useFormContext;
 SimpleForm.useFormWatchList = useFormWatchList;
-
+// 获取form内部更新单个字段值方法
 SimpleForm.useChildItemFun = useChildItemFun;
 SimpleForm.getChildItemFun = getChildItemFun;
-
+// 用于组件隐藏
 SimpleForm.useFormItemHide = useFormItemHide;
 SimpleForm.HideItem = HideItem;
-
 // 以下是为了收集form多个表单
 SimpleForm.useSubscribe = useSubscribe;
 SimpleForm.FormSubscribeProvider = FormSubscribeProvider;
-SimpleForm.useFFormSubscribeProvider = useFormSubscribeProvider;
+SimpleForm.useFormSubscribeProvider = useFormSubscribeProvider;
 SimpleForm.useSubscribeReginsterId = useSubscribeReginsterId;
 
 export default SimpleForm;

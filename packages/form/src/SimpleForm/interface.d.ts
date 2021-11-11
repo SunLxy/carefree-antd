@@ -22,6 +22,7 @@ import {
   UploadProps,
 } from 'antd';
 import { GetStoreProps } from './Hide/interface';
+import { RangePickerProps } from 'antd/lib/date-picker/index';
 
 import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { Rule } from 'rc-field-form/lib/interface';
@@ -50,7 +51,8 @@ export type ItemChildType =
   | 'Switch'
   | 'TimePicker'
   | 'TreeSelect'
-  | 'Upload';
+  | 'Upload'
+  | 'RangePicker';
 
 export type ItemChildAttr<T = any, K = any> =
   | InputProps
@@ -68,7 +70,8 @@ export type ItemChildAttr<T = any, K = any> =
   | TimePickerProps
   | TreeSelectProps<K>
   | UploadProps
-  | TextAreaProps;
+  | TextAreaProps
+  | RangePickerProps;
 
 /** config 配置项  */
 export interface SimpleFormConfigProps<T = any, K = any> {
