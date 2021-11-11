@@ -31,7 +31,7 @@ import {
   InternalNamePath,
 } from 'rc-field-form/lib/interface';
 
-import { Subscribe } from './hooks';
+import { Subscribe } from './Collect';
 
 export type ItemChildType =
   | 'Custom'
