@@ -70,6 +70,8 @@ class Store {
       getItemStore: this.getItemStore,
       setInitialValues: this.setInitialValues,
       updateValue: this.updateValue,
+      // 批量更新
+      bathUpdateValue: this.bathUpdateValue,
     };
   };
   // 子项内的方法
@@ -80,6 +82,8 @@ class Store {
       getStoreState: this.getStoreState,
       updateValue: this.updateValue,
       getValue: this.getValue,
+      // 批量更新
+      bathUpdateValue: this.bathUpdateValue,
     };
   };
 
@@ -89,21 +93,42 @@ class Store {
     }
   };
 
-  // 更新值
-  private updateValue = (pathName: NamePath, value: boolean) => {
+  private getPaths = (pathName: NamePath) => {
     const path: InternalNamePath = Array.isArray(pathName)
       ? pathName
       : [pathName];
+    return path;
+  };
+
+  private bathUpdateValue = (value: { [k: string]: boolean }) => {
+    Object.entries(value).forEach(([k, bool]) => {
+      const path: InternalNamePath = this.getPaths(k);
+      this.store = setValue(this.store, path, bool);
+    });
+    this.bathNotifyObservers(Object.keys(value));
+  };
+
+  // 更新值
+  private updateValue = (pathName: NamePath, value: boolean) => {
+    const path: InternalNamePath = this.getPaths(pathName);
     this.store = setValue(this.store, path, value);
     // 通知对应的组件进行强制更新
     this.notifyObservers(path);
   };
   // 获取值
   private getValue = (pathName: NamePath) => {
-    const path: InternalNamePath = Array.isArray(pathName)
-      ? pathName
-      : [pathName];
+    const path: InternalNamePath = this.getPaths(pathName);
     return getValue(this.store, path);
+  };
+
+  private bathNotifyObservers = (pathNameArr: string[]) => {
+    this.componentLists.forEach(({ refresh, getNamePath }) => {
+      const currentPath = getNamePath();
+      // 判断路径相同的进行值更新
+      if (pathNameArr.includes(currentPath.join(''))) {
+        refresh();
+      }
+    });
   };
   // 通知更新组件
   private notifyObservers = (pathName: InternalNamePath) => {

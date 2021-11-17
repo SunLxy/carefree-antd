@@ -2,13 +2,23 @@ import React from 'react';
 import { HOOK_MARK } from 'rc-field-form/lib/FieldContext';
 import {
   InternalFormInstance,
-  InternalNamePath,
   FormInstance,
+  NamePath,
 } from 'rc-field-form/lib/interface';
 import { ChildPropsType } from '../interface';
 import { useHideContext } from '../Hide/context';
 import { Subscribe, useFormSubscribeProvider } from '../Collect';
 import { useFormContext } from '../FormContext';
+
+const getNamePath = (path: NamePath) => {
+  if (Array.isArray(path)) {
+    return path;
+  }
+  if (typeof path === 'string') {
+    return path.split('_').filter((ite) => ite);
+  }
+  return path;
+};
 
 // 根据 Form.useForm() 返回值 [from] 进行获取子项中更新值的方法
 export const getChildItemFun = (form: FormInstance) => {
@@ -17,18 +27,25 @@ export const getChildItemFun = (form: FormInstance) => {
     const { getInternalHooks } = form as InternalFormInstance;
     childFun = getInternalHooks(HOOK_MARK);
   }
-  const updateValue = (namePath: InternalNamePath, value: any) => {
+  const updateValue = (namePath: NamePath, value: any) => {
     if (childFun.dispatch) {
       childFun.dispatch({
         type: 'updateValue',
-        namePath,
+        namePath: getNamePath(namePath),
         value,
       });
     }
   };
+  // 批量更新值
+  const bathUpdateValue = (value: { [k: string]: any }) => {
+    Object.entries(value).forEach(([path, value]) => {
+      updateValue(path, value);
+    });
+  };
   return {
     ...childFun,
     updateValue,
+    bathUpdateValue,
   };
 };
 
