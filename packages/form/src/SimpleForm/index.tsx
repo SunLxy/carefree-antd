@@ -147,7 +147,8 @@ const InternalForm: React.ForwardRefRenderFunction<
   const [forms] = Form.useForm(form);
   const [hide] = useFormItemHide(formHide);
   React.useImperativeHandle(ref, () => formRef.current);
-  hide.setInitialValues(initialHide || {}, true);
+  // 只用组件加载的时候 运行一次
+  React.useMemo(() => hide.setInitialValues(initialHide || {}, true), []);
   // 当前这个适用于 多个form表单获取值
   const [sub] = useSubscribe(subscribe);
   useSubscribeReginsterId({
