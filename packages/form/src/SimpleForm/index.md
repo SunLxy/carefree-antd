@@ -155,14 +155,25 @@ export default () => {
   const [form] = SimpleForm.useForm();
   const [state, setState] = React.useState({});
   const { getFieldValue } = form;
-
+  const { updateValue } = SimpleForm.useChildItemFun(form);
+  console.log('state', state);
   return (
     <SimpleForm
       form={form}
       layout="vertical"
       isSearch={true}
-      onValuesChange={(value) => {
-        setState({ ...value });
+      onValuesChange={(value, allValue) => {
+        if ('names0' in value) {
+          // 为了加一点间隔时间 防止值内部数据更新问题
+          let timer;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            updateValue('names3', value.names0);
+            clearTimeout(timer);
+          }, 300);
+        }
+        console.log(value);
+        setState({ ...allValue });
       }}
     >
       <Col span={6}>
