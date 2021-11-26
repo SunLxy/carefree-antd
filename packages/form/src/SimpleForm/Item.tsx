@@ -368,8 +368,8 @@ export const SearchBtn: React.FC<SearchBtnProps> = (props) => {
   const { style = {} } = searchBtnItem || {};
   return (
     <Form.Item
-      {...searchBtnItem}
       label=" "
+      {...searchBtnItem}
       style={{ marginBottom: 8, ...itemStyle, ...style }}
     >
       <Button type="primary" htmlType="submit" {...searchBtnProps}>
