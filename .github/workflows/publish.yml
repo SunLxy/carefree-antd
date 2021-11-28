@@ -76,3 +76,4 @@ jobs:
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/form/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json

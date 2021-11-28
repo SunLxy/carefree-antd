@@ -11,6 +11,10 @@ export default defineConfig({
   alias: {
     'carefree-antd-form': resolve(__dirname, './packages/form/src/index.ts'),
     'carefree-sortable': resolve(__dirname, './packages/sortable/src/index.ts'),
+    'carefree-antd-edit-table': resolve(
+      __dirname,
+      './packages/edit-table/src/index.ts',
+    ),
     'carefree-pro-table': resolve(
       __dirname,
       './packages/pro-table/src/index.tsx',
@@ -23,6 +27,7 @@ export default defineConfig({
       'packages/store/src',
       'packages/sortable/src',
       'packages/pro-table/src',
+      'packages/edit-table/src',
     ],
   },
 
