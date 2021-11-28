@@ -42,15 +42,8 @@ export default () => {
       width: '25%',
       editable: true,
       type: 'Custom',
-      inputNode: ({ form, updateValue, ...res }) => {
-        return (
-          <Input
-            onChange={(e) => {
-              updateValue('name', e.target.value);
-            }}
-            value={form.getFieldValue('name')}
-          />
-        );
+      inputNode: (edit) => {
+        return <Input {...edit} />;
       },
     },
     {
@@ -59,6 +52,7 @@ export default () => {
       width: '15%',
       editable: true,
       type: 'Custom',
+      rules: [{ required: true, message: '请输入' }],
       inputNode: <InputNumber />,
     },
     {

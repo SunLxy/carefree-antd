@@ -17,6 +17,7 @@
   "peerDependencies": {
     "@ant-design/icons": "4.6.3",
     "antd": "4.16.13",
+    "rc-field-form": "1.22.0",
     "react": "17.x"
   },
   "license": "MIT",

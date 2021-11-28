@@ -24,6 +24,7 @@ import {
   InternalFormInstance,
   FormInstance,
   NamePath,
+  InternalNamePath,
 } from 'rc-field-form/lib/interface';
 import {
   InputProps,
@@ -93,6 +94,26 @@ const getNamePath = (path: NamePath) => {
   }
   return path;
 };
+
+export function getFieldId(
+  namePath: InternalNamePath,
+  formName?: string,
+): string | undefined {
+  if (!namePath.length) {
+    return undefined;
+  }
+
+  const mergedId = namePath.join('_');
+  return formName ? `${formName}_${mergedId}` : mergedId;
+}
+
+export function toArray<T>(candidate?: T | T[] | false): T[] {
+  if (candidate === undefined || candidate === false) {
+    return [];
+  }
+
+  return Array.isArray(candidate) ? candidate : [candidate];
+}
 
 // 根据 Form.useForm() 返回值 [from] 进行获取子项中更新值的方法
 export const getChildItemFun = (form: FormInstance) => {

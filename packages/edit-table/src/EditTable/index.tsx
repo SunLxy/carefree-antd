@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import {
   Table,
   Popconfirm,
-  Form,
   Typography,
   TableProps,
   FormItemProps,
+  Tooltip,
+  TooltipProps,
 } from 'antd';
 import { ColumnType, ColumnsType } from 'antd/lib/table';
+import RcForm from 'rc-field-form';
 import { Rule } from 'rc-field-form/lib/interface';
 import {
   getItem,
   ItemChildAttr,
   ItemChildType,
   getChildItemFun,
+  getFieldId,
+  toArray,
 } from './utils';
 export interface ColumnsProps extends ColumnType<any> {
   // 是否编辑
@@ -28,6 +32,9 @@ export interface ColumnsProps extends ColumnType<any> {
   attr?: Partial<ItemChildAttr<any, any>>;
   // 组件类型
   type?: ItemChildType;
+
+  tip?: (errs: string[]) => React.ReactNode;
+  tipAttr?: TooltipProps;
 }
 
 export interface EditableTableProps
@@ -55,7 +62,9 @@ const EditableCell = ({
   itemAttr,
   type,
   attr,
-  form,
+  form: parentForm,
+  tip,
+  tipAttr,
   ...restProps
 }) => {
   const renders = getItem({ attr, type, inputNode });
@@ -63,22 +72,45 @@ const EditableCell = ({
   return (
     <td {...restProps}>
       {editing ? (
-        <Form.Item
+        <RcForm.Field
           {...itemAttr}
           label={undefined}
           name={dataIndex}
           rules={rules}
-          {...(typeof inputNode === 'function'
-            ? { dependencies: [dataIndex], name: undefined }
-            : {})}
           style={{ margin: 0, ...((itemAttr || {}).style || {}) }}
         >
-          {typeof renders === 'function'
-            ? () => {
-                return renders({ form, ...getChildItemFun(form) });
+          {(control, meta, form) => {
+            const mergedName =
+              toArray(dataIndex).length && meta ? meta.name : [];
+            const fieldId = getFieldId(mergedName, '');
+            const onChange = (event: any) => {
+              let value = event;
+              if (event && event.target) {
+                value = event.target.value;
               }
-            : renders}
-        </Form.Item>
+              control.onChange(value);
+            };
+            const childNode =
+              typeof renders === 'function'
+                ? renders({ ...control, id: fieldId }, meta, form)
+                : React.cloneElement(renders as React.ReactElement, {
+                    ...control,
+                    onChange: onChange,
+                    id: fieldId,
+                  });
+            const errs = meta.errors.map((err) => err).join(',');
+            return (
+              <Tooltip
+                color="red"
+                {...tipAttr}
+                title={tip ? tip(errs) : errs}
+                visible={!!meta.errors.length}
+              >
+                {childNode}
+              </Tooltip>
+            );
+          }}
+        </RcForm.Field>
       ) : (
         children
       )}
@@ -95,7 +127,7 @@ const EditableTable = (props: EditableTableProps) => {
     rowKey,
     optIsFirst = false,
   } = props;
-  const [form] = Form.useForm();
+  const [form] = RcForm.useForm();
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record: any) => record[rowKey] === editingKey;
@@ -194,12 +226,14 @@ const EditableTable = (props: EditableTableProps) => {
         itemAttr: col.itemAttr,
         type: col.type,
         attr: col.attr,
+        tip: col.tip,
+        tipAttr: col.tipAttr,
       }),
     };
   });
 
   return (
-    <Form form={form} component={false}>
+    <RcForm form={form} component={false}>
       <Table
         components={{
           body: {
@@ -213,7 +247,7 @@ const EditableTable = (props: EditableTableProps) => {
         rowClassName="editable-row"
         pagination={false}
       />
-    </Form>
+    </RcForm>
   );
 };
 export default EditableTable;
