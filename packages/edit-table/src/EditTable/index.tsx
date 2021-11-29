@@ -128,6 +128,7 @@ const EditableTable = (props: EditableTableProps) => {
     rowKey,
     optIsFirst = false,
     optConfig = {},
+    ...rest
   } = props;
   const [form] = RcForm.useForm();
   const [editingKey, setEditingKey] = useState('');
@@ -242,6 +243,7 @@ const EditableTable = (props: EditableTableProps) => {
   return (
     <RcForm form={form} component={false}>
       <Table
+        {...rest}
         components={{
           body: {
             cell: EditableCell,
