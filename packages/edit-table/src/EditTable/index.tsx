@@ -7,48 +7,60 @@ import {
   FormItemProps,
   Tooltip,
   TooltipProps,
+  Space,
 } from 'antd';
 import { ColumnType, ColumnsType } from 'antd/lib/table';
+import { RenderedCell } from 'rc-table/lib/interface';
 import RcForm from 'rc-field-form';
 import { Rule } from 'rc-field-form/lib/interface';
 import {
   getItem,
   ItemChildAttr,
   ItemChildType,
-  getChildItemFun,
   getFieldId,
   toArray,
 } from './utils';
 export interface ColumnsProps extends ColumnType<any> {
-  // 是否编辑
+  /**是否编辑  */
   editable?: boolean;
-  // 渲染编辑组件
+  /** 渲染编辑组件 */
   inputNode?: ((...arg: any[]) => React.ReactNode) | React.ReactNode;
-  // 规则
+  /** 规则 */
   rules?: Rule[];
   /** formItem 表单 其他属性值*/
   itemAttr?: Omit<FormItemProps, 'rules' | 'label' | 'name'>;
   /** formItem 表单 children 中组件参数*/
   attr?: Partial<ItemChildAttr<any, any>>;
-  // 组件类型
+  /**组件类型  */
   type?: ItemChildType;
-
+  /** 错误提示  */
   tip?: (errs: string[]) => React.ReactNode;
+  /** Tooltip 组件属性  */
   tipAttr?: TooltipProps;
+  /** 自定义 渲染  ， other 参数 只有操作列才有 */
+  render?: (
+    value: any,
+    record: any,
+    index: number,
+    other?: any,
+  ) => React.ReactNode | RenderedCell<any>;
 }
 
 export interface EditableTableProps
   extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
   columns: ColumnsProps[];
-  // 保存数据
+  /** 保存数据 */
   onSave: (data: any[], row: object, record: object, indx: number) => void;
-  // 保存数据之前校验
+  /** 保存数据之前校验 */
   onBeforeSave?: (item: object, record: object, index: number) => boolean;
-  // 主键
+  /**主键  */
   rowKey: string;
-  // 操作列是放在首位还是最后
+  /** 操作列是放在首位还是最后 */
   optIsFirst?: boolean;
+  /** 操作配置 */
   optConfig?: ColumnsProps;
+  /** 操作是否需要 删除 按钮 */
+  isOptDelete?: boolean;
 }
 
 const EditableCell = ({
@@ -130,6 +142,7 @@ const EditableTable = (props: EditableTableProps) => {
     rowKey,
     optIsFirst = false,
     optConfig = {},
+    isOptDelete = false,
     ...rest
   } = props;
   const [form] = RcForm.useForm();
@@ -145,6 +158,12 @@ const EditableTable = (props: EditableTableProps) => {
   const cancel = () => {
     setEditingKey('');
     form.resetFields();
+  };
+
+  // 删除行
+  const onDelete = (id: string | number, rowItem: object, index: number) => {
+    const list = dataSource.filter((item) => item[rowKey] !== id);
+    onSave && onSave(list, rowItem, rowItem, index);
   };
 
   const fields: string[] = React.useMemo(() => {
@@ -185,8 +204,16 @@ const EditableTable = (props: EditableTableProps) => {
       align: 'center',
       width: 120,
       ...optConfig,
-      render: (_: any, record: object, index: number) => {
+      render: (item: any, record: object, index: number) => {
         const editable = isEditing(record);
+        if (optConfig && optConfig.render) {
+          return optConfig.render(item, record, index, {
+            editable,
+            save,
+            cancel,
+            onDelete,
+          });
+        }
         return editable ? (
           <span>
             <Typography.Link
@@ -205,12 +232,24 @@ const EditableTable = (props: EditableTableProps) => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link
-            disabled={editingKey !== ''}
-            onClick={() => edit(record)}
-          >
-            编辑
-          </Typography.Link>
+          <Space>
+            <Typography.Link
+              disabled={editingKey !== ''}
+              onClick={() => edit(record)}
+            >
+              编辑
+            </Typography.Link>
+            {isOptDelete && (
+              <Popconfirm
+                title="是否删除当前行数据?"
+                okText="是"
+                cancelText="否"
+                onConfirm={() => onDelete(record[rowKey], record, index)}
+              >
+                <Typography.Link>删除</Typography.Link>
+              </Popconfirm>
+            )}
+          </Space>
         );
       },
     },
