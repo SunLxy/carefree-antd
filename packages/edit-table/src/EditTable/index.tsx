@@ -144,6 +144,7 @@ const EditableTable = (props: EditableTableProps) => {
 
   const cancel = () => {
     setEditingKey('');
+    form.resetFields();
   };
 
   const fields: string[] = React.useMemo(() => {
@@ -157,7 +158,6 @@ const EditableTable = (props: EditableTableProps) => {
   const save = async (key: string, record: object, indx: number) => {
     try {
       const row = await form.validateFields(fields);
-
       if (onBeforeSave && !onBeforeSave(row, record, indx)) {
         return;
       }
