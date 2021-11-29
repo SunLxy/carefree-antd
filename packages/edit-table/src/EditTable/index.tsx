@@ -106,12 +106,10 @@ const EditableCell = ({
             };
             const childNode =
               typeof renders === 'function'
-                ? renders(
-                    { ...control, id: fieldId },
-                    meta,
-                    form,
-                    getChildItemFun(parentForm),
-                  )
+                ? renders({ ...control, id: fieldId }, meta, form, {
+                    form: getChildItemFun(parentForm),
+                    record,
+                  })
                 : React.isValidElement(renders)
                 ? React.cloneElement(renders as React.ReactElement, {
                     ...control,
