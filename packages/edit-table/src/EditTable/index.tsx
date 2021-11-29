@@ -173,6 +173,7 @@ const EditableTable = (props: EditableTableProps) => {
         onSave && onSave(newData, row, record, indx);
         setEditingKey('');
       }
+      form.resetFields();
     } catch (errInfo) {
       console.log('错误信息:', errInfo);
     }

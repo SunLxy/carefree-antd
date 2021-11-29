@@ -29,7 +29,7 @@ for (let i = 0; i < 10; i++) {
     key: i.toString(),
     name: `Edrward ${i}`,
     age: 32,
-    address: `London Park no. ${i}`,
+    // address: `London Park no. ${i}`,
   });
 }
 
