@@ -19,6 +19,7 @@ import {
   ItemChildType,
   getFieldId,
   toArray,
+  getChildItemFun,
 } from './utils';
 export interface ColumnsProps extends ColumnType<any> {
   /**是否编辑  */
@@ -105,7 +106,12 @@ const EditableCell = ({
             };
             const childNode =
               typeof renders === 'function'
-                ? renders({ ...control, id: fieldId }, meta, form)
+                ? renders(
+                    { ...control, id: fieldId },
+                    meta,
+                    form,
+                    getChildItemFun(parentForm),
+                  )
                 : React.isValidElement(renders)
                 ? React.cloneElement(renders as React.ReactElement, {
                     ...control,
