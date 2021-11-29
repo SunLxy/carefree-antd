@@ -41,7 +41,7 @@ export interface EditableTableProps
   extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
   columns: ColumnsProps[];
   // 保存数据
-  onSave: (data: any[], record: object, indx: number) => void;
+  onSave: (data: any[], row: object, record: object, indx: number) => void;
   // 保存数据之前校验
   onBeforeSave?: (item: object, record: object, index: number) => boolean;
   // 主键
@@ -94,11 +94,13 @@ const EditableCell = ({
             const childNode =
               typeof renders === 'function'
                 ? renders({ ...control, id: fieldId }, meta, form)
-                : React.cloneElement(renders as React.ReactElement, {
+                : React.isValidElement(renders)
+                ? React.cloneElement(renders as React.ReactElement, {
                     ...control,
                     onChange: onChange,
                     id: fieldId,
-                  });
+                  })
+                : renders;
             const errs = meta.errors.map((err) => err).join(',');
             return (
               <Tooltip
@@ -164,11 +166,11 @@ const EditableTable = (props: EditableTableProps) => {
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        onSave && onSave(newData, record, indx);
+        onSave && onSave(newData, row, record, indx);
         setEditingKey('');
       } else {
         newData.push(row);
-        onSave && onSave(newData, record, indx);
+        onSave && onSave(newData, row, record, indx);
         setEditingKey('');
       }
     } catch (errInfo) {
