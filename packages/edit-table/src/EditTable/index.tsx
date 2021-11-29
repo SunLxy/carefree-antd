@@ -48,6 +48,7 @@ export interface EditableTableProps
   rowKey: string;
   // 操作列是放在首位还是最后
   optIsFirst?: boolean;
+  optConfig?: ColumnsProps;
 }
 
 const EditableCell = ({
@@ -126,6 +127,7 @@ const EditableTable = (props: EditableTableProps) => {
     onSave,
     rowKey,
     optIsFirst = false,
+    optConfig = {},
   } = props;
   const [form] = RcForm.useForm();
   const [editingKey, setEditingKey] = useState('');
@@ -176,6 +178,9 @@ const EditableTable = (props: EditableTableProps) => {
   const operation: ColumnsProps[] = [
     {
       title: '操作',
+      align: 'center',
+      width: 120,
+      ...optConfig,
       render: (_: any, record: object, index: number) => {
         const editable = isEditing(record);
         return editable ? (
@@ -207,9 +212,11 @@ const EditableTable = (props: EditableTableProps) => {
     },
   ];
 
-  const mergedColumns = (
-    optIsFirst ? [operation].concat(columns) : columns.concat(operation)
-  ).map((col) => {
+  const optColumns = optIsFirst
+    ? operation.concat(columns)
+    : columns.concat(operation);
+
+  const mergedColumns = optColumns.map((col) => {
     if (!col.editable) {
       return col;
     }

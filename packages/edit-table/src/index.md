@@ -66,6 +66,7 @@ export default () => {
   return (
     <EditTable
       rowKey="key"
+      optIsFirst={true}
       dataSource={data}
       columns={columns}
       onSave={(list) => setData(list)}
