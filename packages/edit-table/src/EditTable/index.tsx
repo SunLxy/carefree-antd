@@ -8,6 +8,8 @@ import {
   Tooltip,
   TooltipProps,
   Space,
+  Button,
+  message,
 } from 'antd';
 import { ColumnType, ColumnsType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
@@ -51,7 +53,7 @@ export interface EditableTableProps
   extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
   columns: ColumnsProps[];
   /** 保存数据 */
-  onSave: (data: any[], row: object, record: object, indx: number) => void;
+  onSave: (data: any[], row: object, record?: object, indx?: number) => void;
   /** 保存数据之前校验 */
   onBeforeSave?: (item: object, record: object, index: number) => boolean;
   /**主键  */
@@ -62,6 +64,10 @@ export interface EditableTableProps
   optConfig?: ColumnsProps;
   /** 操作是否需要 删除 按钮 */
   isOptDelete?: boolean;
+  // 新增初始值
+  initValue?: object;
+  // 是否存在新增按钮
+  isAdd?: boolean;
 }
 
 const EditableCell = ({
@@ -147,12 +153,32 @@ const EditableTable = (props: EditableTableProps) => {
     optIsFirst = false,
     optConfig = {},
     isOptDelete = false,
+    initValue = {},
+    isAdd,
     ...rest
   } = props;
   const [form] = RcForm.useForm();
   const [editingKey, setEditingKey] = useState('');
+  const [newAdd, setNewAdd] = React.useState(false);
 
   const isEditing = (record: any) => record[rowKey] === editingKey;
+
+  const add = () => {
+    if (newAdd) {
+      message.warn('只能新增一行');
+      return;
+    }
+    if (!!editingKey) {
+      message.warn('只能编辑一行');
+      return;
+    }
+    setNewAdd(true);
+    const id = (new Date().getTime() * Math.round(10)).toString();
+    const newItem = { ...(initValue || {}), [rowKey]: id };
+    const list = dataSource.concat([newItem]);
+    setEditingKey(id);
+    onSave && onSave(list, newItem);
+  };
 
   const edit = (record: object) => {
     form.setFieldsValue({ ...record });
@@ -161,12 +187,15 @@ const EditableTable = (props: EditableTableProps) => {
 
   const cancel = () => {
     setEditingKey('');
+    setNewAdd(false);
     form.resetFields();
   };
 
   // 删除行
   const onDelete = (id: string | number, rowItem: object, index: number) => {
     const list = dataSource.filter((item) => item[rowKey] !== id);
+    setEditingKey('');
+    setNewAdd(false);
     onSave && onSave(list, rowItem, rowItem, index);
   };
 
@@ -196,6 +225,7 @@ const EditableTable = (props: EditableTableProps) => {
         onSave && onSave(newData, row, record, indx);
         setEditingKey('');
       }
+      setNewAdd(false);
       form.resetFields();
     } catch (errInfo) {
       console.log('错误信息:', errInfo);
@@ -230,7 +260,11 @@ const EditableTable = (props: EditableTableProps) => {
               title="是否取消?"
               okText="是"
               cancelText="否"
-              onConfirm={cancel}
+              onConfirm={
+                newAdd
+                  ? onDelete.bind(this, record[rowKey], record, index)
+                  : cancel
+              }
             >
               <Typography.Link>取消</Typography.Link>
             </Popconfirm>
@@ -287,22 +321,29 @@ const EditableTable = (props: EditableTableProps) => {
   });
 
   return (
-    <RcForm form={form} component={false}>
-      <Table
-        {...rest}
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        rowKey={rowKey}
-        bordered
-        dataSource={dataSource}
-        columns={mergedColumns as ColumnsType}
-        rowClassName="editable-row"
-        pagination={false}
-      />
-    </RcForm>
+    <React.Fragment>
+      <RcForm form={form} component={false}>
+        <Table
+          {...rest}
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          rowKey={rowKey}
+          bordered
+          dataSource={dataSource}
+          columns={mergedColumns as ColumnsType}
+          rowClassName="editable-row"
+          pagination={false}
+        />
+      </RcForm>
+      {isAdd && (
+        <Button style={{ marginTop: 10 }} type="dashed" block onClick={add}>
+          添加一行数据
+        </Button>
+      )}
+    </React.Fragment>
   );
 };
 export default EditableTable;

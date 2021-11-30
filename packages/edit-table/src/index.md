@@ -70,6 +70,7 @@ export default () => {
       dataSource={data}
       columns={columns}
       onSave={(list) => setData(list)}
+      isAdd={true}
     />
   );
 };
