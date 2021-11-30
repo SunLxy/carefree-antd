@@ -175,7 +175,7 @@ export const itemRender = (
         <DatePicker
           {...attrs}
           {...inputAttr}
-          style={{ ...attrStyle, ...inputStyle }}
+          style={{ width: '100%', ...attrStyle, ...inputStyle }}
         />
       );
     } else if (type === 'Rate') {
@@ -265,7 +265,7 @@ export const itemRender = (
         <TimePicker
           {...attrs}
           {...inputAttr}
-          style={{ ...attrStyle, ...inputStyle }}
+          style={{ width: '100%', ...attrStyle, ...inputStyle }}
         />
       );
     } else if (type === 'Upload') {
@@ -286,7 +286,7 @@ export const itemRender = (
         <RangePicker
           {...attrs}
           {...inputAttr}
-          style={{ ...attrStyle, ...inputStyle }}
+          style={{ width: '100%', ...attrStyle, ...inputStyle }}
         />
       );
     } else if (type === 'Custom') {
