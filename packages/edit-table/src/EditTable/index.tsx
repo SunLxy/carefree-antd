@@ -218,13 +218,11 @@ const EditableTable = (props: EditableTableProps) => {
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        onSave && onSave(newData, row, record, indx);
-        setEditingKey('');
       } else {
         newData.push(row);
-        onSave && onSave(newData, row, record, indx);
-        setEditingKey('');
       }
+      onSave && onSave(newData, row, record, indx);
+      setEditingKey('');
       setNewAdd(false);
       form.resetFields();
     } catch (errInfo) {
