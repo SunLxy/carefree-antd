@@ -14,7 +14,7 @@ import {
 import { ColumnType, ColumnsType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
 import RcForm from 'rc-field-form';
-import { Rule } from 'rc-field-form/lib/interface';
+import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import {
   getItem,
   ItemChildAttr,
@@ -68,6 +68,34 @@ export interface EditableTableProps
   initValue?: object;
   // 是否存在新增按钮
   isAdd?: boolean;
+  /** 行报错信息 */
+  onErr?: (err: ValidateErrorEntity<any>) => void;
+  /** 表单值更新事件 */
+  onValuesChange?: (
+    list: any,
+    value: object,
+    allValue: object,
+    editingKey: string | number,
+  ) => void;
+}
+
+export interface RefEditTableProps {
+  /** 保存 */
+  save: (key: string, record: object, indx: number) => void;
+  /** 删除 */
+  onDelete: (id: string | number, rowItem: object, index: number) => void;
+  /** 编辑 */
+  edit: (record: object) => void;
+  /** 取消编辑 */
+  cancel: () => void;
+  /** 新增 */
+  add: () => void;
+  /** 是否编辑中 */
+  isEditing: (record: any) => boolean;
+  /** 编辑 id */
+  editingKey: string | number;
+  /** 是否编辑 新增的数据 */
+  newAdd: boolean;
 }
 
 const EditableCell = ({
@@ -143,7 +171,10 @@ const EditableCell = ({
   );
 };
 
-const EditableTable = (props: EditableTableProps) => {
+const EditableTable = (
+  props: EditableTableProps,
+  ref: React.ForwardedRef<RefEditTableProps>,
+) => {
   const {
     columns,
     dataSource = [],
@@ -154,7 +185,9 @@ const EditableTable = (props: EditableTableProps) => {
     optConfig = {},
     isOptDelete = false,
     initValue = {},
+    onValuesChange,
     isAdd,
+    onErr,
     ...rest
   } = props;
   const [form] = RcForm.useForm();
@@ -162,7 +195,7 @@ const EditableTable = (props: EditableTableProps) => {
   const [newAdd, setNewAdd] = React.useState(false);
 
   const isEditing = (record: any) => record[rowKey] === editingKey;
-
+  // 新增
   const add = () => {
     if (newAdd) {
       message.warn('只能新增一行');
@@ -179,12 +212,12 @@ const EditableTable = (props: EditableTableProps) => {
     setEditingKey(id);
     onSave && onSave(list, newItem);
   };
-
+  // 编辑
   const edit = (record: object) => {
     form.setFieldsValue({ ...record });
     setEditingKey(record[rowKey]);
   };
-
+  // 取消
   const cancel = () => {
     setEditingKey('');
     setNewAdd(false);
@@ -206,7 +239,7 @@ const EditableTable = (props: EditableTableProps) => {
       })
       .map((item) => item.dataIndex as string);
   }, [columns]);
-
+  // 保存
   const save = async (key: string, record: object, indx: number) => {
     try {
       const row = await form.validateFields(fields);
@@ -226,7 +259,7 @@ const EditableTable = (props: EditableTableProps) => {
       setNewAdd(false);
       form.resetFields();
     } catch (errInfo) {
-      console.log('错误信息:', errInfo);
+      onErr && onErr(errInfo);
     }
   };
 
@@ -317,10 +350,33 @@ const EditableTable = (props: EditableTableProps) => {
       }),
     };
   });
+  // 表单值更新
+  const onChange = (value: object, allValue: object) => {
+    if (onValuesChange) {
+      const list = dataSource.map((item) => {
+        if (item[rowKey] === editingKey) {
+          return { ...item, ...value };
+        }
+        return { ...item };
+      });
+      onValuesChange(list, value, allValue, editingKey);
+    }
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    save,
+    onDelete,
+    edit,
+    cancel,
+    add,
+    isEditing,
+    editingKey,
+    newAdd,
+  }));
 
   return (
     <React.Fragment>
-      <RcForm form={form} component={false}>
+      <RcForm form={form} component={false} onValuesChange={onChange}>
         <Table
           {...rest}
           components={{
@@ -344,4 +400,4 @@ const EditableTable = (props: EditableTableProps) => {
     </React.Fragment>
   );
 };
-export default EditableTable;
+export default React.forwardRef(EditableTable);

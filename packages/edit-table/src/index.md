@@ -65,6 +65,7 @@ export default () => {
   ];
   return (
     <EditTable
+      onValuesChange={(list) => setData(list)}
       rowKey="key"
       optIsFirst={true}
       dataSource={data}
