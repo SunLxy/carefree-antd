@@ -68,6 +68,8 @@ const EditableTable = (
 
   /** 判断是否编辑 */
   const isEditing = (record: any) => editingKey.includes(record[rowKey]);
+  /** 判断是否是新增的 */
+  const isAddEdit = (record: any) => newAdd.includes(record[rowKey]);
 
   /** 新增  */
   const add = () => {
@@ -142,12 +144,17 @@ const EditableTable = (
       ...optConfig,
       render: (item: any, record: object, index: number) => {
         const editable = isEditing(record);
+        const isNewAdd = isAddEdit(record);
         if (optConfig && optConfig.render) {
           return optConfig.render(item, record, index, {
             editable,
+            isNewAdd,
             save,
             cancel,
             onDelete,
+            edit,
+            newAdd,
+            editingKey,
           });
         }
         return editable ? (
@@ -164,7 +171,7 @@ const EditableTable = (
               cancelText="否"
               onConfirm={
                 // 如果是新增操作的数据，进行判断 取消时使用删除方法
-                newAdd.includes(record[rowKey])
+                isNewAdd
                   ? onDelete.bind(this, record[rowKey], record, index)
                   : cancel.bind(this, record[rowKey])
               }

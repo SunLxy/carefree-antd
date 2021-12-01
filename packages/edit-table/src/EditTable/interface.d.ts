@@ -6,6 +6,25 @@ import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { ItemChildAttr, ItemChildType } from './utils';
 import Store from './Store';
 
+export interface OtherProps {
+  /** 编辑中字段 */
+  editingKey: any[];
+  /** 当前行 是否编辑 */
+  editable: boolean;
+  /** 处于编辑状态的 新增数据 key */
+  newAdd: any[];
+  /** 是否新增的 */
+  isNewAdd: boolean;
+  /** 保存 ，key:主键 ，record：行数据，index:下标  **/
+  save: (key: string | number, record: object, indx: number) => void;
+  /** 取消 ， id：主键 */
+  cancel: (id: string | number) => void;
+  /** 删除 ，id：主键， rowItem 当前行数据 ，index:下标 */
+  onDelete: (id: string | number, rowItem: object, index: number) => void;
+  /** 编辑 按钮 ，record 当前行数 */
+  edit: (record: object) => void;
+}
+
 export interface ColumnsProps extends ColumnType<any> {
   /**是否编辑  */
   editable?: boolean;
@@ -28,7 +47,7 @@ export interface ColumnsProps extends ColumnType<any> {
     value: any,
     record: any,
     index: number,
-    other?: any,
+    other?: OtherProps,
   ) => React.ReactNode | RenderedCell<any>;
 }
 
