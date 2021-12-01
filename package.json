@@ -42,7 +42,8 @@
     "umi-request": "1.4.0",
     "query-string": "7.0.1",
     "carefree-utils": "1.0.15",
-    "carefree-antd-form": "1.0.16"
+    "carefree-antd-form": "1.0.17",
+    "carefree-antd-edit-table": "1.0.7"
   },
   "devDependencies": {
     "@types/immutability-helper": "2.6.3",
