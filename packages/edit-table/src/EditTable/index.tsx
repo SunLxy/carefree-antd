@@ -14,7 +14,11 @@ import {
 import { ColumnType, ColumnsType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
 import RcForm from 'rc-field-form';
-import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
+import {
+  Rule,
+  ValidateErrorEntity,
+  FormInstance,
+} from 'rc-field-form/lib/interface';
 import {
   getItem,
   ItemChildAttr,
@@ -76,7 +80,7 @@ export interface EditableTableProps
     list: any,
     value: object,
     allValue: object,
-    editingKey: (string | number)[],
+    id: string | number,
   ) => void;
   // 是否可以多行编辑
   multiple?: boolean;
@@ -128,14 +132,15 @@ const EditableCell = ({
         <RcForm.Field
           {...itemAttr}
           label={undefined}
-          name={multiple ? [record[rowKey], dataIndex] : dataIndex}
+          name={dataIndex}
           rules={rules}
           style={{ margin: 0, ...((itemAttr || {}).style || {}) }}
         >
           {(control, meta, form) => {
             const mergedName =
               toArray(dataIndex).length && meta ? meta.name : [];
-            const fieldId = getFieldId(mergedName, '');
+            const fieldId = getFieldId(mergedName, record[rowKey]);
+            console.log(fieldId);
             const onChange = (event: any) => {
               let value = event;
               if (event && event.target) {
@@ -176,6 +181,42 @@ const EditableCell = ({
   );
 };
 
+class Store {
+  private store: { [s: string]: FormInstance } = {};
+  remove = (name: string) => {
+    delete this.store[name];
+  };
+  register = (name: string, form: FormInstance<any>) => {
+    this.store[name] = form;
+  };
+  getStore = () => this.store;
+}
+
+const EditForms = React.createContext({
+  formsRef: new Store(),
+  onValuesChange: (id: string | number, value: object, allValue: object) =>
+    undefined,
+});
+
+const OptimizedRow = (props) => {
+  const [form] = RcForm.useForm();
+  const { formsRef, onValuesChange = () => {} } = React.useContext(EditForms);
+  React.useEffect(() => {
+    return () => formsRef.remove(props['data-row-key']);
+  }, []);
+  formsRef.register(props['data-row-key'], form);
+  return (
+    <RcForm
+      onValuesChange={onValuesChange.bind(this, props['data-row-key'])}
+      form={form}
+      name={props['data-row-key']}
+      component={false}
+    >
+      <tr {...props} />
+    </RcForm>
+  );
+};
+
 const EditableTable = (
   props: EditableTableProps,
   ref: React.ForwardedRef<RefEditTableProps>,
@@ -198,6 +239,8 @@ const EditableTable = (
     ...rest
   } = props;
   const [form] = RcForm.useForm();
+  const formsRef = React.useRef(new Store()).current;
+
   const [editingKey, setEditingKey] = useState([]);
   const [newAdd, setNewAdd] = React.useState([]);
   // 获取所有编辑字段
@@ -209,6 +252,20 @@ const EditableTable = (
       .map((item) => item.dataIndex as string);
   }, [columns]);
 
+  // 重置表单
+  const restForm = (key: string | number, obj = {}) => {
+    const stores = formsRef.getStore();
+    if (stores[key]) {
+      console.log(stores[key]);
+      stores[key].setFieldsValue(obj);
+    }
+  };
+  // 获取表单
+  const getForm = (id: string | number) => {
+    const stores = formsRef.getStore();
+    return stores[id];
+  };
+
   const isEditing = (record: any) => editingKey.includes(record[rowKey]);
   // 新增
   const add = () => {
@@ -216,7 +273,6 @@ const EditableTable = (
     if (onBeforeAdd && !onBeforeAdd()) {
       return;
     }
-
     if (newAdd.length === 1 && !multiple) {
       message.warn('只能新增一行');
       return;
@@ -236,22 +292,15 @@ const EditableTable = (
   // 编辑
   const edit = (record: object) => {
     let obj = { ...record };
-    // 这块要做处理
-    if (multiple) {
-      obj = { [record[rowKey]]: { ...record } };
-    }
-    form.setFieldsValue(obj);
+    restForm(record[rowKey], obj);
+    // form.setFieldsValue(obj);
     setEditingKey((arr) => arr.concat([record[rowKey]]));
   };
   // 取消
   const cancel = (id: string | number) => {
     setEditingKey((arr) => arr.filter((k) => k !== id));
     setNewAdd((arr) => arr.filter((k) => k !== id));
-    if (multiple) {
-      form.resetFields([id]);
-    } else {
-      form.resetFields();
-    }
+    restForm(id, {});
   };
 
   // 删除行
@@ -262,40 +311,25 @@ const EditableTable = (
     onSave && onSave(list, rowItem, rowItem, index);
   };
 
-  // 获取多行编辑字段
-  const getFields = (key: string | number, fields: string[]) => {
-    return fields.map((str) => [key, str]);
-  };
-
   // 保存
   const save = async (key: string | number, record: object, indx: number) => {
     try {
-      const row = await form.validateFields(
-        (multiple && getFields(key, fields)) || fields,
-      );
+      const row = await getForm(key).validateFields(fields);
       if (onBeforeSave && !onBeforeSave(row, record, indx)) {
         return;
-      }
-      let newItem = {};
-      if (multiple) {
-        newItem = row[key];
       }
       const newData = [...dataSource];
       const index = newData.findIndex((item) => key === item[rowKey]);
       if (index > -1) {
         const item = newData[index];
-        newData.splice(index, 1, { ...item, ...newItem });
+        newData.splice(index, 1, { ...item, ...row });
       } else {
-        newData.push(newItem);
+        newData.push(row);
       }
-      onSave && onSave(newData, newItem, record, indx);
+      onSave && onSave(newData, row, record, indx);
       setEditingKey((arr) => arr.filter((k) => k !== key));
       setNewAdd((arr) => arr.filter((k) => k !== key));
-      if (multiple) {
-        form.resetFields([key]);
-      } else {
-        form.resetFields();
-      }
+      getForm(key).resetFields(fields);
     } catch (errInfo) {
       onErr && onErr(errInfo);
     }
@@ -391,15 +425,15 @@ const EditableTable = (
     };
   });
   // 表单值更新 表单更新值适用单个 不使用多个
-  const onChange = (value: object, allValue: object) => {
+  const onChange = (id: string | number, value: object, allValue: object) => {
     if (onValuesChange) {
       const list = dataSource.map((item) => {
-        if (editingKey.includes(item[rowKey])) {
+        if (id === item[rowKey]) {
           return { ...item, ...value };
         }
         return { ...item };
       });
-      onValuesChange(list, value, allValue, editingKey);
+      onValuesChange(list, value, allValue, id);
     }
   };
 
@@ -416,11 +450,12 @@ const EditableTable = (
 
   return (
     <React.Fragment>
-      <RcForm form={form} component={false} onValuesChange={onChange}>
+      <EditForms.Provider value={{ formsRef, onValuesChange: onChange }}>
         <Table
           {...rest}
           components={{
             body: {
+              row: OptimizedRow,
               cell: EditableCell,
             },
           }}
@@ -431,12 +466,12 @@ const EditableTable = (
           rowClassName="editable-row"
           pagination={false}
         />
-      </RcForm>
-      {isAdd && (
-        <Button style={{ marginTop: 10 }} type="dashed" block onClick={add}>
-          添加一行数据
-        </Button>
-      )}
+        {isAdd && (
+          <Button style={{ marginTop: 10 }} type="dashed" block onClick={add}>
+            添加一行数据
+          </Button>
+        )}
+      </EditForms.Provider>
     </React.Fragment>
   );
 };
