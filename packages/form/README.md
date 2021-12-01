@@ -1,8 +1,5 @@
 # carefree-antd-form
 
-`SimpleForm`组件表单属性继承 `antd Form` 表单属性
-需要依赖项 `antd`、`@ant-design/icons`、`classnames`
-
 > `SimpleForm`组件表单属性继承 `antd Form` 表单属性
 >
 > 1. `ItemWatch` 监听变化组件
@@ -10,6 +7,9 @@
 > 3. `useFormContext` 用于传递子组件 开启 监听需要的内容
 > 4. `useFormItemFun` 子组件内部状态方法调用
 > 5. 其他的与 antd from 一样
+> 6. `useChildItemFun`和`getChildItemFun` 获取 form 内部更新单个字段值方法
+> 7. `useFormItemHide`和`HideItem` 用于组件隐藏使用
+> 8. `useSubscribe`、`FormSubscribeProvider` 、`useFormSubscribeProvider` 、`useSubscribeReginsterId` 用于收集 form 表单
 
 ## 基础表单
 
@@ -146,14 +146,25 @@ export default () => {
   const [form] = SimpleForm.useForm();
   const [state, setState] = React.useState({});
   const { getFieldValue } = form;
-
+  const { updateValue } = SimpleForm.useChildItemFun(form);
+  console.log('state', state);
   return (
     <SimpleForm
       form={form}
       layout="vertical"
       isSearch={true}
-      onValuesChange={(value) => {
-        setState({ ...value });
+      onValuesChange={(value, allValue) => {
+        if ('names0' in value) {
+          // 为了加一点间隔时间 防止值内部数据更新问题
+          let timer;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            updateValue('names3', value.names0);
+            clearTimeout(timer);
+          }, 300);
+        }
+        console.log(value);
+        setState({ ...allValue });
       }}
     >
       <Col span={6}>
@@ -283,5 +294,7 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   formHide?: GetStoreProps;
   /** 初始值 隐藏显示 字段对应的值 */
   initialHide?: { [x: string]: boolean };
+  // 用于多个form表单
+  subscribe?: Subscribe;
 }
 ```
