@@ -68,6 +68,7 @@ export interface EditableTableProps
   initValue?: object;
   // 是否存在新增按钮
   isAdd?: boolean;
+  onBeforeAdd?: () => boolean;
   /** 行报错信息 */
   onErr?: (err: ValidateErrorEntity<any>) => void;
   /** 表单值更新事件 */
@@ -193,6 +194,7 @@ const EditableTable = (
     isAdd,
     onErr,
     multiple = false,
+    onBeforeAdd,
     ...rest
   } = props;
   const [form] = RcForm.useForm();
@@ -210,6 +212,11 @@ const EditableTable = (
   const isEditing = (record: any) => editingKey.includes(record[rowKey]);
   // 新增
   const add = () => {
+    // 新增之前的调用方法
+    if (onBeforeAdd && !onBeforeAdd()) {
+      return;
+    }
+
     if (newAdd.length === 1 && !multiple) {
       message.warn('只能新增一行');
       return;
