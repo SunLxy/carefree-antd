@@ -248,6 +248,7 @@ const EditableTable = (
       isEditing,
       editingKey,
       newAdd,
+      forms: formsRef,
     }),
   );
 

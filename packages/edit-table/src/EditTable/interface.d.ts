@@ -86,6 +86,8 @@ export interface RefEditTableProps {
   editingKey: (string | number)[];
   /** 是否编辑 新增的数据 */
   newAdd: (string | number)[];
+  /** 收集 所有 表单 */
+  forms: Store;
 }
 
 export interface EditFormsProps {
