@@ -192,25 +192,47 @@ class Store {
   getStore = () => this.store;
 }
 
-const EditForms = React.createContext({
+interface EditFormsProps {
+  formsRef: Store;
+  onValuesChange: (
+    id: string | number,
+    value: object,
+    allValue: object,
+  ) => void;
+  dataSource: readonly any[];
+  rowKey: string | number;
+}
+
+const EditForms = React.createContext<EditFormsProps>({
   formsRef: new Store(),
+  dataSource: [],
+  rowKey: 'id',
   onValuesChange: (id: string | number, value: object, allValue: object) =>
     undefined,
 });
 
 const OptimizedRow = (props) => {
   const [form] = RcForm.useForm();
-  const { formsRef, onValuesChange = () => {} } = React.useContext(EditForms);
+  const {
+    formsRef,
+    onValuesChange = () => {},
+    dataSource,
+    rowKey,
+  } = React.useContext(EditForms);
   React.useEffect(() => {
     return () => formsRef.remove(props['data-row-key']);
   }, []);
   formsRef.register(props['data-row-key'], form);
+  const initValue = dataSource.find(
+    (item) => item[rowKey] === props['data-row-key'],
+  );
   return (
     <RcForm
       onValuesChange={onValuesChange.bind(this, props['data-row-key'])}
       form={form}
       name={props['data-row-key']}
       component={false}
+      initialValues={initValue || {}}
     >
       <tr {...props} />
     </RcForm>
@@ -226,7 +248,7 @@ const EditableTable = (
     dataSource = [],
     onBeforeSave,
     onSave,
-    rowKey,
+    rowKey = 'id',
     optIsFirst = false,
     optConfig = {},
     isOptDelete = false,
@@ -450,7 +472,14 @@ const EditableTable = (
 
   return (
     <React.Fragment>
-      <EditForms.Provider value={{ formsRef, onValuesChange: onChange }}>
+      <EditForms.Provider
+        value={{
+          formsRef,
+          onValuesChange: onChange,
+          dataSource,
+          rowKey,
+        }}
+      >
         <Table
           {...rest}
           components={{
