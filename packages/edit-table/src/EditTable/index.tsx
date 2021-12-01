@@ -390,11 +390,11 @@ const EditableTable = (
       }),
     };
   });
-  // 表单值更新
+  // 表单值更新 表单更新值适用单个 不使用多个
   const onChange = (value: object, allValue: object) => {
     if (onValuesChange) {
       const list = dataSource.map((item) => {
-        if (item[rowKey] === editingKey) {
+        if (editingKey.includes(item[rowKey])) {
           return { ...item, ...value };
         }
         return { ...item };
