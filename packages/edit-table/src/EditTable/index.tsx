@@ -75,8 +75,10 @@ export interface EditableTableProps
     list: any,
     value: object,
     allValue: object,
-    editingKey: string | number,
+    editingKey: (string | number)[],
   ) => void;
+  // 是否可以多行编辑
+  multiple?: boolean;
 }
 
 export interface RefEditTableProps {
@@ -87,15 +89,15 @@ export interface RefEditTableProps {
   /** 编辑 */
   edit: (record: object) => void;
   /** 取消编辑 */
-  cancel: () => void;
+  cancel: (key: string | number) => void;
   /** 新增 */
   add: () => void;
   /** 是否编辑中 */
   isEditing: (record: any) => boolean;
   /** 编辑 id */
-  editingKey: string | number;
+  editingKey: (string | number)[];
   /** 是否编辑 新增的数据 */
-  newAdd: boolean;
+  newAdd: (string | number)[];
 }
 
 const EditableCell = ({
@@ -113,6 +115,8 @@ const EditableCell = ({
   form: parentForm,
   tip,
   tipAttr,
+  multiple,
+  rowKey,
   ...restProps
 }) => {
   const renders = getItem({ attr, type, inputNode });
@@ -123,7 +127,7 @@ const EditableCell = ({
         <RcForm.Field
           {...itemAttr}
           label={undefined}
-          name={dataIndex}
+          name={multiple ? [record[rowKey], dataIndex] : dataIndex}
           rules={rules}
           style={{ margin: 0, ...((itemAttr || {}).style || {}) }}
         >
@@ -188,50 +192,13 @@ const EditableTable = (
     onValuesChange,
     isAdd,
     onErr,
+    multiple = false,
     ...rest
   } = props;
   const [form] = RcForm.useForm();
-  const [editingKey, setEditingKey] = useState('');
-  const [newAdd, setNewAdd] = React.useState(false);
-
-  const isEditing = (record: any) => record[rowKey] === editingKey;
-  // 新增
-  const add = () => {
-    if (newAdd) {
-      message.warn('只能新增一行');
-      return;
-    }
-    if (!!editingKey) {
-      message.warn('只能编辑一行');
-      return;
-    }
-    setNewAdd(true);
-    const id = (new Date().getTime() * Math.round(10)).toString();
-    const newItem = { ...(initValue || {}), [rowKey]: id };
-    const list = dataSource.concat([newItem]);
-    setEditingKey(id);
-    onSave && onSave(list, newItem);
-  };
-  // 编辑
-  const edit = (record: object) => {
-    form.setFieldsValue({ ...record });
-    setEditingKey(record[rowKey]);
-  };
-  // 取消
-  const cancel = () => {
-    setEditingKey('');
-    setNewAdd(false);
-    form.resetFields();
-  };
-
-  // 删除行
-  const onDelete = (id: string | number, rowItem: object, index: number) => {
-    const list = dataSource.filter((item) => item[rowKey] !== id);
-    setEditingKey('');
-    setNewAdd(false);
-    onSave && onSave(list, rowItem, rowItem, index);
-  };
-
+  const [editingKey, setEditingKey] = useState([]);
+  const [newAdd, setNewAdd] = React.useState([]);
+  // 获取所有编辑字段
   const fields: string[] = React.useMemo(() => {
     return columns
       .filter((item) => {
@@ -239,25 +206,89 @@ const EditableTable = (
       })
       .map((item) => item.dataIndex as string);
   }, [columns]);
+
+  const isEditing = (record: any) => editingKey.includes(record[rowKey]);
+  // 新增
+  const add = () => {
+    if (newAdd.length === 1 && !multiple) {
+      message.warn('只能新增一行');
+      return;
+    }
+    if (editingKey.length === 1 && !multiple) {
+      message.warn('只能编辑一行');
+      return;
+    }
+    const id = (new Date().getTime() * Math.round(10)).toString();
+    const newItem = { ...(initValue || {}), [rowKey]: id };
+    const list = dataSource.concat([newItem]);
+    setEditingKey((arr) => arr.concat([id]));
+    setNewAdd((arr) => arr.concat([id]));
+    onSave && onSave(list, newItem);
+  };
+
+  // 编辑
+  const edit = (record: object) => {
+    let obj = { ...record };
+    // 这块要做处理
+    if (multiple) {
+      obj = { [record[rowKey]]: { ...record } };
+    }
+    form.setFieldsValue(obj);
+    setEditingKey((arr) => arr.concat([record[rowKey]]));
+  };
+  // 取消
+  const cancel = (id: string | number) => {
+    setEditingKey((arr) => arr.filter((k) => k !== id));
+    setNewAdd((arr) => arr.filter((k) => k !== id));
+    if (multiple) {
+      form.resetFields([id]);
+    } else {
+      form.resetFields();
+    }
+  };
+
+  // 删除行
+  const onDelete = (id: string | number, rowItem: object, index: number) => {
+    const list = dataSource.filter((item) => item[rowKey] !== id);
+    setEditingKey((arr) => arr.filter((k) => k !== id));
+    setNewAdd((arr) => arr.filter((k) => k !== id));
+    onSave && onSave(list, rowItem, rowItem, index);
+  };
+
+  // 获取多行编辑字段
+  const getFields = (key: string | number, fields: string[]) => {
+    return fields.map((str) => [key, str]);
+  };
+
   // 保存
-  const save = async (key: string, record: object, indx: number) => {
+  const save = async (key: string | number, record: object, indx: number) => {
     try {
-      const row = await form.validateFields(fields);
+      const row = await form.validateFields(
+        (multiple && getFields(key, fields)) || fields,
+      );
       if (onBeforeSave && !onBeforeSave(row, record, indx)) {
         return;
+      }
+      let newItem = {};
+      if (multiple) {
+        newItem = row[key];
       }
       const newData = [...dataSource];
       const index = newData.findIndex((item) => key === item[rowKey]);
       if (index > -1) {
         const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
+        newData.splice(index, 1, { ...item, ...newItem });
       } else {
-        newData.push(row);
+        newData.push(newItem);
       }
-      onSave && onSave(newData, row, record, indx);
-      setEditingKey('');
-      setNewAdd(false);
-      form.resetFields();
+      onSave && onSave(newData, newItem, record, indx);
+      setEditingKey((arr) => arr.filter((k) => k !== key));
+      setNewAdd((arr) => arr.filter((k) => k !== key));
+      if (multiple) {
+        form.resetFields([key]);
+      } else {
+        form.resetFields();
+      }
     } catch (errInfo) {
       onErr && onErr(errInfo);
     }
@@ -292,9 +323,9 @@ const EditableTable = (
               okText="是"
               cancelText="否"
               onConfirm={
-                newAdd
+                newAdd.includes(record[rowKey])
                   ? onDelete.bind(this, record[rowKey], record, index)
-                  : cancel
+                  : cancel.bind(this, record[rowKey])
               }
             >
               <Typography.Link>取消</Typography.Link>
@@ -303,7 +334,7 @@ const EditableTable = (
         ) : (
           <Space>
             <Typography.Link
-              disabled={editingKey !== ''}
+              disabled={!!editingKey.length && !multiple}
               onClick={() => edit(record)}
             >
               编辑
@@ -337,6 +368,8 @@ const EditableTable = (
       onCell: (record: object) => ({
         record,
         form,
+        multiple,
+        rowKey,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
