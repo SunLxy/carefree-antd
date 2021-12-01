@@ -1,244 +1,16 @@
 import React, { useState } from 'react';
-import {
-  Table,
-  Popconfirm,
-  Typography,
-  TableProps,
-  FormItemProps,
-  Tooltip,
-  TooltipProps,
-  Space,
-  Button,
-  message,
-} from 'antd';
-import { ColumnType, ColumnsType } from 'antd/lib/table';
-import { RenderedCell } from 'rc-table/lib/interface';
+import { Table, Popconfirm, Typography, Space, Button, message } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
 import RcForm from 'rc-field-form';
+import Store from './Store';
 import {
-  Rule,
-  ValidateErrorEntity,
-  FormInstance,
-} from 'rc-field-form/lib/interface';
-import {
-  getItem,
-  ItemChildAttr,
-  ItemChildType,
-  getFieldId,
-  toArray,
-  getChildItemFun,
-} from './utils';
-export interface ColumnsProps extends ColumnType<any> {
-  /**是否编辑  */
-  editable?: boolean;
-  /** 渲染编辑组件 */
-  inputNode?: ((...arg: any[]) => React.ReactNode) | React.ReactNode;
-  /** 规则 */
-  rules?: Rule[];
-  /** formItem 表单 其他属性值*/
-  itemAttr?: Omit<FormItemProps, 'rules' | 'label' | 'name'>;
-  /** formItem 表单 children 中组件参数*/
-  attr?: Partial<ItemChildAttr<any, any>>;
-  /**组件类型  */
-  type?: ItemChildType;
-  /** 错误提示  */
-  tip?: (errs: string[]) => React.ReactNode;
-  /** Tooltip 组件属性  */
-  tipAttr?: TooltipProps;
-  /** 自定义 渲染  ， other 参数 只有操作列才有 */
-  render?: (
-    value: any,
-    record: any,
-    index: number,
-    other?: any,
-  ) => React.ReactNode | RenderedCell<any>;
-}
-
-export interface EditableTableProps
-  extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
-  columns: ColumnsProps[];
-  /** 保存数据 */
-  onSave: (data: any[], row: object, record?: object, indx?: number) => void;
-  /** 保存数据之前校验 */
-  onBeforeSave?: (item: object, record: object, index: number) => boolean;
-  /**主键  */
-  rowKey: string;
-  /** 操作列是放在首位还是最后 */
-  optIsFirst?: boolean;
-  /** 操作配置 */
-  optConfig?: ColumnsProps;
-  /** 操作是否需要 删除 按钮 */
-  isOptDelete?: boolean;
-  // 新增初始值
-  initValue?: object;
-  // 是否存在新增按钮
-  isAdd?: boolean;
-  onBeforeAdd?: () => boolean;
-  /** 行报错信息 */
-  onErr?: (err: ValidateErrorEntity<any>) => void;
-  /** 表单值更新事件 */
-  onValuesChange?: (
-    list: any,
-    value: object,
-    allValue: object,
-    id: string | number,
-  ) => void;
-  // 是否可以多行编辑
-  multiple?: boolean;
-}
-
-export interface RefEditTableProps {
-  /** 保存 */
-  save: (key: string, record: object, indx: number) => void;
-  /** 删除 */
-  onDelete: (id: string | number, rowItem: object, index: number) => void;
-  /** 编辑 */
-  edit: (record: object) => void;
-  /** 取消编辑 */
-  cancel: (key: string | number) => void;
-  /** 新增 */
-  add: () => void;
-  /** 是否编辑中 */
-  isEditing: (record: any) => boolean;
-  /** 编辑 id */
-  editingKey: (string | number)[];
-  /** 是否编辑 新增的数据 */
-  newAdd: (string | number)[];
-}
-
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  record,
-  index,
-  inputNode,
-  rules,
-  children,
-  itemAttr,
-  type,
-  attr,
-  form: parentForm,
-  tip,
-  tipAttr,
-  multiple,
-  rowKey,
-  ...restProps
-}) => {
-  const renders = getItem({ attr, type, inputNode });
-
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <RcForm.Field
-          {...itemAttr}
-          label={undefined}
-          name={dataIndex}
-          rules={rules}
-          style={{ margin: 0, ...((itemAttr || {}).style || {}) }}
-        >
-          {(control, meta, form) => {
-            const mergedName =
-              toArray(dataIndex).length && meta ? meta.name : [];
-            const fieldId = getFieldId(mergedName, record[rowKey]);
-            console.log(fieldId);
-            const onChange = (event: any) => {
-              let value = event;
-              if (event && event.target) {
-                value = event.target.value;
-              }
-              control.onChange(value);
-            };
-            const childNode =
-              typeof renders === 'function'
-                ? renders({ ...control, id: fieldId }, meta, form, {
-                    form: getChildItemFun(parentForm),
-                    record,
-                  })
-                : React.isValidElement(renders)
-                ? React.cloneElement(renders as React.ReactElement, {
-                    ...control,
-                    onChange: onChange,
-                    id: fieldId,
-                  })
-                : renders;
-            const errs = meta.errors.map((err) => err).join(',');
-            return (
-              <Tooltip
-                color="red"
-                {...tipAttr}
-                title={tip ? tip(errs) : errs}
-                visible={!!meta.errors.length}
-              >
-                {childNode}
-              </Tooltip>
-            );
-          }}
-        </RcForm.Field>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
-
-class Store {
-  private store: { [s: string]: FormInstance } = {};
-  remove = (name: string) => {
-    delete this.store[name];
-  };
-  register = (name: string, form: FormInstance<any>) => {
-    this.store[name] = form;
-  };
-  getStore = () => this.store;
-}
-
-interface EditFormsProps {
-  formsRef: Store;
-  onValuesChange: (
-    id: string | number,
-    value: object,
-    allValue: object,
-  ) => void;
-  dataSource: readonly any[];
-  rowKey: string | number;
-}
-
-const EditForms = React.createContext<EditFormsProps>({
-  formsRef: new Store(),
-  dataSource: [],
-  rowKey: 'id',
-  onValuesChange: (id: string | number, value: object, allValue: object) =>
-    undefined,
-});
-
-const OptimizedRow = (props) => {
-  const [form] = RcForm.useForm();
-  const {
-    formsRef,
-    onValuesChange = () => {},
-    dataSource,
-    rowKey,
-  } = React.useContext(EditForms);
-  React.useEffect(() => {
-    return () => formsRef.remove(props['data-row-key']);
-  }, []);
-  formsRef.register(props['data-row-key'], form);
-  const initValue = dataSource.find(
-    (item) => item[rowKey] === props['data-row-key'],
-  );
-  return (
-    <RcForm
-      onValuesChange={onValuesChange.bind(this, props['data-row-key'])}
-      form={form}
-      name={props['data-row-key']}
-      component={false}
-      initialValues={initValue || {}}
-    >
-      <tr {...props} />
-    </RcForm>
-  );
-};
-
+  ColumnsProps,
+  EditableTableProps,
+  RefEditTableProps,
+} from './interface.d';
+import Tr, { EditForms } from './Tr';
+import Td from './Td';
+export type { ColumnsProps, EditableTableProps, RefEditTableProps };
 const EditableTable = (
   props: EditableTableProps,
   ref: React.ForwardedRef<RefEditTableProps>,
@@ -265,7 +37,13 @@ const EditableTable = (
 
   const [editingKey, setEditingKey] = useState([]);
   const [newAdd, setNewAdd] = React.useState([]);
-  // 获取所有编辑字段
+  /** editingKey 和 newAdd 移出 id */
+  const removeKey = (id: string | number) => {
+    setEditingKey((arr) => arr.filter((k) => k !== id));
+    setNewAdd((arr) => arr.filter((k) => k !== id));
+  };
+
+  /** 获取行 所有编辑字段 */
   const fields: string[] = React.useMemo(() => {
     return columns
       .filter((item) => {
@@ -274,22 +52,24 @@ const EditableTable = (
       .map((item) => item.dataIndex as string);
   }, [columns]);
 
-  // 重置表单
+  /** 重置 某个表单 */
   const restForm = (key: string | number, obj = {}) => {
     const stores = formsRef.getStore();
     if (stores[key]) {
-      console.log(stores[key]);
       stores[key].setFieldsValue(obj);
     }
   };
-  // 获取表单
+
+  /** 获取某个表单 */
   const getForm = (id: string | number) => {
     const stores = formsRef.getStore();
     return stores[id];
   };
 
+  /** 判断是否编辑 */
   const isEditing = (record: any) => editingKey.includes(record[rowKey]);
-  // 新增
+
+  /** 新增  */
   const add = () => {
     // 新增之前的调用方法
     if (onBeforeAdd && !onBeforeAdd()) {
@@ -311,29 +91,27 @@ const EditableTable = (
     onSave && onSave(list, newItem);
   };
 
-  // 编辑
+  /** 编辑 */
   const edit = (record: object) => {
     let obj = { ...record };
     restForm(record[rowKey], obj);
-    // form.setFieldsValue(obj);
     setEditingKey((arr) => arr.concat([record[rowKey]]));
   };
-  // 取消
+
+  /** 取消编辑  */
   const cancel = (id: string | number) => {
-    setEditingKey((arr) => arr.filter((k) => k !== id));
-    setNewAdd((arr) => arr.filter((k) => k !== id));
+    removeKey(id);
     restForm(id, {});
   };
 
-  // 删除行
+  /** 删除行 */
   const onDelete = (id: string | number, rowItem: object, index: number) => {
     const list = dataSource.filter((item) => item[rowKey] !== id);
-    setEditingKey((arr) => arr.filter((k) => k !== id));
-    setNewAdd((arr) => arr.filter((k) => k !== id));
+    removeKey(id);
     onSave && onSave(list, rowItem, rowItem, index);
   };
 
-  // 保存
+  /** 保存 */
   const save = async (key: string | number, record: object, indx: number) => {
     try {
       const row = await getForm(key).validateFields(fields);
@@ -349,14 +127,13 @@ const EditableTable = (
         newData.push(row);
       }
       onSave && onSave(newData, row, record, indx);
-      setEditingKey((arr) => arr.filter((k) => k !== key));
-      setNewAdd((arr) => arr.filter((k) => k !== key));
+      removeKey(key);
       getForm(key).resetFields(fields);
     } catch (errInfo) {
       onErr && onErr(errInfo);
     }
   };
-
+  /** 操作列配置 */
   const operation: ColumnsProps[] = [
     {
       title: '操作',
@@ -386,6 +163,7 @@ const EditableTable = (
               okText="是"
               cancelText="否"
               onConfirm={
+                // 如果是新增操作的数据，进行判断 取消时使用删除方法
                 newAdd.includes(record[rowKey])
                   ? onDelete.bind(this, record[rowKey], record, index)
                   : cancel.bind(this, record[rowKey])
@@ -459,16 +237,19 @@ const EditableTable = (
     }
   };
 
-  React.useImperativeHandle(ref, () => ({
-    save,
-    onDelete,
-    edit,
-    cancel,
-    add,
-    isEditing,
-    editingKey,
-    newAdd,
-  }));
+  React.useImperativeHandle(
+    ref,
+    (): RefEditTableProps => ({
+      save,
+      onDelete,
+      edit,
+      cancel,
+      add,
+      isEditing,
+      editingKey,
+      newAdd,
+    }),
+  );
 
   return (
     <React.Fragment>
@@ -484,8 +265,8 @@ const EditableTable = (
           {...rest}
           components={{
             body: {
-              row: OptimizedRow,
-              cell: EditableCell,
+              row: Tr,
+              cell: Td,
             },
           }}
           rowKey={rowKey}

@@ -1,0 +1,46 @@
+import React from 'react';
+
+import RcForm from 'rc-field-form';
+import Store from './Store';
+import { EditFormsProps } from './interface.d';
+
+export const EditForms = React.createContext<EditFormsProps>({
+  formsRef: new Store(),
+  dataSource: [],
+  rowKey: 'id',
+  onValuesChange: (id: string | number, value: object, allValue: object) =>
+    null,
+});
+
+/** tr 表格行自定义包裹内容  */
+const Tr = (props) => {
+  const [form] = RcForm.useForm();
+  const {
+    formsRef,
+    onValuesChange = () => {},
+    dataSource,
+    rowKey,
+  } = React.useContext(EditForms);
+  React.useEffect(() => {
+    return () => formsRef.remove(props['data-row-key']);
+  }, []);
+  // 注册
+  formsRef.register(props['data-row-key'], form);
+  const initValue = dataSource.find(
+    // 防止 字符串和数字进行对比
+    (item) => `${item[rowKey]}` === `${props['data-row-key']}`,
+  );
+  return (
+    <RcForm
+      onValuesChange={onValuesChange.bind(this, props['data-row-key'])}
+      form={form}
+      name={props['data-row-key']}
+      component={false}
+      initialValues={initValue || {}}
+    >
+      <tr {...props} />
+    </RcForm>
+  );
+};
+
+export default Tr;
