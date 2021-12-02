@@ -56,6 +56,8 @@ export interface EditableTableProps
   ) => void;
   /** 是否可以多行编辑 */
   multiple?: boolean;
+  /** 新增按钮配置 */
+  addBtnProps: ButtonProps;
 }
 ```
 
