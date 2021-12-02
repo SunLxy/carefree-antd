@@ -62,6 +62,8 @@ export interface EditableTableProps
   rowKey: string;
   /** 操作列是放在首位还是最后 */
   optIsFirst?: boolean;
+  /** 是否需要操作列 */
+  isOpt?: boolean;
   /** 操作配置 */
   optConfig?: ColumnsProps;
   /** 操作是否需要 删除 按钮 */
