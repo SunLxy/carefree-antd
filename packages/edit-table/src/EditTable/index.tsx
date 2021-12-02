@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Popconfirm, Typography, Space, Button, message } from 'antd';
+import { Table, Button, message } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import RcForm from 'rc-field-form';
 import Store from './Store';
@@ -32,6 +32,7 @@ const EditableTable = (
     multiple = false,
     onBeforeAdd,
     isOpt = true,
+    addBtnProps = {},
     ...rest
   } = props;
   const [form] = RcForm.useForm();
@@ -238,9 +239,14 @@ const EditableTable = (
           pagination={false}
         />
         {isAdd && (
-          <Button style={{ marginTop: 10 }} type="dashed" block onClick={add}>
-            添加一行数据
-          </Button>
+          <Button
+            type="dashed"
+            block
+            children="添加一行数据"
+            {...(addBtnProps || {})}
+            style={{ marginTop: 10, ...((addBtnProps || {}).style || {}) }}
+            onClick={add}
+          />
         )}
       </EditForms.Provider>
     </React.Fragment>

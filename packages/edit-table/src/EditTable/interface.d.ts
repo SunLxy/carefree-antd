@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableProps, FormItemProps, TooltipProps } from 'antd';
+import { TableProps, FormItemProps, TooltipProps, ButtonProps } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
 import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -88,6 +88,8 @@ export interface EditableTableProps
   ) => void;
   /** 是否可以多行编辑 */
   multiple?: boolean;
+  /** 新增按钮配置 */
+  addBtnProps: AddBtnProps;
 }
 
 export interface RefEditTableProps {
@@ -125,3 +127,6 @@ export interface EditFormsProps {
   dataSource: readonly any[];
   rowKey: string | number;
 }
+
+//  新增按钮配置
+export interface AddBtnProps extends ButtonProps {}

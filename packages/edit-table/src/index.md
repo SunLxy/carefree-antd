@@ -39,6 +39,7 @@ export interface EditableTableProps
   initValue?: object;
   /** 是否存在新增按钮 */
   isAdd?: boolean;
+  /** 新增之前的事件 */
   onBeforeAdd?: () => boolean;
   /** 行报错信息 */
   onErr?: (err: ValidateErrorEntity<any>) => void;
