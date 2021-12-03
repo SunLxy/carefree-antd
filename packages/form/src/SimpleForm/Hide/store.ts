@@ -94,10 +94,12 @@ class Store {
   };
 
   private getPaths = (pathName: NamePath) => {
-    const path: InternalNamePath = Array.isArray(pathName)
-      ? pathName
-      : [pathName];
-    return path;
+    if (Array.isArray(pathName)) {
+      return pathName;
+    } else if (typeof pathName === 'string') {
+      return pathName.split('_').filter((ite) => ite);
+    }
+    return [];
   };
 
   private bathUpdateValue = (value: { [k: string]: boolean }) => {

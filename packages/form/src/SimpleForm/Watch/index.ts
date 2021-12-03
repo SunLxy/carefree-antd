@@ -10,7 +10,7 @@ import { useHideContext } from '../Hide/context';
 import { Subscribe, useFormSubscribeProvider } from '../Collect';
 import { useFormContext } from '../FormContext';
 
-const getNamePath = (path: NamePath) => {
+export const getNamePath = (path: NamePath) => {
   if (Array.isArray(path)) {
     return path;
   }

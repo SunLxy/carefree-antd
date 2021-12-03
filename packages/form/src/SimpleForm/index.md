@@ -42,14 +42,15 @@ export default () => {
       <Button onClick={onClick}>检查form表单提交移除的项是否可以获取值</Button>
       <SimpleForm
         form={form}
+        name="tests"
         initialHide={{ name1: true }}
         watchList={{
-          namea: (value, allValue, forms, hide) => {
+          tests_namea: (value, allValue, forms, hide) => {
             const { updateValue } = hide;
             if (value === '12') {
-              hide.updateValue('name1', true);
+              hide.updateValue('tests_name1', true);
             } else {
-              hide.updateValue('name1', false);
+              hide.updateValue(['tests', 'name1'], false);
             }
             console.log('打印---》', value, allValue, hide, forms);
           },
