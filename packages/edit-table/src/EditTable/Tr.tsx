@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormInstance } from 'rc-field-form/lib/interface';
 
 import RcForm from 'rc-field-form';
 import Store from './Store';
@@ -8,8 +9,12 @@ export const EditForms = React.createContext<EditFormsProps>({
   formsRef: new Store(),
   dataSource: [],
   rowKey: 'id',
-  onValuesChange: (id: string | number, value: object, allValue: object) =>
-    null,
+  onValuesChange: (
+    id: string | number,
+    form: FormInstance,
+    value: object,
+    allValue: object,
+  ) => null,
 });
 
 /** tr 表格行自定义包裹内容  */
@@ -32,7 +37,7 @@ const Tr = (props) => {
   );
   return (
     <RcForm
-      onValuesChange={onValuesChange.bind(this, props['data-row-key'])}
+      onValuesChange={onValuesChange.bind(this, props['data-row-key'], form)}
       form={form}
       name={props['data-row-key']}
       component={false}

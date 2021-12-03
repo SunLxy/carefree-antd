@@ -8,6 +8,8 @@ import {
   EditableTableProps,
   RefEditTableProps,
 } from './interface.d';
+import { FormInstance } from 'rc-field-form/lib/interface';
+
 import Tr, { EditForms } from './Tr';
 import Td from './Td';
 import Operation from './Operation';
@@ -186,7 +188,12 @@ const EditableTable = (
     };
   });
   // 表单值更新 表单更新值适用单个 不使用多个
-  const onChange = (id: string | number, value: object, allValue: object) => {
+  const onChange = (
+    id: string | number,
+    form: FormInstance,
+    value: object,
+    allValue: object,
+  ) => {
     if (onValuesChange) {
       const list = dataSource.map((item) => {
         if (id === item[rowKey]) {
@@ -194,7 +201,7 @@ const EditableTable = (
         }
         return { ...item };
       });
-      onValuesChange(list, value, allValue, id);
+      onValuesChange(list, value, allValue, id, form);
     }
   };
 

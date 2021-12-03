@@ -5,7 +5,7 @@ import { RenderedCell } from 'rc-table/lib/interface';
 import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { ItemChildAttr, ItemChildType } from './utils';
 import Store from './Store';
-
+import { FormInstance } from 'rc-field-form/lib/interface';
 export interface OtherProps {
   /** 编辑中字段 */
   editingKey: any[];
@@ -85,6 +85,8 @@ export interface EditableTableProps
     allValue: object,
     /** 当前编辑主键值 */
     id: string | number,
+    /**  当前行的 form  */
+    form: FormInstance,
   ) => void;
   /** 是否可以多行编辑 */
   multiple?: boolean;
@@ -119,6 +121,8 @@ export interface EditFormsProps {
   onValuesChange: (
     /** 主键 */
     id: string | number,
+    /**  当前行的 form  */
+    form: FormInstance,
     /** form  onValuesChange 中参数 value  */
     value: object,
     /** form  onValuesChange 中参数 allValue  */

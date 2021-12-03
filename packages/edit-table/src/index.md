@@ -53,6 +53,8 @@ export interface EditableTableProps
     allValue: object,
     /** 当前编辑主键值 */
     id: string | number,
+    /**  当前行的 form  */
+    form: FormInstance,
   ) => void;
   /** 是否可以多行编辑 */
   multiple?: boolean;
