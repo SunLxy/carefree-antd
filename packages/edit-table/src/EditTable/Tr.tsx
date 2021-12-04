@@ -14,7 +14,7 @@ export const EditForms = React.createContext<EditFormsProps>({
     form: FormInstance,
     value: object,
     allValue: object,
-  ) => null,
+  ) => {},
 });
 
 /** tr 表格行自定义包裹内容  */
