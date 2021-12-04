@@ -26,9 +26,9 @@ export interface OtherProps {
 }
 
 export interface ColumnsProps extends ColumnType<any> {
-  /**是否编辑  */
+  /** 是否编辑  */
   editable?: boolean;
-  /** 渲染编辑组件 */
+  /** 自定义 渲染编辑组件 */
   inputNode?: ((...arg: any[]) => React.ReactNode) | React.ReactNode;
   /** 规则 */
   rules?: Rule[];
@@ -42,7 +42,7 @@ export interface ColumnsProps extends ColumnType<any> {
   tip?: (errs: string[]) => React.ReactNode;
   /** Tooltip 组件属性  */
   tipAttr?: TooltipProps;
-  /** 自定义 渲染  ， other 参数 只有操作列才有 */
+  /** 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染)  ， other 参数 只有操作列才有 */
   render?: (
     value: any,
     record: any,
@@ -53,6 +53,7 @@ export interface ColumnsProps extends ColumnType<any> {
 
 export interface EditableTableProps
   extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
+  /** 列 **/
   columns: ColumnsProps[];
   /** 保存数据 */
   onSave: (data: any[], row: object, record?: object, indx?: number) => void;
@@ -78,7 +79,7 @@ export interface EditableTableProps
   /** 表单值更新事件 */
   onValuesChange?: (
     /** 更新后的列表值 */
-    list: any,
+    list: any[],
     /** 当前更新字段值 */
     value: object,
     /** 当前行编辑字段值 */
