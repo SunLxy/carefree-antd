@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tooltip } from 'antd';
 import RcForm from 'rc-field-form';
-import { getItem, getFieldId, toArray, getChildItemFun } from './utils';
+import { getItem, getFieldId, toArray } from './utils';
 const EditableCell = ({
   editing,
   dataIndex,
@@ -14,7 +14,6 @@ const EditableCell = ({
   itemAttr,
   type,
   attr,
-  form: parentForm,
   tip,
   tipAttr,
   multiple,
@@ -46,10 +45,7 @@ const EditableCell = ({
             };
             const childNode =
               typeof renders === 'function'
-                ? renders({ ...control, id: fieldId }, meta, form, {
-                    form: getChildItemFun(parentForm),
-                    record,
-                  })
+                ? renders({ ...control, id: fieldId }, meta, form, { record })
                 : React.isValidElement(renders)
                 ? React.cloneElement(renders as React.ReactElement, {
                     ...control,

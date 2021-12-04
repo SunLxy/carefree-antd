@@ -9,7 +9,6 @@ import {
   RefEditTableProps,
 } from './interface.d';
 import { FormInstance } from 'rc-field-form/lib/interface';
-
 import Tr, { EditForms } from './Tr';
 import Td from './Td';
 import Operation from './Operation';
@@ -37,7 +36,6 @@ const EditableTable = (
     addBtnProps = {},
     ...rest
   } = props;
-  const [form] = RcForm.useForm();
   const formsRef = React.useRef(new Store()).current;
 
   const [editingKey, setEditingKey] = useState([]);
@@ -171,7 +169,6 @@ const EditableTable = (
       ...col,
       onCell: (record: object) => ({
         record,
-        form,
         multiple,
         rowKey,
         dataIndex: col.dataIndex,
