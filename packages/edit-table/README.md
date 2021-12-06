@@ -20,6 +20,8 @@ export interface EditableTableProps
   rowKey: string;
   /** 操作列是放在首位还是最后 */
   optIsFirst?: boolean;
+  /** 是否需要操作列 */
+  isOpt?: boolean;
   /** 操作配置 */
   optConfig?: ColumnsProps;
   /** 操作是否需要 删除 按钮 */
@@ -28,22 +30,27 @@ export interface EditableTableProps
   initValue?: object;
   /** 是否存在新增按钮 */
   isAdd?: boolean;
+  /** 新增之前的事件 */
   onBeforeAdd?: () => boolean;
   /** 行报错信息 */
   onErr?: (err: ValidateErrorEntity<any>) => void;
   /** 表单值更新事件 */
   onValuesChange?: (
     /** 更新后的列表值 */
-    list: any,
+    list: any[],
     /** 当前更新字段值 */
     value: object,
     /** 当前行编辑字段值 */
     allValue: object,
     /** 当前编辑主键值 */
     id: string | number,
+    /**  当前行的 form  */
+    form: FormInstance,
   ) => void;
   /** 是否可以多行编辑 */
   multiple?: boolean;
+  /** 新增按钮配置 */
+  addBtnProps: ButtonProps;
 }
 ```
 
@@ -68,7 +75,7 @@ export interface ColumnsProps extends ColumnType<any> {
   tip?: (errs: string[]) => React.ReactNode;
   /** Tooltip 组件属性  */
   tipAttr?: TooltipProps;
-  /** 自定义 渲染  ， other 参数 只有操作列才有 */
+  /** 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染)  ， other 参数 只有操作列才有 */
   render?: (
     value: any,
     record: any,

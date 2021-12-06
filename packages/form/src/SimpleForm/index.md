@@ -1,13 +1,17 @@
 ---
 title: SimpleForm
-order: 2
+order: 1
 nav:
-  order: 3
+  order: 2
   title: SimpleForm
   path: /form
 group:
   path: /
 ---
+
+```bash
+ npm i carefree-antd-form
+```
 
 > `SimpleForm`组件表单属性继承 `antd Form` 表单属性
 >

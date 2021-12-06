@@ -1,5 +1,9 @@
 # carefree-antd-form
 
+```bash
+ npm i carefree-antd-form
+```
+
 > `SimpleForm`组件表单属性继承 `antd Form` 表单属性
 >
 > 1. `ItemWatch` 监听变化组件
