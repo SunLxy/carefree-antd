@@ -23,6 +23,7 @@ group:
 > 6. `useChildItemFun`和`getChildItemFun` 获取 form 内部更新单个字段值方法
 > 7. `useFormItemHide`和`HideItem` 用于组件隐藏使用
 > 8. `useSubscribe`、`FormSubscribeProvider` 、`useFormSubscribeProvider` 、`useSubscribeReginsterId` 用于收集 form 表单
+> 9. `Cols`:Col 组件加默认样式， `ColItem`:封装 Cols 和 Form.Item 组件 加默认参数，`ColWatchItem`:ColItem 和 监听组件进行合并
 
 ## 基础表单
 
@@ -181,34 +182,28 @@ export default () => {
         setState({ ...allValue });
       }}
     >
-      <Col span={6}>
-        <SimpleForm.Item
-          label="测试antd"
-          name="names0"
-          style={{ marginBottom: 5 }}
-        >
-          <Input />
-        </SimpleForm.Item>
-      </Col>
-      <Col span={6}>
-        <SimpleForm.Item
-          label="测试3"
-          name="names3"
-          style={{ marginBottom: 5 }}
-        >
-          <Input />
-        </SimpleForm.Item>
-      </Col>
+      <SimpleForm.ColItem
+        label="测试antd"
+        name="names0"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+      <SimpleForm.ColItem
+        label="测试3"
+        name="names3"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
       {getFieldValue(`names${0}`) !== '12' && (
-        <Col span={6}>
-          <SimpleForm.Item
-            label="测试4"
-            name="names4"
-            style={{ marginBottom: 5 }}
-          >
-            <Input />
-          </SimpleForm.Item>
-        </Col>
+        <SimpleForm.ColItem
+          label="测试4"
+          name="names4"
+          style={{ marginBottom: 5 }}
+        >
+          <Input />
+        </SimpleForm.ColItem>
       )}
     </SimpleForm>
   );

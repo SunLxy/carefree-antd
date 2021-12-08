@@ -15,7 +15,7 @@ import { HideContext } from './Hide/context';
 import useFormItemHide from './Hide/store';
 import HideItem from './Hide/index';
 
-import { ItemWatch, SearchBtn, itemRender } from './Item';
+import { ItemWatch, SearchBtn, itemRender, FormColWatchItem } from './Item';
 
 import classnames from 'classnames';
 import './index.css';
@@ -26,6 +26,8 @@ import {
   SimpleFormConfigProps,
   SimpleFormProps,
 } from './interface';
+
+import FormColItem, { Cols } from './FormItem';
 
 export type {
   ItemChildType,
@@ -65,6 +67,14 @@ const InternalForm: React.ForwardRefRenderFunction<
   const [expand, setExpand] = useState(false);
   const [firstMont, setFirstMont] = useState(false);
   const getRender = () => {
+    const otherConfig = {
+      colProps,
+      itemStyle,
+      attrStyle,
+      attrProps,
+      watchList,
+      name: props.name,
+    };
     if (isSearch && displayPre) {
       if (!expand) {
         if (displayPre > config.length) {
@@ -74,14 +84,7 @@ const InternalForm: React.ForwardRefRenderFunction<
           if (diff > childList.length) {
             return (
               <React.Fragment>
-                {itemRender(config, {
-                  colProps,
-                  itemStyle,
-                  attrStyle,
-                  attrProps,
-                  watchList,
-                  name: props.name,
-                })}
+                {itemRender(config, otherConfig)}
                 {childList}
               </React.Fragment>
             );
@@ -89,48 +92,20 @@ const InternalForm: React.ForwardRefRenderFunction<
             const diffChild = childList.slice(0, diff);
             return (
               <React.Fragment>
-                {itemRender(config, {
-                  colProps,
-                  itemStyle,
-                  attrStyle,
-                  attrProps,
-                  watchList,
-                  name: props.name,
-                })}
+                {itemRender(config, otherConfig)}
                 {diffChild}
               </React.Fragment>
             );
           }
-          return itemRender(config, {
-            colProps,
-            itemStyle,
-            attrStyle,
-            attrProps,
-            watchList,
-            name: props.name,
-          });
+          return itemRender(config, otherConfig);
         }
         const configPre = config.slice(0, displayPre);
-        return itemRender(configPre, {
-          colProps,
-          itemStyle,
-          attrStyle,
-          attrProps,
-          watchList,
-          name: props.name,
-        });
+        return itemRender(configPre, otherConfig);
       }
     }
     return (
       <React.Fragment>
-        {itemRender(config, {
-          colProps,
-          itemStyle,
-          attrStyle,
-          attrProps,
-          watchList,
-          name: props.name,
-        })}
+        {itemRender(config, otherConfig)}
         {children}
       </React.Fragment>
     );
@@ -169,10 +144,27 @@ const InternalForm: React.ForwardRefRenderFunction<
         }}
       >
         <Form {...rest} form={forms} className={clx} ref={formRef}>
-          <Row gutter={24} {...rowProps}>
+          <Row
+            gutter={24}
+            {...rowProps}
+            style={{
+              display: 'block',
+              height: 'auto',
+              overflow: 'hidden',
+              ...((rowProps || {}).style || {}),
+            }}
+          >
             {getRender()}
             {isSearch && (
-              <Col span={6} {...colProps}>
+              <Col
+                span={6}
+                {...colProps}
+                style={{
+                  float: 'left',
+                  width: '100%',
+                  ...((colProps || {}).style || {}),
+                }}
+              >
                 <SearchBtn
                   onRest={onRest}
                   expand={expand}
@@ -204,6 +196,9 @@ type InternalFormType = typeof SimpleFormWarp;
 interface FormInterface extends InternalFormType {
   useForm: typeof Form.useForm;
   Item: typeof Form.Item;
+  ColItem: typeof FormColItem;
+  ColWatchItem: typeof FormColWatchItem;
+  Cols: typeof Cols;
   List: typeof Form.List;
   Provider: typeof Form.Provider;
 
@@ -226,6 +221,9 @@ const SimpleForm = SimpleFormWarp as FormInterface;
 
 SimpleForm.useForm = Form.useForm;
 SimpleForm.Item = Form.Item;
+SimpleForm.ColItem = FormColItem;
+SimpleForm.ColWatchItem = FormColWatchItem;
+SimpleForm.Cols = Cols;
 SimpleForm.List = Form.List;
 SimpleForm.Provider = Form.Provider;
 

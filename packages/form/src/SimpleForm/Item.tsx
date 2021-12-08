@@ -47,7 +47,7 @@ import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
 import { useFormWatchList } from './Watch';
 import { WatchListProps } from './interface';
-
+import FormColItem, { FormItemsProps } from './FormItem';
 import Hide from './Hide';
 const { RangePicker } = DatePicker;
 
@@ -76,6 +76,15 @@ export const ItemWatch = (props: FormItemProps) => {
     <Form.Item {...rest}>
       <Warp>{children}</Warp>;
     </Form.Item>
+  );
+};
+
+export const FormColWatchItem = (props: FormItemsProps) => {
+  const { children, ...rest } = props;
+  return (
+    <FormColItem {...rest}>
+      <Warp>{children}</Warp>;
+    </FormColItem>
   );
 };
 
@@ -301,9 +310,22 @@ export const itemRender = (
         React.ReactNode;
       const listName = name as string | number | (string | number)[];
       return (
-        <Form.List key={index} {...itemAttr} name={listName}>
-          {rend}
-        </Form.List>
+        <Col
+          span={6}
+          key={index}
+          {...(warpColProps || {})}
+          {...(colProps || {})}
+          style={{
+            float: 'left',
+            width: '100%',
+            ...((warpColProps || {}).style || {}),
+            ...((colProps || {}).style || {}),
+          }}
+        >
+          <Form.List key={index} {...itemAttr} name={listName}>
+            {rend}
+          </Form.List>
+        </Col>
       );
     }
     // 这种方式 (不建议使用) 可以结合 Form.Provider 中 onFormChange/(Form中onFieldsChange) 和 SimpleForm 的 getChildItemFun 方法一起使用 获取updateData 方法进行数据联动更新
@@ -316,7 +338,18 @@ export const itemRender = (
       renderItem = <Warp key={index}>{renderItem}</Warp>;
     }
     renderItem = (
-      <Col span={6} key={index} {...warpColProps} {...colProps}>
+      <Col
+        span={6}
+        key={index}
+        {...(warpColProps || {})}
+        {...(colProps || {})}
+        style={{
+          float: 'left',
+          width: '100%',
+          ...((warpColProps || {}).style || {}),
+          ...((colProps || {}).style || {}),
+        }}
+      >
         <Form.Item
           {...itemOther}
           name={name}
