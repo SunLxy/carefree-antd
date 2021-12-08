@@ -54,6 +54,7 @@ jobs:
           ```bash
           npm i carefree-antd@${{steps.create_tag.outputs.version}}
           npm i carefree-antd-form@${{steps.create_tag.outputs.version}}
+          npm i carefree-antd-edit-table@${{steps.create_tag.outputs.version}}
           ```
           ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
