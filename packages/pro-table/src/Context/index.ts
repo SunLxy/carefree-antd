@@ -4,32 +4,45 @@ import { ProTableProps } from './../index';
 
 export interface StoreParam {
   search: object;
-  page: number;
-  pageSize: number;
-  total: number;
-  dataSource: any[];
-  editVisible: boolean;
-  editForm: object;
-  saveEditForm: object;
+  loading: boolean;
+  table: {
+    page: number;
+    pageSize: number;
+    total: number;
+    dataSource: any[];
+    selectRows?: any[];
+    selectRowKeys?: any[];
+  };
+  // editVisible: boolean;
+  // editForm: object;
+  // saveEditForm: object;
   [k: string]: any;
 }
 
-class Store {
+export class Store {
   private store: StoreParam = {
     search: {},
-    page: 1,
-    pageSize: 20,
-    total: 0,
-    dataSource: [],
-    editVisible: false,
-    editForm: {},
-    saveEditForm: {},
+    loading: false,
+    table: {
+      page: 1,
+      pageSize: 20,
+      total: 0,
+      dataSource: [],
+      selectRows: [],
+      selectRowKeys: [],
+    },
+    // editVisible: false,
+    // editForm: {},
+    // saveEditForm: {},
   };
+  // 存储 方法 用于其他地方调用
+  private storeFun = {};
+
   // 用于组件 组件更新
   private components: { [k: string]: Function } = {};
 
   private getStringToArr = (path: string) => {
-    return path.split('.');
+    return path.split('_');
   };
 
   getValue = (path: string) => {
@@ -40,6 +53,7 @@ class Store {
     this.store = set(this.store, this.getStringToArr(path), value);
     return this.store;
   };
+
   setBatchValue = (store: object) => {
     Object.entries(store).forEach(([k, value]) => {
       this.store = set(this.store, this.getStringToArr(k), value);
@@ -52,6 +66,11 @@ class Store {
   // 组件注册
   registerId = (path: string, fun: Function) => {
     this.components[path] = fun;
+  };
+  // 组件卸载
+  unregister = (path: string) => {
+    delete this.components[path];
+    this.setValue(path, undefined);
   };
 
   // 通知组件进行更新数据
