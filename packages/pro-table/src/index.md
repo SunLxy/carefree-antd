@@ -20,12 +20,19 @@ export interface ProTableProps {
   tableHead?: (v: any) => React.ReactNode;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
+    /** 表格数据初始值 **/
     table?: {
+      /** 分页 */
       page?: number;
+      /** 每页数据 */
       pageSize?: number;
+      /** 数据源 */
       dataSource?: any[];
+      /** 总条数 */
       total?: number;
+      /** 选中数据 */
       selectRows?: any[];
+      /** 选中数据 rowKey */
       selectRowKeys?: any[];
     };
   };

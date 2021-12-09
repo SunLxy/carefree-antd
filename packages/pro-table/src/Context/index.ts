@@ -3,14 +3,23 @@ import { get, set } from 'carefree-utils';
 import { ProTableProps } from './../index';
 
 export interface StoreParam {
+  /** 查询表单存储数据  */
   search: object;
+  /** loading  */
   loading: boolean;
+  /** 表格存储数据  */
   table: {
-    page: number;
-    pageSize: number;
-    total: number;
-    dataSource: any[];
+    /** 分页 */
+    page?: number;
+    /** 每页数据 */
+    pageSize?: number;
+    /** 数据源 */
+    dataSource?: any[];
+    /** 总条数 */
+    total?: number;
+    /** 选中数据 */
     selectRows?: any[];
+    /** 选中数据 rowKey */
     selectRowKeys?: any[];
   };
   // editVisible: boolean;
@@ -35,25 +44,25 @@ export class Store {
     // editForm: {},
     // saveEditForm: {},
   };
-  // 存储 方法 用于其他地方调用
+  /** 存储 方法 用于其他地方调用 */
   private storeFun = {};
 
-  // 用于组件 组件更新
+  /** 用于组件存储  组件更新 */
   private components: { [k: string]: Function } = {};
-
+  /** 字符串转数组 */
   private getStringToArr = (path: string) => {
     return path.split('_');
   };
-
+  /** 获取值 */
   getValue = (path: string) => {
     return get(this.store, this.getStringToArr(path));
   };
-
+  /** 设置值 */
   setValue = (path: string, value: any) => {
     this.store = set(this.store, this.getStringToArr(path), value);
     return this.store;
   };
-
+  /** 批量设置值 */
   setBatchValue = (store: object) => {
     Object.entries(store).forEach(([k, value]) => {
       this.store = set(this.store, this.getStringToArr(k), value);
@@ -63,17 +72,17 @@ export class Store {
 
   getStore = () => this.store;
 
-  // 组件注册
+  /**  组件注册 */
   registerId = (path: string, fun: Function) => {
     this.components[path] = fun;
   };
-  // 组件卸载
+  /** 组件卸载 */
   unregister = (path: string) => {
     delete this.components[path];
     this.setValue(path, undefined);
   };
 
-  // 通知组件进行更新数据
+  /** 通知组件进行更新数据 */
   updateComponent = (path: string[]) => {
     path.forEach((key) => {
       this.components[key]();
