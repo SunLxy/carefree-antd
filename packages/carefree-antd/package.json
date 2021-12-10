@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "carefree-antd-edit-table": "1.0.33",
-    "carefree-antd-form": "1.0.33"
+    "carefree-antd-form": "1.0.33",
+    "carefree-pro-table": "1.0.33"
   }
 }
