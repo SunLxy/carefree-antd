@@ -8,6 +8,7 @@ import {
   useMain,
   ProTableContext,
   Store,
+  StoreParam,
 } from './Context';
 import { RequestOptionsInit } from 'umi-request';
 
@@ -74,7 +75,7 @@ export interface ProTableProps {
   /** 状态 存储 */
   main?: Store;
   /** 初始值 */
-  initialValues?: Store['store'];
+  initialValues?: StoreParam;
 }
 
 const Main = (props: ProTableProps) => {
