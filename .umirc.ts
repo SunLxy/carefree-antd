@@ -9,7 +9,7 @@ export default defineConfig({
   outputPath: 'docs-dist',
   mode: 'site',
   proxy: {
-    '/api': 'http://localhost:6666',
+    '/api': 'http://39.99.44.108:6666',
   },
   alias: {
     'carefree-antd-form': resolve(__dirname, './packages/form/src/index.ts'),
