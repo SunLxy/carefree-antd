@@ -8,6 +8,7 @@ const Tables = () => {
   const {
     tableConfig,
     columns,
+    tableCardProps,
     Api = {},
     tableHead,
   } = useProTableConfigContext();
@@ -55,11 +56,19 @@ const Tables = () => {
     return columns || [];
   }, [columns]);
 
+  const bordered = React.useMemo(() => {
+    if ('bordered' in (tableCardProps || {})) {
+      return tableCardProps.bordered;
+    }
+    return !!tableHead;
+  }, [!!tableHead, (tableCardProps || {}).bordered]);
+
   return (
     <Card
+      {...(tableCardProps || {})}
       title={tableHead && tableHead(main)}
-      bodyStyle={{ padding: 0 }}
-      bordered={!!tableHead}
+      bodyStyle={{ padding: 0, ...((tableCardProps || {}).bodyStyle || {}) }}
+      bordered={bordered}
     >
       <Table
         rowKey="id"

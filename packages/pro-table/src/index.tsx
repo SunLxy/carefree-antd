@@ -2,7 +2,7 @@ import React from 'react';
 import Search from './Search';
 import Table from './Table';
 import { SimpleFormProps } from 'carefree-antd-form';
-import { TableProps } from 'antd';
+import { TableProps, CardProps } from 'antd';
 import {
   ProTableConfigContext,
   useMain,
@@ -28,11 +28,18 @@ export interface ApiProps {
     requestAfter?: (item: any) => any;
   };
 }
+
 export interface ProTableProps {
   /** 查询表单 */
   search?: SimpleFormProps;
-  // 表格头部操作按钮
+  /**  查询表单表头按钮 */
+  searchHead?: (v: Store) => React.ReactNode;
+  /** 查询表单 外层 card */
+  searchCardProps?: CardProps;
+  /** 表格头部操作按钮 */
   tableHead?: (v: Store) => React.ReactNode;
+  /** 表格 外层 card */
+  tableCardProps?: CardProps;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
     /** 表格数据初始值 **/
@@ -61,7 +68,6 @@ export interface ProTableProps {
 
 const Main = (props: ProTableProps) => {
   const [mainStore] = useMain(props.main);
-
   return (
     <ProTableContext.Provider value={mainStore}>
       <ProTableConfigContext.Provider value={props}>

@@ -3,12 +3,14 @@ import SimpleForm from 'carefree-antd-form';
 import { useProTableConfigContext, useProTableContext } from './../Context';
 import request from './../server';
 import { onSearch } from './../utils/search';
+import { Card } from 'antd';
 
 const Srarch = () => {
-  const { search, tableConfig } = useProTableConfigContext();
+  const { search, tableConfig, searchCardProps, searchHead } =
+    useProTableConfigContext();
   const { Api = {} } = useProTableConfigContext();
   const main = useProTableContext();
-  const { setValue, updateComponent, registerId, setBatchValue } = main;
+  const { setValue, registerId } = main;
   const [_, setUpdateTime] = React.useState('');
   const { isSearch, initialValues, form } = search || {};
   const [forms] = SimpleForm.useForm(form);
@@ -28,22 +30,40 @@ const Srarch = () => {
   }, []);
   registerId('search', update);
 
+  const bordered = React.useMemo(() => {
+    if ('bordered' in (searchCardProps || {})) {
+      return searchCardProps.bordered;
+    }
+    return !!searchHead;
+  }, [!!searchHead, (searchCardProps || {}).bordered]);
+
   return (
-    <SimpleForm
-      form={forms}
-      initialValues={initialValues || {}}
-      {...(isSearch
-        ? {
-            onFinish: () => onSearch({ main, tableConfig, Api }),
-            onRest: () => {
-              setValue('search', initialValues || {});
-              forms.resetFields();
-            },
-          }
-        : {})}
-      {...search}
-      onValuesChange={onValuesChange}
-    />
+    <Card
+      title={searchHead && searchHead(main)}
+      {...(searchCardProps || {})}
+      style={{ marginBottom: 10, ...((searchCardProps || {}).style || {}) }}
+      bodyStyle={{
+        padding: bordered ? 12 : 0,
+        ...((searchCardProps || {}).bodyStyle || {}),
+      }}
+      bordered={bordered}
+    >
+      <SimpleForm
+        form={forms}
+        initialValues={initialValues || {}}
+        {...(isSearch
+          ? {
+              onFinish: () => onSearch({ main, tableConfig, Api }),
+              onRest: () => {
+                setValue('search', initialValues || {});
+                forms.resetFields();
+              },
+            }
+          : {})}
+        {...search}
+        onValuesChange={onValuesChange}
+      />
+    </Card>
   );
 };
 export default Srarch;

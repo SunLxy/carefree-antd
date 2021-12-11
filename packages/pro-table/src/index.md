@@ -13,11 +13,18 @@ group:
 
 ```ts
 // 参数
+
 export interface ProTableProps {
   /** 查询表单 */
   search?: SimpleFormProps;
-  // 表格头部操作按钮
+  /**  查询表单表头按钮 */
+  searchHead?: (v: Store) => React.ReactNode;
+  /** 查询表单 外层 card */
+  searchCardProps?: CardProps;
+  /** 表格头部操作按钮 */
   tableHead?: (v: Store) => React.ReactNode;
+  /** 表格 外层 card */
+  tableCardProps?: CardProps;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
     /** 表格数据初始值 **/
@@ -68,8 +75,9 @@ export interface ApiProps {
 
 ```tsx
 import React from 'react';
-
+import { Input } from 'antd';
 import ProTable from 'carefree-pro-table';
+import SimpleForm from 'carefree-antd-form';
 
 export default () => (
   <ProTable
@@ -107,6 +115,13 @@ export default () => (
           type: 'Input',
         },
       ],
+      children: (
+        <React.Fragment>
+          <SimpleForm.ColItem name="namens" label="测试 children">
+            <Input placeholder="请输入" />
+          </SimpleForm.ColItem>
+        </React.Fragment>
+      ),
     }}
   />
 );
