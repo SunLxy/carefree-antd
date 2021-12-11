@@ -8,9 +8,18 @@
 // 参数
 export interface ProTableProps {
   /** 查询表单 */
-  search?: SimpleFormProps;
-  // 表格头部操作按钮
-  tableHead?: (v: any) => React.ReactNode;
+  search?: SimpleFormProps & {
+    onRest?: (main?: Store) => void;
+    onFinish?: (value: any, main?: Store) => void;
+  };
+  /**  查询表单表头按钮 */
+  searchHead?: (v: Store) => React.ReactNode;
+  /** 查询表单 外层 card */
+  searchCardProps?: CardProps;
+  /** 表格头部操作按钮 */
+  tableHead?: (v: Store) => React.ReactNode;
+  /** 表格 外层 card */
+  tableCardProps?: CardProps;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
     /** 表格数据初始值 **/
@@ -28,13 +37,21 @@ export interface ProTableProps {
       /** 选中数据 rowKey */
       selectRowKeys?: any[];
     };
+    pagination?: PageProps;
   };
   /** 表格columns */
-  columns?: (v?: any) => TableProps<any>['columns'];
+  columns?: (v?: Store) => TableProps<any>['columns'];
   /** 接口调用  可以调用的接口 */
   Api?: ApiProps;
   /** 状态 存储 */
   main?: Store;
+  /** 初始值 */
+  initialValues?: Store['store'];
+}
+
+/** 重写  pagination 中的 onChange 事件参数 */
+export interface PageProps extends TablePaginationConfig {
+  onChange?: (page: number, pageSize: number, main?: Store) => void;
 }
 
 /** api 接口配置 */
@@ -61,8 +78,9 @@ export interface ApiProps {
 
 ```tsx
 import React from 'react';
-
+import { Input } from 'antd';
 import ProTable from 'carefree-pro-table';
+import SimpleForm from 'carefree-antd-form';
 
 export default () => (
   <ProTable
@@ -100,6 +118,13 @@ export default () => (
           type: 'Input',
         },
       ],
+      children: (
+        <React.Fragment>
+          <SimpleForm.ColItem name="namens" label="测试 children">
+            <Input placeholder="请输入" />
+          </SimpleForm.ColItem>
+        </React.Fragment>
+      ),
     }}
   />
 );
