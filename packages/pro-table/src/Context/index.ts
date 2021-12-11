@@ -1,5 +1,5 @@
 import React from 'react';
-import { get, set } from 'carefree-utils';
+import { get, set, clone } from 'carefree-utils';
 import { ProTableProps } from './../index';
 
 export interface StoreParam {
@@ -22,9 +22,6 @@ export interface StoreParam {
     /** 选中数据 rowKey */
     selectRowKeys?: any[];
   };
-  // editVisible: boolean;
-  // editForm: object;
-  // saveEditForm: object;
   [k: string]: any;
 }
 
@@ -40,12 +37,34 @@ export class Store {
       selectRows: [],
       selectRowKeys: [],
     },
-    // editVisible: false,
-    // editForm: {},
-    // saveEditForm: {},
   };
-  /** 存储 方法 用于其他地方调用 */
-  private storeFun = {};
+  private initialValues: StoreParam = {
+    search: {},
+    loading: false,
+    table: {
+      page: 1,
+      pageSize: 20,
+      total: 0,
+      dataSource: [],
+      selectRows: [],
+      selectRowKeys: [],
+    },
+  };
+
+  /** 初始值 赋值 */
+  constructor(props?: StoreParam) {
+    const { search, table, ...rest } = props || {};
+    if (search) {
+      this.setValue('search', { ...search });
+    }
+    if (table) {
+      this.setValue('table', { ...table });
+    }
+    Object.entries({ ...rest }).forEach(([k, value]) => {
+      this.setValue(k, value);
+    });
+    this.initialValues = clone(props || {}, false);
+  }
 
   /** 用于组件存储  组件更新 */
   private components: { [k: string]: Function } = {};
@@ -53,15 +72,23 @@ export class Store {
   private getStringToArr = (path: string) => {
     return path.split('_');
   };
+
+  /** 获取初始值 */
+  getInitValue = (path: string) => {
+    return clone(get(this.initialValues, this.getStringToArr(path)), false);
+  };
+
   /** 获取值 */
   getValue = (path: string) => {
     return get(this.store, this.getStringToArr(path));
   };
+
   /** 设置值 */
   setValue = (path: string, value: any) => {
     this.store = set(this.store, this.getStringToArr(path), value);
     return this.store;
   };
+
   /** 批量设置值 */
   setBatchValue = (store: object) => {
     Object.entries(store).forEach(([k, value]) => {
@@ -69,17 +96,41 @@ export class Store {
     });
     return this.store;
   };
-
+  /** 获取存储值 **/
   getStore = () => this.store;
 
   /**  组件注册 */
   registerId = (path: string, fun: Function) => {
     this.components[path] = fun;
   };
+
   /** 组件卸载 */
-  unregister = (path: string) => {
+  unregister = (path: string, initialValues?: any) => {
     delete this.components[path];
-    this.setValue(path, undefined);
+    if ('search' === path) {
+      this.setValue(path, initialValues || this.initialValues['search'] || {});
+    } else if ('table' === path) {
+      this.setValue(
+        path,
+        initialValues ||
+          this.initialValues['table'] || {
+            page: 1,
+            pageSize: 20,
+            total: 0,
+            dataSource: [],
+            selectRows: [],
+            selectRowKeys: [],
+          },
+      );
+    } else {
+      this.setValue(path, initialValues || this.initialValues[path]);
+    }
+  };
+
+  /** 用于更新 表格 loading */
+  tableLoading = (isFig: boolean) => {
+    this.setValue('loading', isFig);
+    this.updateComponent(['table']);
   };
 
   /** 通知组件进行更新数据 */
@@ -90,12 +141,18 @@ export class Store {
   };
 }
 
-export const useMain = (main?: Store) => {
+export const useMain = ({
+  main,
+  initialValues,
+}: {
+  main: Store;
+  initialValues?: StoreParam | undefined;
+}) => {
   const mainRef = React.useRef<Store>();
   if (main) {
     mainRef.current = main;
   } else {
-    mainRef.current = new Store();
+    mainRef.current = new Store(initialValues);
   }
   return [mainRef.current];
 };

@@ -2,21 +2,16 @@ import request from './../server';
 
 // 调查询接口
 export const onSearch = async ({ Api, main, tableConfig }) => {
-  const { setBatchValue, getValue, setValue, updateComponent } = main;
+  const { setBatchValue, getValue, tableLoading } = main;
   const { table } = tableConfig || {};
 
-  const api = Api['table'];
+  const api = Api['table'] || {};
   if (!api.url) {
     return;
   }
 
-  const updateLoading = (loadin: boolean) => {
-    setValue('loading', loadin);
-    updateComponent(['table']);
-  };
-
   try {
-    updateLoading(true);
+    tableLoading(true);
     setBatchValue({
       table_page: (table || {}).page || 1,
       table_pageSize: (table || {}).page || 20,
@@ -27,7 +22,7 @@ export const onSearch = async ({ Api, main, tableConfig }) => {
     }
 
     if (!fig) {
-      updateLoading(false);
+      tableLoading(false);
       return;
     }
 
@@ -45,7 +40,7 @@ export const onSearch = async ({ Api, main, tableConfig }) => {
       module: api.module,
       data: params,
     }).catch((res) => {
-      updateLoading(false);
+      tableLoading(false);
     });
     if (api.requestAfter) {
       api.requestAfter({ response, main });
@@ -58,8 +53,8 @@ export const onSearch = async ({ Api, main, tableConfig }) => {
         });
       }
     }
-    updateLoading(false);
+    tableLoading(false);
   } catch (err) {
-    updateLoading(false);
+    tableLoading(false);
   }
 };

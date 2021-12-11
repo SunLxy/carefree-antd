@@ -1,7 +1,6 @@
 import React from 'react';
-// import Table from './Table';
 import { Card } from 'antd';
-import { Table } from 'antd';
+import { Table, TableProps } from 'antd';
 import { useProTableConfigContext, useProTableContext } from './../Context';
 import { onSearch } from './../utils/search';
 const Tables = () => {
@@ -13,8 +12,14 @@ const Tables = () => {
     tableHead,
   } = useProTableConfigContext();
   const main = useProTableContext();
-  const { getValue, setValue, setBatchValue, updateComponent, registerId } =
-    main;
+  const {
+    getValue,
+    setValue,
+    setBatchValue,
+    updateComponent,
+    registerId,
+    unregister,
+  } = main;
   const [_, setUpdateTime] = React.useState('');
   const { page, pageSize, total, dataSource, selectRowKeys } =
     getValue('table');
@@ -26,7 +31,15 @@ const Tables = () => {
 
   const onChange = (page: number, pageSize: number) => {
     setBatchValue({ table_page: page, table_pageSize: pageSize });
-    onSearch({ main, tableConfig, Api });
+    if (
+      tableConfig &&
+      tableConfig.pagination &&
+      tableConfig.pagination.onChange
+    ) {
+      tableConfig.pagination.onChange(page, pageSize, main);
+    } else {
+      onSearch({ main, tableConfig, Api });
+    }
   };
 
   const isPagination = React.useMemo(() => {
@@ -39,6 +52,10 @@ const Tables = () => {
   }, [JSON.stringify(pagination)]);
 
   registerId('table', update);
+
+  React.useEffect(() => {
+    return () => unregister('table', table);
+  }, []);
 
   React.useEffect(() => {
     if (table) {
@@ -95,7 +112,7 @@ const Tables = () => {
         columns={columnsData}
         pagination={
           !isPagination && {
-            ...(pagination || {}),
+            ...((pagination || {}) as TableProps<any>['pagination']),
             pageSize,
             total,
             current: page,

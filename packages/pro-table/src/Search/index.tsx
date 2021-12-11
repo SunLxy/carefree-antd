@@ -10,7 +10,7 @@ const Srarch = () => {
     useProTableConfigContext();
   const { Api = {} } = useProTableConfigContext();
   const main = useProTableContext();
-  const { setValue, registerId } = main;
+  const { setValue, registerId, unregister, getInitValue } = main;
   const [_, setUpdateTime] = React.useState('');
   const { isSearch, initialValues, form } = search || {};
   const [forms] = SimpleForm.useForm(form);
@@ -29,6 +29,19 @@ const Srarch = () => {
     }
   }, []);
   registerId('search', update);
+
+  React.useEffect(() => {
+    return () => unregister('search', initialValues);
+  }, []);
+
+  React.useEffect(() => {
+    if (initialValues) {
+      Object.entries(initialValues).forEach(([k, value]) => {
+        setValue(`search_${k}`, value);
+      });
+      update();
+    }
+  }, []);
 
   const bordered = React.useMemo(() => {
     if ('bordered' in (searchCardProps || {})) {
@@ -50,13 +63,23 @@ const Srarch = () => {
     >
       <SimpleForm
         form={forms}
-        initialValues={initialValues || {}}
+        initialValues={initialValues || getInitValue('search') || {}}
         {...(isSearch
           ? {
-              onFinish: () => onSearch({ main, tableConfig, Api }),
+              onFinish: (value) => {
+                if (search && search.onFinish) {
+                  search.onFinish(value, main);
+                } else {
+                  onSearch({ main, tableConfig, Api });
+                }
+              },
               onRest: () => {
-                setValue('search', initialValues || {});
-                forms.resetFields();
+                if (search && search.onRest) {
+                  search.onRest();
+                } else {
+                  setValue('search', initialValues || {});
+                  forms.resetFields();
+                }
               },
             }
           : {})}

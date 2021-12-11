@@ -13,10 +13,12 @@ group:
 
 ```ts
 // 参数
-
 export interface ProTableProps {
   /** 查询表单 */
-  search?: SimpleFormProps;
+  search?: SimpleFormProps & {
+    onRest?: (main?: Store) => void;
+    onFinish?: (value: any, main?: Store) => void;
+  };
   /**  查询表单表头按钮 */
   searchHead?: (v: Store) => React.ReactNode;
   /** 查询表单 外层 card */
@@ -42,6 +44,7 @@ export interface ProTableProps {
       /** 选中数据 rowKey */
       selectRowKeys?: any[];
     };
+    pagination?: PageProps;
   };
   /** 表格columns */
   columns?: (v?: Store) => TableProps<any>['columns'];
@@ -49,6 +52,13 @@ export interface ProTableProps {
   Api?: ApiProps;
   /** 状态 存储 */
   main?: Store;
+  /** 初始值 */
+  initialValues?: Store['store'];
+}
+
+/** 重写  pagination 中的 onChange 事件参数 */
+export interface PageProps extends TablePaginationConfig {
+  onChange?: (page: number, pageSize: number, main?: Store) => void;
 }
 
 /** api 接口配置 */
