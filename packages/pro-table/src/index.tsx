@@ -32,7 +32,7 @@ export interface ProTableProps {
   /** 查询表单 */
   search?: SimpleFormProps;
   // 表格头部操作按钮
-  tableHead?: (v: any) => React.ReactNode;
+  tableHead?: (v: Store) => React.ReactNode;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
     /** 表格数据初始值 **/
@@ -52,7 +52,7 @@ export interface ProTableProps {
     };
   };
   /** 表格columns */
-  columns?: (v?: any) => TableProps<any>['columns'];
+  columns?: (v?: Store) => TableProps<any>['columns'];
   /** 接口调用  可以调用的接口 */
   Api?: ApiProps;
   /** 状态 存储 */
