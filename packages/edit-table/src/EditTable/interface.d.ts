@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableProps, FormItemProps, TooltipProps, ButtonProps } from 'antd';
+import { TableProps, TooltipProps, ButtonProps } from 'antd';
+import { FieldProps } from 'rc-field-form/lib/Field';
 import { ColumnType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
 import { Rule, ValidateErrorEntity } from 'rc-field-form/lib/interface';
@@ -33,13 +34,13 @@ export interface ColumnsProps extends ColumnType<any> {
   /** 规则 */
   rules?: Rule[];
   /** formItem 表单 其他属性值*/
-  itemAttr?: Omit<FormItemProps, 'rules' | 'label' | 'name'>;
+  itemAttr?: Omit<FieldProps, 'rules' | 'label' | 'name'>;
   /** formItem 表单 children 中组件参数*/
   attr?: Partial<ItemChildAttr<any, any>>;
   /**组件类型  */
   type?: ItemChildType;
   /** 错误提示  */
-  tip?: (errs: string[]) => React.ReactNode;
+  tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */
   tipAttr?: TooltipProps;
   /** 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染)  ， other 参数 只有操作列才有 */
@@ -92,7 +93,9 @@ export interface EditableTableProps
   /** 是否可以多行编辑 */
   multiple?: boolean;
   /** 新增按钮配置 */
-  addBtnProps: AddBtnProps;
+  addBtnProps?: AddBtnProps;
+  /** form 表单状态处理 */
+  store?: Store;
 }
 
 export interface RefEditTableProps {

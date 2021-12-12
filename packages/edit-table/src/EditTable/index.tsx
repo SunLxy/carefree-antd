@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Button, message } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import Store from './Store';
+import { useStore } from './Store';
+export { default as Store } from './Store';
 import {
   ColumnsProps,
   EditableTableProps,
@@ -33,9 +34,10 @@ const EditableTable = (
     onBeforeAdd,
     isOpt = true,
     addBtnProps = {},
+    store,
     ...rest
   } = props;
-  const formsRef = React.useRef(new Store()).current;
+  const [formsRef] = useStore(store);
 
   const [editingKey, setEditingKey] = useState([]);
   const [newAdd, setNewAdd] = React.useState([]);
@@ -57,15 +59,15 @@ const EditableTable = (
   /** 重置 某个表单 */
   const restForm = (key: string | number, obj = {}) => {
     const stores = formsRef.getStore();
-    if (stores[key]) {
-      stores[key].setFieldsValue(obj);
+    if (stores[`${key}`]) {
+      stores[`${key}`].setFieldsValue(obj);
     }
   };
 
   /** 获取某个表单 */
   const getForm = (id: string | number) => {
     const stores = formsRef.getStore();
-    return stores[id];
+    return stores[`${id}`];
   };
 
   /** 判断是否编辑 */
@@ -182,7 +184,7 @@ const EditableTable = (
         tipAttr: col.tipAttr,
       }),
     };
-  });
+  }) as ColumnsType;
   // 表单值更新 表单更新值适用单个 不使用多个
   const onChange = (
     id: string | number,
@@ -237,7 +239,7 @@ const EditableTable = (
           rowKey={rowKey}
           bordered
           dataSource={dataSource}
-          columns={mergedColumns as ColumnsType}
+          columns={mergedColumns}
           rowClassName="editable-row"
           pagination={false}
         />
@@ -255,4 +257,16 @@ const EditableTable = (
     </React.Fragment>
   );
 };
-export default React.forwardRef(EditableTable);
+const InitEditTable = React.forwardRef(EditableTable);
+
+type EditTableType = typeof InitEditTable;
+
+interface EditorTableProps extends EditTableType {
+  useStore: typeof useStore;
+}
+
+const EditorTable = InitEditTable as EditorTableProps;
+
+EditorTable.useStore = useStore;
+
+export default EditorTable;

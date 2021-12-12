@@ -22,15 +22,18 @@ const EditableCell = ({
 }) => {
   const renders = getItem({ attr, type, inputNode });
 
+  const FieldProps: any = {
+    style: { margin: 0, ...((itemAttr || {}).style || {}) },
+  };
+
   return (
     <td {...restProps}>
       {editing ? (
         <RcForm.Field
           {...itemAttr}
-          label={undefined}
           name={dataIndex}
           rules={rules}
-          style={{ margin: 0, ...((itemAttr || {}).style || {}) }}
+          {...FieldProps}
         >
           {(control, meta, form) => {
             const mergedName =
