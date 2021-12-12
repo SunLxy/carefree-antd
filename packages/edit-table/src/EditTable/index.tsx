@@ -229,6 +229,8 @@ const EditableTable = (
         }}
       >
         <Table
+          size="small"
+          bordered
           {...rest}
           components={{
             body: {
@@ -237,7 +239,6 @@ const EditableTable = (
             },
           }}
           rowKey={rowKey}
-          bordered
           dataSource={dataSource}
           columns={mergedColumns}
           rowClassName="editable-row"
