@@ -1,6 +1,6 @@
 {
   "name": "carefree-pro-table",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "查询表单/表格/操作表头 集合成一个组合组件",
   "main": "lib/index.js",
   "module": "es/index.js",
