@@ -214,6 +214,7 @@ const EditableTable = (
       isEditing,
       editingKey,
       newAdd,
+      isAddEdit,
       forms: formsRef,
     }),
   );

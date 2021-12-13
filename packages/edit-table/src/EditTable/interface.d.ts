@@ -111,6 +111,8 @@ export interface RefEditTableProps {
   add: () => void;
   /** 是否编辑中 */
   isEditing: (record: any) => boolean;
+  /** 是否是新增 */
+  isAddEdit: (record: any) => boolean;
   /** 编辑 id */
   editingKey: (string | number)[];
   /** 是否编辑 新增的数据 */
