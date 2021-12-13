@@ -43,8 +43,8 @@ const EditableTable = (
   const [newAdd, setNewAdd] = React.useState([]);
   /** editingKey 和 newAdd 移出 id */
   const removeKey = (id: string | number) => {
-    setEditingKey((arr) => arr.filter((k) => k !== id));
-    setNewAdd((arr) => arr.filter((k) => k !== id));
+    setEditingKey((arr) => arr.filter((k) => `${k}` !== `${id}`));
+    setNewAdd((arr) => arr.filter((k) => `${k}` !== `${id}`));
   };
 
   /** 获取行 所有编辑字段 */
@@ -71,9 +71,9 @@ const EditableTable = (
   };
 
   /** 判断是否编辑 */
-  const isEditing = (record: any) => editingKey.includes(record[rowKey]);
+  const isEditing = (record: any) => editingKey.includes(`${record[rowKey]}`);
   /** 判断是否是新增的 */
-  const isAddEdit = (record: any) => newAdd.includes(record[rowKey]);
+  const isAddEdit = (record: any) => newAdd.includes(`${record[rowKey]}`);
 
   /** 新增  */
   const add = () => {
@@ -101,7 +101,7 @@ const EditableTable = (
   const edit = (record: object) => {
     let obj = { ...record };
     restForm(record[rowKey], obj);
-    setEditingKey((arr) => arr.concat([record[rowKey]]));
+    setEditingKey((arr) => arr.concat([`${record[rowKey]}`]));
   };
 
   /** 取消编辑  */
@@ -112,7 +112,7 @@ const EditableTable = (
 
   /** 删除行 */
   const onDelete = (id: string | number, rowItem: object, index: number) => {
-    const list = dataSource.filter((item) => item[rowKey] !== id);
+    const list = dataSource.filter((item) => `${item[rowKey]}` !== `${id}`);
     removeKey(id);
     onSave && onSave(list, rowItem, rowItem, index);
   };
@@ -125,7 +125,7 @@ const EditableTable = (
         return;
       }
       const newData = [...dataSource];
-      const index = newData.findIndex((item) => key === item[rowKey]);
+      const index = newData.findIndex((item) => `${key}` === `${item[rowKey]}`);
       if (index > -1) {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
@@ -194,7 +194,7 @@ const EditableTable = (
   ) => {
     if (onValuesChange) {
       const list = dataSource.map((item) => {
-        if (id === item[rowKey]) {
+        if (`${id}` === `${item[rowKey]}`) {
           return { ...item, ...value };
         }
         return { ...item };
