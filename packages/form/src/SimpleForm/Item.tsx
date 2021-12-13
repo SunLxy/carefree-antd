@@ -74,7 +74,7 @@ export const ItemWatch = (props: FormItemProps) => {
   const { children, ...rest } = props;
   return (
     <Form.Item {...rest}>
-      <Warp>{children}</Warp>;
+      <Warp>{children}</Warp>
     </Form.Item>
   );
 };
@@ -83,7 +83,7 @@ export const FormColWatchItem = (props: FormItemsProps) => {
   const { children, ...rest } = props;
   return (
     <FormColItem {...rest}>
-      <Warp>{children}</Warp>;
+      <Warp>{children}</Warp>
     </FormColItem>
   );
 };
