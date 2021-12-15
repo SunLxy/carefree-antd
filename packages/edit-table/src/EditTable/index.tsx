@@ -10,7 +10,7 @@ import {
 } from './interface.d';
 import { FormInstance } from 'rc-field-form/lib/interface';
 import Tr, { EditForms } from './Tr';
-import Td from './Td';
+import Td, { EditableCellItem } from './Td';
 import Operation from './Operation';
 export type { ColumnsProps, EditableTableProps, RefEditTableProps };
 const EditableTable = (
@@ -120,7 +120,7 @@ const EditableTable = (
   /** 保存 */
   const save = async (key: string | number, record: object, indx: number) => {
     try {
-      const row = await getForm(key).validateFields(fields);
+      const row = await getForm(key).validateFields();
       if (onBeforeSave && !onBeforeSave(row, record, indx)) {
         return;
       }
@@ -182,6 +182,7 @@ const EditableTable = (
         attr: col.attr,
         tip: col.tip,
         tipAttr: col.tipAttr,
+        isList: col.isList,
       }),
     };
   }) as ColumnsType;
@@ -195,7 +196,7 @@ const EditableTable = (
     if (onValuesChange) {
       const list = dataSource.map((item) => {
         if (`${id}` === `${item[rowKey]}`) {
-          return { ...item, ...value };
+          return { ...item, ...allValue };
         }
         return { ...item };
       });
@@ -265,10 +266,12 @@ type EditTableType = typeof InitEditTable;
 
 interface EditorTableProps extends EditTableType {
   useStore: typeof useStore;
+  Item: typeof EditableCellItem;
 }
 
 const EditorTable = InitEditTable as EditorTableProps;
 
 EditorTable.useStore = useStore;
+EditorTable.Item = EditableCellItem;
 
 export default EditorTable;
