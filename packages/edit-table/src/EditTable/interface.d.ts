@@ -6,16 +6,8 @@ import { RenderedCell } from 'rc-table/lib/interface';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { ItemChildAttr, ItemChildType } from './utils';
 import Store from './Store';
-import {
-  FormInstance,
-  InternalNamePath,
-  Meta,
-  NamePath,
-  Rule,
-  InternalFormInstance,
-  StoreValue,
-  EventArgs,
-} from 'rc-field-form/lib/interface';
+import { FormInstance, Meta, Rule } from 'rc-field-form/lib/interface';
+import { ListProps } from 'rc-field-form/lib/List';
 
 export interface OtherProps {
   /** 编辑中字段 */
@@ -55,6 +47,8 @@ export interface ColumnsProps extends ColumnType<any> {
   tipAttr?: TooltipProps;
   /** 是否是 List */
   isList?: boolean;
+  /** list 组件参数 */
+  listAttr?: Omit<ListProps, 'children' | 'name'>;
   /** 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染)  ， other 参数 只有操作列才有 */
   render?: (
     value: any,

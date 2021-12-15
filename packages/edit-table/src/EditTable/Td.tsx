@@ -20,6 +20,7 @@ const EditableCell = ({
   multiple,
   rowKey,
   isList,
+  listAttr = {},
   ...restProps
 }) => {
   const renders = getItem({ attr, type, inputNode });
@@ -27,7 +28,7 @@ const EditableCell = ({
     // 使用 List 时  isList===true  && inputNode 是方法
     if (isList && typeof inputNode === 'function') {
       return (
-        <RcForm.List name={dataIndex}>
+        <RcForm.List {...listAttr} name={dataIndex}>
           {(fields, operation, meta) =>
             inputNode(
               fields.map((field) => ({ ...field, fieldKey: field.key })),

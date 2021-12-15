@@ -109,6 +109,8 @@ export interface ColumnsProps extends ColumnType<any> {
   type?: ItemChildType;
   /** 是否是 List */
   isList?: boolean;
+  /** list 组件参数 */
+  listAttr?: Omit<ListProps, 'children' | 'name'>;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */

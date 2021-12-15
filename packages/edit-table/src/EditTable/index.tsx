@@ -183,6 +183,7 @@ const EditableTable = (
         tip: col.tip,
         tipAttr: col.tipAttr,
         isList: col.isList,
+        listAttr: col.listAttr,
       }),
     };
   }) as ColumnsType;
