@@ -69,13 +69,7 @@ export interface EditableTableProps
 
 ```ts
 /**  Item 组件  渲染的单个内部FromItem组件  */
-export interface EditableCellItemProps {
-  /** formItem 表单 其他属性值*/
-  itemAttr?: Omit<FieldProps, 'rules' | 'label' | 'name'>;
-  /** 规则 */
-  rules?: Rule[];
-  /** 当前存储字段  */
-  name?: string;
+export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
   /** 当前行数据存储父级的name list时不用传 */
   preName?: string;
   /** 当前行的所有数据 */
@@ -84,7 +78,15 @@ export interface EditableCellItemProps {
   tipAttr?: TooltipProps;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
-  children?: ((...arg: any[]) => React.ReactNode) | React.ReactNode;
+  /** 进行覆写 方法时 新增一个 行参数 v */
+  children?:
+    | React.ReactElement
+    | ((
+        control: { [name: string]: any },
+        meta: Meta,
+        form: FormInstance<any>,
+        v?: { record: any },
+      ) => React.ReactNode);
 }
 ```
 
