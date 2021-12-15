@@ -214,9 +214,13 @@ export default () => {
       type: 'Custom',
       isList: true,
       render: (text) => {
-        console.log('1111--->', text);
-        return 1;
-        // return (text||[]).filter(it=>it).map((ite)=>ite.first).join(",")
+        return (
+          text &&
+          (text || [])
+            .filter((it) => it)
+            .map((ite) => ite.first)
+            .join(',')
+        );
       },
       inputNode: (fields, { add, remove }, { errors }) => (
         <>
