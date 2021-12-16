@@ -118,10 +118,10 @@ const InternalForm: React.ForwardRefRenderFunction<
     timer = setTimeout(() => {
       setFirstMont(true);
     }, 300);
+    return () => clearTimeout(timer);
   }, []);
   const [forms] = Form.useForm(form);
   const [hide] = useFormItemHide(formHide);
-  React.useImperativeHandle(ref, () => formRef.current);
   // 只用组件加载的时候 运行一次
   React.useMemo(() => hide.setInitialValues(initialHide || {}, true), []);
   // 当前这个适用于 多个form表单获取值
@@ -132,6 +132,7 @@ const InternalForm: React.ForwardRefRenderFunction<
     subscribe: sub,
     hide: hide,
   });
+  React.useImperativeHandle(ref, () => formRef.current);
 
   return (
     <HideContext.Provider value={hide}>

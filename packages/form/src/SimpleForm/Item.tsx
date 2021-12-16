@@ -132,6 +132,7 @@ export const itemRender = (
       const attrs = attrProps as InputProps;
       renderItem = (
         <Input
+          placeholder={`请输入${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -142,6 +143,7 @@ export const itemRender = (
       const attrs = attrProps as TextAreaProps;
       renderItem = (
         <Input.TextArea
+          placeholder={`请输入${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -152,6 +154,7 @@ export const itemRender = (
       const attrs = attrProps as InputNumberProps;
       renderItem = (
         <InputNumber
+          placeholder={`请输入${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -162,6 +165,7 @@ export const itemRender = (
       const attrs = attrProps as AutoCompleteProps;
       renderItem = (
         <AutoComplete
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -172,6 +176,7 @@ export const itemRender = (
       const attrs = attrProps as CascaderProps;
       renderItem = (
         <Cascader
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -182,6 +187,7 @@ export const itemRender = (
       const attrs = attrProps as DatePickerProps;
       renderItem = (
         <DatePicker
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ width: '100%', ...attrStyle, ...inputStyle }}
@@ -212,6 +218,7 @@ export const itemRender = (
       const attrs = attrProps as TreeSelectProps<any>;
       renderItem = (
         <TreeSelect
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -222,6 +229,7 @@ export const itemRender = (
       const attrs = attrProps as SelectProps<any>;
       renderItem = (
         <Select
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -242,6 +250,7 @@ export const itemRender = (
       const attrs = attrProps as MentionProps;
       renderItem = (
         <Mentions
+          placeholder={`请输入${label}`}
           {...attrs}
           {...inputAttr}
           style={{ ...attrStyle, ...inputStyle }}
@@ -272,6 +281,7 @@ export const itemRender = (
       const attrs = attrProps as TimePickerProps;
       renderItem = (
         <TimePicker
+          placeholder={`请选择${label}`}
           {...attrs}
           {...inputAttr}
           style={{ width: '100%', ...attrStyle, ...inputStyle }}
@@ -288,7 +298,6 @@ export const itemRender = (
         />
       );
     } else if (type === 'RangePicker') {
-      // RangePickerProps
       const inputAttr = attr as RangePickerProps;
       const attrs = attrProps as RangePickerProps;
       renderItem = (
@@ -420,12 +429,10 @@ export const SearchBtn: React.FC<SearchBtnProps> = (props) => {
           {expand ? (
             <React.Fragment>
               <UpOutlined />
-              隐藏
             </React.Fragment>
           ) : (
             <React.Fragment>
               <DownOutlined />
-              展开
             </React.Fragment>
           )}
         </a>
