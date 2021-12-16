@@ -1,4 +1,4 @@
-import request, { RequestOptionsInit, RequestResponse } from 'umi-request';
+import request, { RequestOptionsInit } from 'umi-request';
 import queryString from 'query-string';
 const API_Request = (
   url: string,
