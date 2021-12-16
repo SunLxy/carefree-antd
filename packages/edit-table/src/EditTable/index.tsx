@@ -35,6 +35,7 @@ const EditableTable = (
     isOpt = true,
     addBtnProps = {},
     store,
+    optDeleteEditingDisabled = false,
     ...rest
   } = props;
   const [formsRef] = useStore(store);
@@ -155,6 +156,7 @@ const EditableTable = (
         editingKey,
         rowKey,
         multiple,
+        optDeleteEditingDisabled,
       })) ||
     [];
 

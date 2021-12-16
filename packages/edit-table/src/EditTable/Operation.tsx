@@ -20,6 +20,7 @@ const operation = ({
   editingKey,
   rowKey,
   multiple,
+  optDeleteEditingDisabled,
 }): ColumnsProps[] => [
   {
     title: '操作',
@@ -73,12 +74,17 @@ const operation = ({
           </Typography.Link>
           {isOptDelete && (
             <Popconfirm
+              disabled={optDeleteEditingDisabled && !!editingKey.length}
               title="是否删除当前行数据?"
               okText="是"
               cancelText="否"
               onConfirm={() => onDelete(record[rowKey], record, index)}
             >
-              <Typography.Link>删除</Typography.Link>
+              <Typography.Link
+                disabled={optDeleteEditingDisabled && !!editingKey.length}
+              >
+                删除
+              </Typography.Link>
             </Popconfirm>
           )}
         </Space>

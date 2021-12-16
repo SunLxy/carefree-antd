@@ -123,6 +123,8 @@ export interface EditableTableProps
   addBtnProps?: AddBtnProps;
   /** form 表单状态处理 */
   store?: Store;
+  /** 有一个处于编辑状态时 删除 是否禁用   */
+  optDeleteEditingDisabled?: boolean;
 }
 
 export interface RefEditTableProps {

@@ -198,6 +198,7 @@ export default () => {
     isAdd: true,
     isOpt: true,
     optIsFirst: true,
+    optDeleteEditingDisabled: false,
   });
   const columns = [
     {
@@ -285,6 +286,16 @@ export default () => {
         }}
       >
         删除按钮
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({
+            ...tableProps,
+            optDeleteEditingDisabled: !tableProps.optDeleteEditingDisabled,
+          });
+        }}
+      >
+        删除按钮编辑禁用
       </Button>
       <Button
         onClick={() => {
