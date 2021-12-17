@@ -56,6 +56,31 @@ export interface EditableTableProps
 }
 ```
 
+### 单个 formItem 组件参数
+
+```ts
+/**  Item 组件  渲染的单个内部FromItem组件  */
+export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
+  /** 当前行数据存储父级的name list时不用传 */
+  preName?: string;
+  /** 当前行的所有数据 */
+  itemValue?: any;
+  /** Tooltip 组件属性  */
+  tipAttr?: TooltipProps;
+  /** 错误提示  */
+  tip?: (errs: string) => React.ReactNode;
+  /** 进行覆写 方法时 新增一个 行参数 v */
+  children?:
+    | React.ReactElement
+    | ((
+        control: { [name: string]: any },
+        meta: Meta,
+        form: FormInstance<any>,
+        v?: { record: any },
+      ) => React.ReactNode);
+}
+```
+
 ### 表格 列参数
 
 ```ts
@@ -73,6 +98,10 @@ export interface ColumnsProps extends ColumnType<any> {
   attr?: Partial<ItemChildAttr<any, any>>;
   /**组件类型  */
   type?: ItemChildType;
+  /** 是否是 List */
+  isList?: boolean;
+  /** list 组件参数 */
+  listAttr?: Omit<ListProps, 'children' | 'name'>;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */
@@ -124,6 +153,8 @@ export interface RefEditTableProps {
   add: () => void;
   /** 是否编辑中 */
   isEditing: (record: any) => boolean;
+  /** 是否是新增 */
+  isAddEdit: (record: any) => boolean;
   /** 编辑 id */
   editingKey: (string | number)[];
   /** 是否编辑 新增的数据 */
@@ -137,8 +168,9 @@ export interface RefEditTableProps {
 
 ```tsx
 import React from 'react';
-import { Input, Col, InputNumber } from 'antd';
+import { Input, Col, InputNumber, Button, Select, Form } from 'antd';
 import EditTable from 'carefree-antd-edit-table';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 const originData = [];
 
@@ -153,16 +185,66 @@ for (let i = 0; i < 5; i++) {
 
 export default () => {
   const [data, setData] = React.useState(originData);
+  const [tableProps, setTableProps] = React.useState({
+    isAdd: true,
+    isOpt: true,
+    optIsFirst: true,
+    optDeleteEditingDisabled: false,
+  });
   const columns = [
     {
       title: 'name',
       dataIndex: 'name',
-      width: '25%',
+      width: '15%',
       editable: true,
       type: 'Custom',
       inputNode: (edit) => {
         return <Input {...edit} />;
       },
+    },
+    {
+      title: 'isList',
+      dataIndex: 'list',
+      width: '15%',
+      editable: true,
+      type: 'Custom',
+      isList: true,
+      render: (text) => {
+        return (
+          text &&
+          (text || [])
+            .filter((it) => it)
+            .map((ite) => ite.first)
+            .join(',')
+        );
+      },
+      inputNode: (fields, { add, remove }, { errors }) => (
+        <>
+          {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+            <EditTable.Item
+              key={key}
+              {...restField}
+              name={[name, 'first']}
+              fieldKey={[fieldKey, 'first']}
+              rules={[
+                {
+                  required: true,
+                  whitespace: true,
+                  message: 'Missing first name',
+                },
+              ]}
+            >
+              <Input placeholder="First Name" />
+            </EditTable.Item>
+          ))}
+          <Form.Item>
+            <Button type="dashed" onClick={() => add()} icon={<PlusOutlined />}>
+              Add field
+            </Button>
+            <Form.ErrorList errors={errors} />
+          </Form.Item>
+        </>
+      ),
     },
     {
       title: 'age',
@@ -176,22 +258,73 @@ export default () => {
     {
       title: 'address',
       dataIndex: 'address',
-      width: '40%',
+      width: '20%',
       editable: true,
       type: 'Input',
     },
   ];
   return (
-    <EditTable
-      initValue={{ address: 2193 }}
-      onValuesChange={(list) => setData(list)}
-      rowKey="key"
-      optIsFirst={true}
-      dataSource={data}
-      columns={columns}
-      onSave={(list) => setData(list)}
-      isAdd={true}
-    />
+    <div>
+      <Button
+        onClick={() => {
+          setTableProps({
+            ...tableProps,
+            isOptDelete: !tableProps.isOptDelete,
+          });
+        }}
+      >
+        删除按钮
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({
+            ...tableProps,
+            optDeleteEditingDisabled: !tableProps.optDeleteEditingDisabled,
+          });
+        }}
+      >
+        删除按钮编辑禁用
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({ ...tableProps, isAdd: !tableProps.isAdd });
+        }}
+      >
+        新增按钮
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({ ...tableProps, multiple: !tableProps.multiple });
+        }}
+      >
+        多行编辑
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({ ...tableProps, optIsFirst: !tableProps.optIsFirst });
+        }}
+      >
+        操作列前或后
+      </Button>
+      <Button
+        onClick={() => {
+          setTableProps({ ...tableProps, isOpt: !tableProps.isOpt });
+        }}
+      >
+        无操作列
+      </Button>
+      <EditTable
+        initValue={{ address: 2193 }}
+        onValuesChange={(list) => setData(list)}
+        rowKey="key"
+        optIsFirst={true}
+        dataSource={data}
+        columns={columns}
+        onSave={(list) => setData(list)}
+        isAdd={true}
+        {...tableProps}
+      />
+    </div>
   );
 };
 ```
