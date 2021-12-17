@@ -1,11 +1,11 @@
 import request from './../server';
 
 // 调查询接口
-export const onSearch = async ({ Api, main, tableConfig }) => {
+export const onSearch = async ({ Api, main, tableConfig, apiName }) => {
   const { setBatchValue, getValue, tableLoading } = main;
   const { table } = tableConfig || {};
 
-  const api = Api['table'] || {};
+  const api = Api[apiName || 'table'] || {};
   if (!api.url) {
     return;
   }

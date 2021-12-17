@@ -23,7 +23,7 @@ const Tables = () => {
   const [_, setUpdateTime] = React.useState('');
   const { page, pageSize, total, dataSource, selectRowKeys } =
     getValue('table');
-  const { pagination, rowSelection, table } = tableConfig || {};
+  const { pagination, rowSelection, table, apiName } = tableConfig || {};
 
   const update = () => {
     setUpdateTime(new Date().getTime().toString());
@@ -38,7 +38,7 @@ const Tables = () => {
     ) {
       tableConfig.pagination.onChange(page, pageSize, main);
     } else {
-      onSearch({ main, tableConfig, Api });
+      onSearch({ main, tableConfig, Api, apiName });
     }
   };
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import SimpleForm from 'carefree-antd-form';
 import { useProTableConfigContext, useProTableContext } from './../Context';
-import request from './../server';
 import { onSearch } from './../utils/search';
 import { Card } from 'antd';
 
@@ -12,7 +11,7 @@ const Srarch = () => {
   const main = useProTableContext();
   const { setValue, registerId, unregister, getInitValue } = main;
   const [_, setUpdateTime] = React.useState('');
-  const { isSearch, initialValues, form } = search || {};
+  const { isSearch, initialValues, form, apiName } = search || {};
   const [forms] = SimpleForm.useForm(form);
 
   const update = () => {
@@ -70,7 +69,7 @@ const Srarch = () => {
                 if (search && search.onFinish) {
                   search.onFinish(value, main);
                 } else {
-                  onSearch({ main, tableConfig, Api });
+                  onSearch({ main, tableConfig, Api, apiName });
                 }
               },
               onRest: () => {

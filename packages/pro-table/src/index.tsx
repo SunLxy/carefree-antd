@@ -38,6 +38,7 @@ export interface PageProps extends TablePaginationConfig {
 export interface ProTableProps {
   /** 查询表单 */
   search?: SimpleFormProps & {
+    apiName?: string;
     onRest?: (main?: Store) => void;
     onFinish?: (value: any, main?: Store) => void;
   };
@@ -51,6 +52,7 @@ export interface ProTableProps {
   tableCardProps?: CardProps;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
+    apiName?: string;
     /** 表格数据初始值 **/
     table?: {
       /** 分页 */
