@@ -22,6 +22,11 @@ export default defineConfig({
       __dirname,
       './packages/pro-table/src/index.tsx',
     ),
+    'carefree-antd-transfer': resolve(
+      __dirname,
+      './packages/transfer/src/index.tsx',
+    ),
+    //
   },
   resolve: {
     includes: [
@@ -31,6 +36,7 @@ export default defineConfig({
       'packages/sortable/src',
       'packages/pro-table/src',
       'packages/edit-table/src',
+      'packages/transfer/src',
     ],
   },
 
