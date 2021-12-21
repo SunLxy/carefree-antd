@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/index.css';
+import './index.css';
 import ButtonGroup, { OperationType } from './ButtonGroup';
 import Table, { TableGroupProps } from './Table';
 import { getOperationResult } from './utils';
