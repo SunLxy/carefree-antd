@@ -1,0 +1,28 @@
+{
+  "name": "carefree-antd-transfer-search",
+  "version": "1.0.36",
+  "description": "穿梭框-查询",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "father-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "antd": "4.16.13",
+    "react": "17.x",
+    "@ant-design/icons": "4.6.3"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.15.0",
+    "@babel/runtime": "7.15.3",
+    "@types/react": "17.0.28"
+  }
+}

@@ -26,6 +26,10 @@ export default defineConfig({
       __dirname,
       './packages/transfer/src/index.tsx',
     ),
+    'carefree-antd-transfer-search': resolve(
+      __dirname,
+      './packages/transfer-search/src/index.tsx',
+    ),
     //
   },
   resolve: {
@@ -37,6 +41,7 @@ export default defineConfig({
       'packages/pro-table/src',
       'packages/edit-table/src',
       'packages/transfer/src',
+      'packages/transfer-search/src',
     ],
   },
 
