@@ -181,12 +181,14 @@ const TransferSearch = (
         onValuesChange={onValuesChange}
         leftSearch={{
           ...(leftSearch || {}),
-          initialValues: store.stores.left.search || {},
+          initialValues:
+            (initValue && initValue.left && initValue.left.search) || {},
           form: leftForm,
         }}
         rightSearch={{
           ...(rightSearch || {}),
-          initialValues: store.stores.right.search || {},
+          initialValues:
+            (initValue && initValue.right && initValue.right.search) || {},
           form: rightForm,
         }}
         onSearch={onSearch}

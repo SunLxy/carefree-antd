@@ -30,6 +30,9 @@ export default (props: SearchProps) => {
           colProps={{ span: 12 }}
           {...leftSearch}
           onFinish={() => onSearch('left')}
+          onRest={() => {
+            leftSearch.form?.resetFields();
+          }}
           onValuesChange={(value, allValue) =>
             onValuesChange(value, allValue, 'left')
           }
@@ -42,6 +45,9 @@ export default (props: SearchProps) => {
           layout="vertical"
           colProps={{ span: 12 }}
           {...rightSearch}
+          onRest={() => {
+            rightSearch.form?.resetFields();
+          }}
           onFinish={() => onSearch('right')}
           onValuesChange={(value, allValue) =>
             onValuesChange(value, allValue, 'right')
