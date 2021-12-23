@@ -150,8 +150,8 @@ const TransferSearch = (
     });
     const resuFig = after(result, type);
     if (resuFig !== false) {
-      onPageChange(1, store.stores.left.page, 'left');
-      onPageChange(1, store.stores.right.page, 'right');
+      onPageChange(1, store.stores.left.pageSize, 'left');
+      onPageChange(1, store.stores.right.pageSize, 'right');
     }
   };
 
