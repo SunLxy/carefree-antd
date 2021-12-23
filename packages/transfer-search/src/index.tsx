@@ -16,7 +16,8 @@ export type ApiType<T> = {
   after: (response: any, type: T) => false | object;
 };
 
-export interface TransferSearchProps extends Omit<SearchProps, 'onSearch'> {
+export interface TransferSearchProps
+  extends Omit<SearchProps, 'onSearch' | 'onValuesChange'> {
   /**  初始值 */
   initValue?: Partial<{
     left: Partial<StoreProps['left']>;
