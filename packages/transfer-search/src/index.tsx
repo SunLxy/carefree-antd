@@ -141,7 +141,7 @@ const TransferSearch = (
   const handleOperation = async (type: OperationType) => {
     const api = Api[type];
     const { url, options, before, after } = api;
-    const params = before(store.stores.left, type);
+    const params = before(store.stores[type], type);
     if (params === false) {
       return;
     }
