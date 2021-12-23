@@ -65,9 +65,7 @@ export interface TransferSearchRef {
   /** 查询 */
   onSearch: (type: 'left' | 'right') => Promise<void>;
   /** 状态存储数据 */
-  stores: StoreProps;
-  /** 更新 状态存储数据 */
-  setValue: Store['setValue'];
+  store: Store;
   /** 更新当前组件 */
   forceUpdate: () => void;
   /** 左侧 form */
@@ -91,17 +89,14 @@ const TransferSearch = (
   };
 
   // 状态存储器
-  const { stores, setValue } = React.useMemo(
-    () => new Store(forceUpdate, initValue),
-    [],
-  );
+  const store = React.useMemo(() => new Store(forceUpdate, initValue), []);
   // 查询
   const onSearch = async (type: 'left' | 'right') => {
     const api = Api[type];
     setLoading((pre) => ({ ...pre, [type]: true }));
     try {
       const { url, options, before, after } = api;
-      const params = before(stores.left, type);
+      const params = before(store.stores.left, type);
       if (params === false) {
         setLoading((pre) => ({ ...pre, [type]: false }));
         return;
@@ -114,7 +109,7 @@ const TransferSearch = (
       });
       const handlResult = after(result, type);
       if (handlResult !== false) {
-        setValue(handlResult, type);
+        store.setValue(handlResult, type);
       }
       setLoading((pre) => ({ ...pre, [type]: false }));
     } catch (err) {
@@ -127,7 +122,7 @@ const TransferSearch = (
     selectedRows: any[],
     type: 'left' | 'right',
   ) => {
-    setValue({ selectedKeys, selectedRows }, type);
+    store.setValue({ selectedKeys, selectedRows }, type);
   };
   // 翻页
   const onPageChange = (
@@ -135,14 +130,17 @@ const TransferSearch = (
     pageSize: number,
     type: 'left' | 'right',
   ) => {
-    setValue({ page, pageSize, selectedKeys: [], selectedRows: [] }, type);
+    store.setValue(
+      { page, pageSize, selectedKeys: [], selectedRows: [] },
+      type,
+    );
     onSearch(type);
   };
   // 中间操作按钮
   const handleOperation = async (type: OperationType) => {
     const api = Api[type];
     const { url, options, before, after } = api;
-    const params = before(stores.left, type);
+    const params = before(store.stores.left, type);
     if (params === false) {
       return;
     }
@@ -152,8 +150,8 @@ const TransferSearch = (
     });
     const resuFig = after(result, type);
     if (resuFig !== false) {
-      onPageChange(1, stores.left.page, 'left');
-      onPageChange(1, stores.right.page, 'right');
+      onPageChange(1, store.stores.left.page, 'left');
+      onPageChange(1, store.stores.right.page, 'right');
     }
   };
 
@@ -162,8 +160,7 @@ const TransferSearch = (
     onPageChange,
     onSelectedChange,
     onSearch,
-    stores,
-    setValue,
+    store,
     forceUpdate,
     leftForm,
     rightForm,
@@ -174,12 +171,12 @@ const TransferSearch = (
       <Search
         leftSearch={{
           ...(leftSearch || {}),
-          initialValues: stores.left.search || {},
+          initialValues: store.stores.left.search || {},
           form: leftForm,
         }}
         rightSearch={{
           ...(rightSearch || {}),
-          initialValues: stores.right.search || {},
+          initialValues: store.stores.right.search || {},
           form: rightForm,
         }}
         onSearch={onSearch}
@@ -189,11 +186,11 @@ const TransferSearch = (
         leftTable={{
           rowKey,
           columns,
-          page: stores.left.page,
-          pageSize: stores.left.pageSize,
-          total: stores.left.total,
-          dataList: stores.left.dataList,
-          selectedKeys: stores.left.selectedKeys,
+          page: store.stores.left.page,
+          pageSize: store.stores.left.pageSize,
+          total: store.stores.left.total,
+          dataList: store.stores.left.dataList,
+          selectedKeys: store.stores.left.selectedKeys,
           loading: loading.left,
           onSelectedChange: (selectedKeys, selectedRows) =>
             onSelectedChange(selectedKeys, selectedRows, 'left'),
@@ -203,11 +200,11 @@ const TransferSearch = (
         rightTable={{
           rowKey,
           columns,
-          page: stores.right.page,
-          pageSize: stores.right.pageSize,
-          total: stores.right.total,
-          dataList: stores.right.dataList,
-          selectedKeys: stores.right.selectedKeys,
+          page: store.stores.right.page,
+          pageSize: store.stores.right.pageSize,
+          total: store.stores.right.total,
+          dataList: store.stores.right.dataList,
+          selectedKeys: store.stores.right.selectedKeys,
           loading: loading.right,
           onSelectedChange: (selectedKeys, selectedRows) =>
             onSelectedChange(selectedKeys, selectedRows, 'right'),
