@@ -155,6 +155,14 @@ const TransferSearch = (
     }
   };
 
+  const onValuesChange = (
+    value: any,
+    allValue: any,
+    type: 'left' | 'right',
+  ) => {
+    store.setValue({ search: allValue }, type);
+  };
+
   React.useImperativeHandle(ref, () => ({
     handleOperation,
     onPageChange,
@@ -169,6 +177,7 @@ const TransferSearch = (
   return (
     <div>
       <Search
+        onValuesChange={onValuesChange}
         leftSearch={{
           ...(leftSearch || {}),
           initialValues: store.stores.left.search || {},

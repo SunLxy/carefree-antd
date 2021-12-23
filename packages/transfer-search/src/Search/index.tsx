@@ -9,10 +9,12 @@ export interface SearchProps {
   rightSearch: SimpleFormProps;
   /** 查询方法  */
   onSearch: (type: 'left' | 'right') => void;
+  /** 值更新 */
+  onValuesChange: (value: any, allValue: any, type: 'left' | 'right') => void;
 }
 
 export default (props: SearchProps) => {
-  const { leftSearch, rightSearch, onSearch } = props;
+  const { leftSearch, rightSearch, onSearch, onValuesChange } = props;
   return (
     <div
       style={{
@@ -28,6 +30,9 @@ export default (props: SearchProps) => {
           colProps={{ span: 12 }}
           {...leftSearch}
           onFinish={() => onSearch('left')}
+          onValuesChange={(value, allValue) =>
+            onValuesChange(value, allValue, 'left')
+          }
         />
       </div>
       <div style={{ width: 80 }}></div>
@@ -38,6 +43,9 @@ export default (props: SearchProps) => {
           colProps={{ span: 12 }}
           {...rightSearch}
           onFinish={() => onSearch('right')}
+          onValuesChange={(value, allValue) =>
+            onValuesChange(value, allValue, 'right')
+          }
         />
       </div>
     </div>
