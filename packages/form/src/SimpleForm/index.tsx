@@ -163,6 +163,7 @@ const InternalForm: React.ForwardRefRenderFunction<
                 style={{
                   float: 'left',
                   width: '100%',
+                  overflow: 'hidden',
                   ...((colProps || {}).style || {}),
                 }}
               >

@@ -59,7 +59,8 @@ export interface ColumnsProps extends ColumnType<any> {
 }
 
 /**  Item 组件  渲染的单个内部FromItem组件  */
-export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
+export interface EditableCellItemProps
+  extends Omit<FieldProps, 'label' | 'children'> {
   /** 当前行数据存储父级的name list时不用传 */
   preName?: string;
   /** 当前行的所有数据 */

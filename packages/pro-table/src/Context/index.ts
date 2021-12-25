@@ -66,6 +66,10 @@ export class Store {
     this.initialValues = clone(props || {}, false);
   }
 
+  get stores() {
+    return this.store;
+  }
+
   /** 用于组件存储  组件更新 */
   private components: { [k: string]: Function } = {};
   /** 字符串转数组 */

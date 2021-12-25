@@ -16,6 +16,7 @@ export const Cols = (props: ColProps) => {
       style={{
         float: 'left',
         width: '100%',
+        overflow: 'hidden',
         ...(style || {}),
       }}
     >

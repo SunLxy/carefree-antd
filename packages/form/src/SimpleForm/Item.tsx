@@ -355,6 +355,7 @@ export const itemRender = (
         style={{
           float: 'left',
           width: '100%',
+          overflow: 'hidden',
           ...((warpColProps || {}).style || {}),
           ...((colProps || {}).style || {}),
         }}
