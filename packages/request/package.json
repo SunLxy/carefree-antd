@@ -1,0 +1,31 @@
+{
+  "name": "carefree-request",
+  "version": "1.0.36",
+  "description": "简单处理 umi-request 请求参数",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "father-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "antd": "4.16.13",
+    "react": "17.x"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.15.0",
+    "@babel/runtime": "7.15.3",
+    "@types/react": "17.0.28"
+  },
+  "dependencies": {
+    "query-string": "7.0.1",
+    "umi-request": "1.4.0"
+  }
+}
