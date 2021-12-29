@@ -31,6 +31,8 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
 
   const [dataSource, setDataSource] = React.useState<any[]>([]);
 
+  const PopoverRef = React.useRef<any>(true);
+
   const inputRef = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(() => {
     if (inputRef.current) {
@@ -69,6 +71,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
       if (!isCheck) {
         nextValue = undefined;
       }
+      PopoverRef.current = false;
     }
     onChange && onChange(nextValue, nextValue);
   };
@@ -76,6 +79,10 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
   // 请求数据
   const debounceFetcher = React.useMemo(() => {
     const loadOptions = (value: any) => {
+      if (!PopoverRef.current) {
+        PopoverRef.current = true;
+        return;
+      }
       fetchRef.current += 1;
       const fetchId = fetchRef.current;
       if (request) {
