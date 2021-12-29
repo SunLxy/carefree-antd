@@ -34,7 +34,7 @@ const getCheck = (
     if (labelInValue && value) {
       return value[valueField] === item[valueField];
     } else {
-      return value === item;
+      return value === item[valueField];
     }
   }
   return false;

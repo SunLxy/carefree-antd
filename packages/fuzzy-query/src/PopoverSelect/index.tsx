@@ -33,6 +33,15 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
 
   const PopoverRef = React.useRef<any>(true);
 
+  const ValueField = React.useMemo(
+    () => (props.fieldNames && props.fieldNames.value) || 'value',
+    [props.fieldNames],
+  );
+  const LableField = React.useMemo(
+    () => (props.fieldNames && props.fieldNames.label) || 'label',
+    [props.fieldNames],
+  );
+
   const inputRef = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(() => {
     if (inputRef.current) {
@@ -40,12 +49,18 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
       setWidth(offsetWidth - 30);
     }
   }, []);
+
+  // 转换
+  const saveTr = (item: any) => {
+    const { [ValueField]: value, [LableField]: label } = item || {};
+    return { [ValueField]: value, [LableField]: label };
+  };
+
   // 选中数据
   const onClick = (item: any, isCheck: boolean) => {
-    const valueField = (props.fieldNames && props.fieldNames.value) || 'value';
-    let nextValue = item;
+    let nextValue = saveTr(item);
     if (!labelInValue) {
-      nextValue = item && item[valueField];
+      nextValue = item && nextValue[ValueField];
     }
     if (['tags', 'multiple'].includes(props.mode as string)) {
       if (Array.isArray(props.value)) {
@@ -55,7 +70,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
         } else {
           nextValue = props.value.filter((it) => {
             if (labelInValue && it) {
-              return it[valueField] !== nextValue[valueField];
+              return it[ValueField] !== nextValue[ValueField];
             }
             return it !== nextValue;
           });
@@ -73,7 +88,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
       }
       PopoverRef.current = false;
     }
-    onChange && onChange(nextValue, nextValue);
+    onChange && onChange(nextValue, item);
   };
   const fetchRef = React.useRef(0);
   // 请求数据
@@ -99,6 +114,13 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
     };
     return debounce(loadOptions, debounceTimeout);
   }, [request, debounceTimeout]);
+
+  const getOptions = () => {
+    return dataSource.map((item) => {
+      const { [ValueField]: value, [LableField]: label } = item;
+      return { [ValueField]: value, [LableField]: label };
+    });
+  };
 
   return (
     <Popover
@@ -134,7 +156,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
           value={props.value}
           notFoundContent={fetching ? <Spin size="small" /> : null}
           onChange={(value, item) => onChange && onChange(value, item)}
-          options={dataSource}
+          options={getOptions() as any}
           dropdownStyle={{ display: 'none' }}
         />
       </div>
