@@ -5,6 +5,7 @@
   "scripts": {
     "init": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
     "build:ui": "npm run bootstrap && npm run build",
+    "build:ui:form": "npm run bootstrap && lerna exec  --scope carefree-antd-form -- run build  ",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "build": "father-build",
