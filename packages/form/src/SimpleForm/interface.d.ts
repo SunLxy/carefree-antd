@@ -59,7 +59,7 @@ export type ItemChildAttr<T = any, K = any> =
   | InputNumberProps
   | SelectProps<T>
   | AutoCompleteProps
-  | CascaderProps
+  | CascaderProps<any>
   | CheckboxProps
   | DatePickerProps
   | MentionProps
