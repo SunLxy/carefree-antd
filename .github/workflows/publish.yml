@@ -18,8 +18,8 @@ jobs:
  
     - run: npm install
     # - run: npm run build:ui 
-    - run: npm run build:ui:form 
-    # - run: npm run docs:build
+    - run: npm run build
+    - run: npm run docs:build
 
     - name: Create Doc
       uses: peaceiris/actions-gh-pages@v3
@@ -76,9 +76,8 @@ jobs:
    
     - run: npm install @jsdevtools/npm-publish -g
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/form/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
-# 
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
