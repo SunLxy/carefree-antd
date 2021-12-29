@@ -1,5 +1,12 @@
 ---
-FuzzyQuery 模糊查询
+title: 快速开始
+order: 1
+nav:
+  order: 2
+  title: FuzzyQuery
+  path: /fuzzy-query
+group:
+  path: /
 ---
 
 ### 依赖安装
@@ -60,5 +67,5 @@ const Query = () => {
     </div>
   );
 };
-ReactDOM.render(<Query />, _mount_);
+export default Query;
 ```

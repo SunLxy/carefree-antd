@@ -32,7 +32,7 @@ export default defineConfig({
     ),
     'carefree-fuzzy-query': resolve(
       __dirname,
-      './packages/fuzzy-query/src/index.tsx',
+      './packages/fuzzy-query/src/index.ts',
     ),
     //
   },
