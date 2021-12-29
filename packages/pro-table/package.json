@@ -1,6 +1,6 @@
 {
   "name": "carefree-pro-table",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "查询表单/表格/操作表头 集合成一个组合组件",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -27,7 +27,7 @@
     "@types/react": "17.0.28"
   },
   "dependencies": {
-    "carefree-antd-form": "1.0.39",
+    "carefree-antd-form": "1.0.40",
     "carefree-utils": "1.0.15",
     "query-string": "7.0.1",
     "umi-request": "1.4.0"

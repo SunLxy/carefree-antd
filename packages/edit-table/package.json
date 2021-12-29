@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd-edit-table",
-  "version": "1.0.39",
+  "version": "1.0.40",
   "description": "`EditTable` 表格编辑组件",
   "main": "lib/index.js",
   "module": "es/index.js",
