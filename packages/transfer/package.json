@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd-transfer",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "description": "穿梭框",
   "main": "lib/index.js",
   "module": "es/index.js",
