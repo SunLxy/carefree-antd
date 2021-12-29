@@ -16,9 +16,9 @@ jobs:
       with:
         node-version: 14
  
-    - run: npm install
+    # - run: npm install
     # - run: npm run build:ui 
-    - run: npm run build
+    - run: npm run init
     - run: npm run docs:build
 
     - name: Create Doc

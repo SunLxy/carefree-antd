@@ -5,7 +5,6 @@
   "scripts": {
     "init": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
     "build:ui": "npm run bootstrap && npm run build",
-    "build:ui:form": "npm run bootstrap && lerna exec  --scope carefree-antd-form -- run build  ",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "build": "father-build",
@@ -36,21 +35,9 @@
     "@umijs/fabric": "2.8.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
-    "react": "17.0.2",
-    "immutability-helper": "3.1.1",
-    "lodash": "4.17.21",
-    "sortablejs": "1.14.0",
-    "umi-request": "1.4.0",
-    "query-string": "7.0.1",
-    "carefree-utils": "1.0.15",
-    "carefree-antd-form": "~1.0.34",
-    "carefree-antd-edit-table": "~1.0.34",
-    "carefree-pro-table": "~1.0.34"
+    "react": "17.0.2"
   },
   "devDependencies": {
-    "@types/immutability-helper": "2.6.3",
-    "@types/lodash": "4.14.172",
-    "@types/sortablejs": "1.10.7",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.0.2",
