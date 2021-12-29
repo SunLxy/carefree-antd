@@ -63,7 +63,7 @@ export type ItemChildAttr<T = any, K = any> =
   | InputNumberProps
   | SelectProps<T>
   | AutoCompleteProps
-  | CascaderProps
+  | CascaderProps<any>
   | CheckboxProps
   | DatePickerProps
   | MentionProps
@@ -112,7 +112,7 @@ export const getItem = ({ attr, type, inputNode }) => {
     const inputAttr = attr as AutoCompleteProps;
     renderItem = <AutoComplete {...inputAttr} />;
   } else if (type === 'Cascader') {
-    const inputAttr = attr as CascaderProps;
+    const inputAttr = attr as CascaderProps<any>;
     renderItem = <Cascader {...inputAttr} />;
   } else if (type === 'DatePicker') {
     const inputAttr = attr as DatePickerProps;
