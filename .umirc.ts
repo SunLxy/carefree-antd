@@ -30,6 +30,10 @@ export default defineConfig({
       __dirname,
       './packages/transfer-search/src/index.tsx',
     ),
+    'carefree-fuzzy-query': resolve(
+      __dirname,
+      './packages/fuzzy-query/src/index.tsx',
+    ),
     //
   },
   resolve: {
@@ -42,6 +46,7 @@ export default defineConfig({
       'packages/edit-table/src',
       'packages/transfer/src',
       'packages/transfer-search/src',
+      'packages/fuzzy-query/src',
     ],
   },
 
