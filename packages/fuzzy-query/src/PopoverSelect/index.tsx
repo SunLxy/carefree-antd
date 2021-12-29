@@ -11,6 +11,8 @@ export interface FuzzyQueryProps extends SelectProps<any> {
   ) => Promise<{ label: any; value: any; [s: string]: any }[]>;
   /** 延迟时间 */
   debounceTimeout?: number;
+  /** 提示框 宽度 */
+  tipWidth?: number;
 }
 const columnsDefault = [
   { dataIndex: 'label', title: '名称' },
@@ -24,6 +26,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
     columns = columnsDefault,
     request,
     debounceTimeout = 800,
+    tipWidth,
     ...rest
   } = props;
   const [width, setWidth] = React.useState(0);
@@ -45,8 +48,12 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
   const inputRef = React.useRef<HTMLDivElement>(null);
   React.useLayoutEffect(() => {
     if (inputRef.current) {
-      const offsetWidth = inputRef.current.offsetWidth;
-      setWidth(offsetWidth - 30);
+      if (tipWidth) {
+        setWidth(tipWidth);
+      } else {
+        const offsetWidth = inputRef.current.offsetWidth;
+        setWidth(offsetWidth - 30);
+      }
     }
   }, []);
 
@@ -102,14 +109,19 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
       const fetchId = fetchRef.current;
       if (request) {
         setFetching(true);
-        request(value).then((list) => {
-          if (fetchId !== fetchRef.current) {
-            // for fetch callback order
-            return;
-          }
-          setDataSource(list);
-          setFetching(false);
-        });
+        request(value)
+          .then((list) => {
+            if (fetchId !== fetchRef.current) {
+              // for fetch callback order
+              return;
+            }
+            setDataSource(list);
+            setFetching(false);
+          })
+          .catch(() => {
+            setDataSource([]);
+            setFetching(false);
+          });
       }
     };
     return debounce(loadOptions, debounceTimeout);
@@ -136,7 +148,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
           labelInValue={labelInValue}
           onClick={onClick}
           loading={fetching}
-          fieldNames={props.fieldNames}
+          ValueField={ValueField}
         />
       }
     >

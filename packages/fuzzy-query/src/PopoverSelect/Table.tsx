@@ -3,12 +3,18 @@ import { Table, TableProps, SelectProps } from 'antd';
 import './index.css';
 
 export interface TablesProps extends TableProps<any> {
+  /**  选中值 */
   value: SelectProps<any>['value'];
+  /** 表格宽度 */
   width: number;
+  /** 选中事件 */
   onClick: (item: any, isCheck: boolean) => void;
+  /** 选中类型 */
   mode: SelectProps<any>['mode'];
+  /** 是否是对象 */
   labelInValue: boolean;
-  fieldNames?: SelectProps<any>['fieldNames'];
+  /** 主键字段 */
+  ValueField: string;
 }
 
 const getCheck = (
@@ -16,14 +22,12 @@ const getCheck = (
   value: TablesProps['value'],
   mode: any,
   labelInValue: boolean,
-  fieldNames: SelectProps<any>['fieldNames'],
+  ValueField: string,
 ) => {
-  const valueField = (fieldNames && fieldNames.value) || 'value';
-
   if (['tags', 'multiple'].includes(mode) && Array.isArray(value)) {
     const fig = value.find((it) => {
       if (labelInValue && it) {
-        return it[valueField] === item[valueField];
+        return it[ValueField] === item[ValueField];
       }
       return it === value;
     });
@@ -32,34 +36,30 @@ const getCheck = (
     }
   } else {
     if (labelInValue && value) {
-      return value[valueField] === item[valueField];
+      return value[ValueField] === item[ValueField];
     } else {
-      return value === item[valueField];
+      return value === item[ValueField];
     }
   }
   return false;
 };
 
 export default (props: TablesProps) => {
-  const { value, width, onClick, mode, labelInValue, fieldNames, ...rest } =
+  const { value, width, onClick, mode, labelInValue, ValueField, ...rest } =
     props;
   const getCheckMome = React.useCallback(getCheck, [JSON.stringify(value)]);
   const onRow = (record: any) => {
-    const check = getCheckMome(record, value, mode, labelInValue, fieldNames);
+    const check = getCheckMome(record, value, mode, labelInValue, ValueField);
     return {
       onClick: () => onClick(record, !check),
       style: (check && { background: '#e6f7ff' }) || {},
     };
   };
-  const valueField = React.useMemo(
-    () => (fieldNames && fieldNames.value) || 'value',
-    [],
-  );
 
   return (
     <div className="fuzzy-query-table">
       <Table
-        rowKey={valueField}
+        rowKey={ValueField}
         onRow={onRow}
         size="small"
         pagination={false}
