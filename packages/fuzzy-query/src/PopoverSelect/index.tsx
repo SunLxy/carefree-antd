@@ -127,7 +127,6 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
           value={props.value}
           notFoundContent={fetching ? <Spin size="small" /> : null}
           onChange={(value, item) => onChange && onChange(value, item)}
-          open={true}
           options={dataSource}
           dropdownStyle={{ display: 'none' }}
         />
