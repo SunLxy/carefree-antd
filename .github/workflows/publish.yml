@@ -79,3 +79,5 @@ jobs:
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
+# 

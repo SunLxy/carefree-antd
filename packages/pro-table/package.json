@@ -1,6 +1,6 @@
 {
   "name": "carefree-pro-table",
-  "version": "1.0.37",
+  "version": "1.0.38",
   "description": "查询表单/表格/操作表头 集合成一个组合组件",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -16,7 +16,7 @@
   },
   "peerDependencies": {
     "@ant-design/icons": "4.6.3",
-    "antd": "4.16.13",
+    "antd": "4.17.4",
     "classnames": "2.3.1",
     "react": "17.x"
   },
