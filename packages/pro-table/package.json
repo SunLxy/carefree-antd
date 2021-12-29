@@ -27,7 +27,7 @@
     "@types/react": "17.0.28"
   },
   "dependencies": {
-    "carefree-antd-form": "1.0.17",
+    "carefree-antd-form": "1.0.38",
     "carefree-utils": "1.0.15",
     "query-string": "7.0.1",
     "umi-request": "1.4.0"
