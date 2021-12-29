@@ -31,7 +31,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
   } = props;
   const [width, setWidth] = React.useState(0);
   const [fetching, setFetching] = React.useState(false);
-
+  const [visible, setVisible] = React.useState(false);
   const [dataSource, setDataSource] = React.useState<any[]>([]);
 
   const PopoverRef = React.useRef<any>(true);
@@ -90,8 +90,10 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
         }
       }
     } else {
+      setVisible(false);
       if (!isCheck) {
         nextValue = undefined;
+        return;
       }
       PopoverRef.current = false;
     }
@@ -138,6 +140,10 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
     <Popover
       trigger="click"
       placement="bottomLeft"
+      visible={visible}
+      onVisibleChange={(vis) => {
+        setVisible(vis);
+      }}
       content={
         <Table
           columns={columns}
