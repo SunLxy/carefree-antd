@@ -17,7 +17,8 @@
   "peerDependencies": {
     "@ant-design/icons": "4.6.3",
     "antd": ">=4.16.13",
-    "react": "17.x"
+    "react": "17.x",
+    "carefree-antd-form": "1.0.38"
   },
   "license": "MIT",
   "devDependencies": {
