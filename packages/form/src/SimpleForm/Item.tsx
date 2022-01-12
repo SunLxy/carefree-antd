@@ -46,7 +46,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
 import { useFormWatchList } from './Watch';
-import { WatchListProps } from './interface';
+import { WatchListProps, SimpleFormProps } from './interface';
 import FormColItem, { FormItemsProps } from './FormItem';
 import Hide from './Hide';
 const { RangePicker } = DatePicker;
@@ -98,6 +98,8 @@ export const itemRender = (
     attrProps = {},
     watchList,
     name: formName,
+    layout,
+    isFloat,
   }: {
     /** 每一项 Col配置 */
     colProps: ColProps;
@@ -109,6 +111,8 @@ export const itemRender = (
     attrProps: Partial<ItemChildAttr>;
     watchList: WatchListProps;
     name: string;
+    layout: SimpleFormProps['layout'];
+    isFloat: boolean;
   },
 ) => {
   return config.map((item, index) => {
@@ -124,7 +128,23 @@ export const itemRender = (
       isHide,
       colProps = {},
     } = item;
-    const { style = {}, watch = true, ...itemOther } = itemAttr || {};
+    let colStyles: any = {};
+    if (isFloat) {
+      colStyles = {
+        float: 'left',
+        width: '100%',
+        overflow: 'hidden',
+        height: layout === 'inline' ? 54 : 74,
+      };
+    }
+
+    const {
+      style = {},
+      watch = true,
+      shouldUpdate,
+      dependencies,
+      ...itemOther
+    } = itemAttr || {};
     const { style: inputStyle = {} } = attr || {};
     let renderItem = undefined;
     if (type === 'Input') {
@@ -157,7 +177,7 @@ export const itemRender = (
           placeholder={`请输入${label}`}
           {...attrs}
           {...inputAttr}
-          style={{ ...attrStyle, ...inputStyle }}
+          style={{ width: '100%', ...attrStyle, ...inputStyle }}
         />
       );
     } else if (type === 'AutoComplete') {
@@ -325,8 +345,9 @@ export const itemRender = (
           {...(warpColProps || {})}
           {...(colProps || {})}
           style={{
-            float: 'left',
-            width: '100%',
+            ...colStyles,
+            height: 'auto',
+            overflow: 'auto',
             ...((warpColProps || {}).style || {}),
             ...((colProps || {}).style || {}),
           }}
@@ -346,6 +367,20 @@ export const itemRender = (
     ) {
       renderItem = <Warp key={index}>{renderItem}</Warp>;
     }
+
+    const deep: any = {};
+
+    if (shouldUpdate) {
+      deep.shouldUpdate = shouldUpdate;
+    } else if (!shouldUpdate && dependencies) {
+      deep.dependencies = dependencies;
+    } else if (
+      !shouldUpdate &&
+      !dependencies &&
+      typeof renderItem === 'function'
+    ) {
+      deep.dependencies = [name];
+    }
     renderItem = (
       <Col
         span={6}
@@ -353,14 +388,13 @@ export const itemRender = (
         {...(warpColProps || {})}
         {...(colProps || {})}
         style={{
-          float: 'left',
-          width: '100%',
-          overflow: 'hidden',
+          ...colStyles,
           ...((warpColProps || {}).style || {}),
           ...((colProps || {}).style || {}),
         }}
       >
         <Form.Item
+          {...deep}
           {...itemOther}
           name={name}
           label={label}

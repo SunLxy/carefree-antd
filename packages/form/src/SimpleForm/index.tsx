@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Row, Col } from 'antd';
-import { FormContext, useFormContext } from './FormContext';
+import { FormContext, useFormContext, ColStore } from './FormContext';
 
 import { useFormWatchList, useChildItemFun, getChildItemFun } from './Watch';
 
@@ -60,6 +60,8 @@ const InternalForm: React.ForwardRefRenderFunction<
     initialHide,
     form,
     subscribe,
+    layout = 'horizontal',
+    isFloat,
     ...rest
   } = props;
   const formRef = React.useRef<FormInstance>();
@@ -74,6 +76,8 @@ const InternalForm: React.ForwardRefRenderFunction<
       attrProps,
       watchList,
       name: props.name,
+      layout,
+      isFloat,
     };
     if (isSearch && displayPre) {
       if (!expand) {
@@ -135,54 +139,66 @@ const InternalForm: React.ForwardRefRenderFunction<
   React.useImperativeHandle(ref, () => formRef.current);
 
   return (
-    <HideContext.Provider value={hide}>
-      <FormContext.Provider
-        value={{
-          firstMont,
-          watchList: watchList || {},
-          form: forms,
-          itemRefHook: formRef.current,
-        }}
-      >
-        <Form {...rest} form={forms} className={clx} ref={formRef}>
-          <Row
-            gutter={24}
-            {...rowProps}
-            style={{
-              display: 'block',
-              height: 'auto',
-              overflow: 'hidden',
-              ...((rowProps || {}).style || {}),
-            }}
+    <ColStore.Provider value={isFloat}>
+      <HideContext.Provider value={hide}>
+        <FormContext.Provider
+          value={{
+            firstMont,
+            watchList: watchList || {},
+            form: forms,
+            itemRefHook: formRef.current,
+          }}
+        >
+          <Form
+            {...rest}
+            form={forms}
+            layout={layout}
+            className={clx}
+            ref={formRef}
           >
-            {getRender()}
-            {isSearch && (
-              <Col
-                span={6}
-                {...colProps}
-                style={{
-                  float: 'left',
-                  width: '100%',
-                  overflow: 'hidden',
-                  ...((colProps || {}).style || {}),
-                }}
-              >
-                <SearchBtn
-                  onRest={onRest}
-                  expand={expand}
-                  setExpand={setExpand}
-                  displayPre={displayPre}
-                  searchBtnItem={searchBtnItem}
-                  searchBtnProps={searchBtnProps}
-                  searchBtnRestProps={searchBtnRestProps}
-                  itemStyle={itemStyle}
-                />
-              </Col>
-            )}
-          </Row>
-        </Form>
-      </FormContext.Provider>
-    </HideContext.Provider>
+            <Row
+              gutter={24}
+              {...rowProps}
+              style={{
+                ...(isFloat
+                  ? {
+                      display: 'block',
+                      height: 'auto',
+                      overflow: 'hidden',
+                    }
+                  : {}),
+                ...((rowProps || {}).style || {}),
+              }}
+            >
+              {getRender()}
+              {isSearch && (
+                <Col
+                  span={6}
+                  {...colProps}
+                  style={{
+                    float: 'left',
+                    width: '100%',
+                    overflow: 'hidden',
+                    ...((colProps || {}).style || {}),
+                  }}
+                >
+                  <SearchBtn
+                    onRest={onRest}
+                    expand={expand}
+                    setExpand={setExpand}
+                    displayPre={displayPre}
+                    searchBtnItem={searchBtnItem}
+                    searchBtnProps={searchBtnProps}
+                    searchBtnRestProps={searchBtnRestProps}
+                    itemStyle={itemStyle}
+                  />
+                </Col>
+              )}
+            </Row>
+          </Form>
+        </FormContext.Provider>
+      </HideContext.Provider>
+    </ColStore.Provider>
   );
 };
 

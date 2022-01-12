@@ -30,7 +30,7 @@ group:
 ```tsx
 import React from 'react';
 import SimpleForm from 'carefree-antd-form';
-import { Button } from 'antd';
+import { Button, Form } from 'antd';
 import 'antd/dist/antd.css';
 
 export default () => {
@@ -60,39 +60,78 @@ export default () => {
             console.log('打印---》', value, allValue, hide, forms);
           },
         }}
-        colProps={{ xxl: 4, lg: 8 }}
+        colProps={{ span: 12 }}
         layout="vertical"
         config={[
           {
             label: '测试',
             name: 'namea',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试1',
             name: 'name1',
             type: 'Input',
-            isHide: true,
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试2',
             name: 'name2',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试3',
             name: 'name3',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试4',
             name: 'name4',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试5',
-            name: 'name5',
-            type: 'Input',
+            // name: 'name5',
+            type: 'Custom',
+            // itemAttr:{ dependencies:["name5"]},
+            render: (...arg) => {
+              console.log(arg);
+              return <div>----测试5</div>;
+            },
+          },
+          {
+            label: '测试6',
+            name: 'name6',
+            type: 'Custom',
+            render: <div>----测试6</div>,
           },
         ]}
       />

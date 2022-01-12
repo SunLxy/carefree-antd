@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, ColProps, FormItemProps } from 'antd';
+import { useColStore } from './FormContext';
 import SimpleForm from '.';
-
 export interface FormItemsProps extends FormItemProps {
   /** 每一项 Col配置 */
   colProps?: ColProps;
@@ -9,14 +9,20 @@ export interface FormItemsProps extends FormItemProps {
 
 export const Cols = (props: ColProps) => {
   const { children, style, ...rest } = props;
+  const isFloat = useColStore();
+
   return (
     <Col
       span={6}
       {...rest}
       style={{
-        float: 'left',
-        width: '100%',
-        overflow: 'hidden',
+        ...(isFloat
+          ? {
+              float: 'left',
+              width: '100%',
+              overflow: 'hidden',
+            }
+          : {}),
         ...(style || {}),
       }}
     >

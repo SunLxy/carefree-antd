@@ -132,6 +132,8 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   initialHide?: { [x: string]: boolean };
   // 用于多个form表单
   subscribe?: Subscribe;
+  /** 是否加 float 布局 */
+  isFloat?: boolean;
 }
 
 /** 外层嵌套的context的值 */
