@@ -5,5 +5,9 @@ export const FormContext = React.createContext<FormContextProps>({});
 
 export const useFormContext = () => React.useContext(FormContext);
 
-export const ColStore = React.createContext(false);
+export const ColStore = React.createContext({
+  isFloat: false,
+  isSetHeight: false,
+  layout: 'horizontal',
+});
 export const useColStore = () => React.useContext(ColStore);

@@ -62,6 +62,7 @@ const InternalForm: React.ForwardRefRenderFunction<
     subscribe,
     layout = 'horizontal',
     isFloat,
+    isSetHeight,
     ...rest
   } = props;
   const formRef = React.useRef<FormInstance>();
@@ -78,6 +79,7 @@ const InternalForm: React.ForwardRefRenderFunction<
       name: props.name,
       layout,
       isFloat,
+      isSetHeight,
     };
     if (isSearch && displayPre) {
       if (!expand) {
@@ -139,7 +141,7 @@ const InternalForm: React.ForwardRefRenderFunction<
   React.useImperativeHandle(ref, () => formRef.current);
 
   return (
-    <ColStore.Provider value={isFloat}>
+    <ColStore.Provider value={{ isFloat, isSetHeight, layout }}>
       <HideContext.Provider value={hide}>
         <FormContext.Provider
           value={{

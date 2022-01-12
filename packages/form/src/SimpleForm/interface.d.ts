@@ -134,6 +134,8 @@ export interface SimpleFormProps<T = any, K = any> extends FormProps {
   subscribe?: Subscribe;
   /** 是否加 float 布局 */
   isFloat?: boolean;
+  /** isFloat=true 时 是否设置每项默认高度  */
+  isSetHeight?: boolean;
 }
 
 /** 外层嵌套的context的值 */

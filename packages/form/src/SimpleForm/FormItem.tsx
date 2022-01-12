@@ -9,20 +9,25 @@ export interface FormItemsProps extends FormItemProps {
 
 export const Cols = (props: ColProps) => {
   const { children, style, ...rest } = props;
-  const isFloat = useColStore();
+  const { isFloat, isSetHeight, layout } = useColStore();
+  let colStyles: any = {};
+  if (isFloat) {
+    colStyles = {
+      float: 'left',
+      width: '100%',
+      overflow: 'hidden',
+    };
+    if (isSetHeight) {
+      colStyles.height = layout === 'inline' ? 54 : 74;
+    }
+  }
 
   return (
     <Col
       span={6}
       {...rest}
       style={{
-        ...(isFloat
-          ? {
-              float: 'left',
-              width: '100%',
-              overflow: 'hidden',
-            }
-          : {}),
+        ...colStyles,
         ...(style || {}),
       }}
     >

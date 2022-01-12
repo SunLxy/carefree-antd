@@ -100,6 +100,7 @@ export const itemRender = (
     name: formName,
     layout,
     isFloat,
+    isSetHeight,
   }: {
     /** 每一项 Col配置 */
     colProps: ColProps;
@@ -113,6 +114,7 @@ export const itemRender = (
     name: string;
     layout: SimpleFormProps['layout'];
     isFloat: boolean;
+    isSetHeight: boolean;
   },
 ) => {
   return config.map((item, index) => {
@@ -134,8 +136,10 @@ export const itemRender = (
         float: 'left',
         width: '100%',
         overflow: 'hidden',
-        height: layout === 'inline' ? 54 : 74,
       };
+      if (isSetHeight) {
+        colStyles.height = layout === 'inline' ? 54 : 74;
+      }
     }
 
     const {
