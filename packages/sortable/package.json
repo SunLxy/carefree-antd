@@ -17,6 +17,7 @@
   "files": [
     "lib",
     "es",
+    "src",
     "README.md"
   ],
   "scripts": {

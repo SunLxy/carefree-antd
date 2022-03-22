@@ -265,6 +265,37 @@ export default () => {
       inputNode: <InputNumber />,
     },
     {
+      title: 'age1',
+      dataIndex: 'age1',
+      width: '15%',
+      editable: true,
+      type: 'AutoComplete',
+      attr: {
+        style: { width: '100%' },
+        options: [
+          { label: '12', value: '12' },
+          { label: '1233', value: '1233' },
+        ],
+      },
+      rules: [{ required: true, message: '请输入' }],
+    },
+    {
+      title: 'age2',
+      dataIndex: 'age2',
+      width: '15%',
+      editable: true,
+      type: 'Select',
+      attr: {
+        style: { width: '100%' },
+        showSearch: true,
+        options: [
+          { label: 12, value: 12 },
+          { label: 14, value: 14 },
+        ],
+      },
+      rules: [{ required: true, message: '请输入' }],
+    },
+    {
       title: 'address',
       dataIndex: 'address',
       width: '20%',
@@ -327,7 +358,10 @@ export default () => {
       </Button>
       <EditTable
         initValue={{ address: 2193 }}
-        onValuesChange={(list) => setData(list)}
+        onValuesChange={(list, value, allValue, id, form) => {
+          setData(list);
+          // console.log(list, value, allValue, id, form)
+        }}
         rowKey="key"
         optIsFirst={true}
         dataSource={data}
