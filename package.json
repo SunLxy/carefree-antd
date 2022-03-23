@@ -32,7 +32,7 @@
     ]
   },
   "dependencies": {
-    "@umijs/fabric": "2.8.1",
+    "@umijs/fabric": "^2.10.2",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "react": "17.0.2",
@@ -41,7 +41,7 @@
     "sortablejs": "1.14.0",
     "umi-request": "1.4.0",
     "query-string": "7.0.1",
-    "carefree-utils": "1.0.15",
+    "carefree-utils": "~1.0.15",
     "carefree-antd-form": "~1.0.34",
     "carefree-antd-edit-table": "~1.0.34",
     "carefree-pro-table": "~1.0.34"
@@ -54,15 +54,15 @@
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.0.2",
     "@umijs/test": "3.5.20",
-    "dumi": "1.1.30",
-    "father-build": "1.20.1",
-    "gh-pages": "3.0.0",
+    "dumi": "^1.1.40",
+    "father-build": "^1.21.2",
+    "gh-pages": "^3.0.0",
     "lerna": "4.0.0",
     "lint-staged": "11.2.3",
     "antd": "4.17.4",
     "prettier": "2.4.1",
     "react-test-renderer": "17.0.2",
     "yorkie": "2.0.0",
-    "@types/react": "17.0.28"
+    "@types/react": "^17.0.28"
   }
 }
