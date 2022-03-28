@@ -3,9 +3,7 @@
   "name": "carefree-antd-root",
   "version": "1.0.42",
   "scripts": {
-    "init": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
     "build:ui": "npm run bootstrap && npm run build",
-    "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "build": "father-build",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
