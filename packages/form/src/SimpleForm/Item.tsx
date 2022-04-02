@@ -197,7 +197,7 @@ export const itemRender = (
       );
     } else if (type === 'Cascader') {
       const inputAttr = attr as CascaderProps<any>;
-      const attrs = attrProps as CascaderProps<any>;
+      const attrs = attrProps as any;
       renderItem = (
         <Cascader
           placeholder={`请选择${label}`}
