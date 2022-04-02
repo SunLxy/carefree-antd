@@ -55,6 +55,11 @@ jobs:
           npm i carefree-antd@${{steps.create_tag.outputs.version}}
           npm i carefree-antd-form@${{steps.create_tag.outputs.version}}
           npm i carefree-antd-edit-table@${{steps.create_tag.outputs.version}}
+          npm i carefree-antd-transfer-search@${{steps.create_tag.outputs.version}}
+          npm i carefree-antd-transfer@${{steps.create_tag.outputs.version}}
+          npm i carefree-pro-table@${{steps.create_tag.outputs.version}}
+          npm i carefree-sortable@${{steps.create_tag.outputs.version}}
+          npm i carefree-antd-transfer-search@${{steps.create_tag.outputs.version}}
           ```
           ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
@@ -80,3 +85,5 @@ jobs:
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer-search/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer/package.json
