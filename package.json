@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "carefree-antd-root",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "scripts": {
     "clean": "lerna clean --yes",
     "build": "father-build",
