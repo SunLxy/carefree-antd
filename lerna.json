@@ -1,12 +1,15 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
+  "version": "1.0.43",
   "command": {
-    "version": {
-      "exact": true
+    "create": {
+      "license": "MIT"
+    },
+    "bootstrap": {
+      "yarnClientArgs": ["--no-yarn-lock", "--no-package-lock"],
+      "forceLocal": true
     }
   },
   "npmClient": "yarn",
-  "version": "independent"
+  "useWorkspaces": true
 }
