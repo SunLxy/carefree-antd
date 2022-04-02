@@ -27,6 +27,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
     request,
     debounceTimeout = 800,
     tipWidth,
+    fieldNames,
     ...rest
   } = props;
   const [width, setWidth] = React.useState(0);
@@ -130,10 +131,27 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
   }, [request, debounceTimeout]);
 
   const getOptions = () => {
-    return dataSource.map((item) => {
+    const result = dataSource.map((item) => {
       const { [ValueField]: value, [LableField]: label } = item;
-      return { [ValueField]: value, [LableField]: label };
+      // return { [ValueField]: value, [LableField]: label };
+      // 暂时 为了解决 antd select  fieldNames 问题
+      return { label, value };
     });
+    return result;
+  };
+  // 暂时 为了解决 antd select  fieldNames 问题
+  const getValues = () => {
+    if (Array.isArray(props.value) && labelInValue) {
+      return props.value.map((item) => {
+        const { [ValueField]: value, [LableField]: label } = item;
+        return { label, value };
+      });
+    }
+    if (props.value && !props.mode && labelInValue) {
+      const { [ValueField]: value, [LableField]: label } = props.value;
+      return { label, value };
+    }
+    return props.value;
   };
 
   return (
@@ -171,7 +189,7 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
           onSearch={debounceFetcher}
           showSearch
           {...rest}
-          value={props.value}
+          value={getValues()}
           notFoundContent={fetching ? <Spin size="small" /> : null}
           onChange={(value, item) => onChange && onChange(value, item)}
           options={getOptions() as any}
