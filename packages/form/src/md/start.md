@@ -251,6 +251,42 @@ export default () => {
 
 ## 参数
 
+| 参数               | 类型                            | 默认值 | 说明                                     |
+| :----------------- | :------------------------------ | :----- | :--------------------------------------- |
+| config             | `SimpleFormConfigProps<T, K>[]` |        | 表单项配置集合                           |
+| isSearch           | `boolen`                        |        | 是否显示查询按钮和重置按钮               |
+| displayPre         | `number \| undefined`           |        | 只显示前面部分查询条件                   |
+| onRest             | `() => void`                    |        | 重置按钮条件                             |
+| searchBtnItem      | `FormItemProps`                 |        | 查询按钮 formItem 配置                   |
+| searchBtnProps     | `ButtonProps`                   |        | 查询按钮配置                             |
+| searchBtnRestProps | `ButtonProps`                   |        | 重置按钮配置                             |
+| rowProps           | `RowProps`                      |        | Row 配置                                 |
+| colProps           | `ColProps`                      |        | 每一项 Col 配置                          |
+| itemStyle          | `React.CSSProperties`           |        | 每个 item 中公共 style 样式              |
+| attrStyle          | `React.CSSProperties`           |        | 每个 表单输入控件公共属性 样式           |
+| attrProps          | `Partial<ItemChildAttr>`        |        | 每个 表单输入控件公共属性 除样式其他属性 |
+| watchList          | `WatchListProps`                |        | 监听字段                                 |
+| formHide           | `GetStoreProps`                 |        | Form.useFormItemHide 返回值              |
+| initialHide        | `{ [x: string]: boolean }`      |        | 初始值 隐藏显示 字段对应的值             |
+| subscribe          | `Subscribe`                     |        | 用于多个 form 表单                       |
+| children           | `React.ReactNode`               |        |                                          |
+
+**config 配置**
+
+| 参数       | 类型                                                                     | 默认值 | 说明                              |
+| :--------- | :----------------------------------------------------------------------- | :----- | :-------------------------------- |
+| type       | `ItemChildType`                                                          |        | 类型                              |
+| label      | `React.ReactNode`                                                        |        | formItem 表单 label 值            |
+| name       | `string \| number \| (string \| number)[]`                               |        | 类型                              |
+| itemAttr   | `Omit<FormItemProps, 'rules' \| 'label' \| 'name'> & { watch?: boolean}` |        | formItem 表单 其他属性值          |
+| attr       | `Partial<ItemChildAttr<T, K>>`                                           |        | formItem 表单 children 中组件参数 |
+| rules      | `Rule[]`                                                                 |        | formItem 表单 规则                |
+| render     | `React.ReactNode \| ((...arg: any) => React.ReactNode)`                  |        | 自定义渲染                        |
+| isItemList | `boolean`                                                                |        | 是否使用 list                     |
+| colProps   | `ColProps`                                                               |        | 每一项 Col 配置                   |
+
+**类型定义**
+
 ```ts
 export type ItemChildType =
   | 'Custom'
