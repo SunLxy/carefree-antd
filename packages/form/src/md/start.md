@@ -249,6 +249,60 @@ export default () => {
 };
 ```
 
+## 组合使用
+
+```tsx
+import React from 'react';
+import { Input, Col } from 'antd';
+import SimpleForm from 'carefree-antd-form';
+import 'antd/dist/antd.css';
+
+export default () => {
+  const [form] = SimpleForm.useForm();
+  const [state, setState] = React.useState({});
+  const { getFieldValue } = form;
+  const { updateValue } = SimpleForm.useChildItemFun(form);
+  console.log('组合--->', state);
+  return (
+    <SimpleForm
+      form={form}
+      layout="vertical"
+      isSearch={true}
+      config={[
+        {
+          label: '测试config',
+          name: 'namea',
+          type: 'Input',
+        },
+        {
+          label: '测试1config',
+          name: 'name1',
+          type: 'Input',
+        },
+      ]}
+      onValuesChange={(value, allValue) => {
+        setState({ ...allValue });
+      }}
+    >
+      <SimpleForm.ColItem
+        label="测试antd"
+        name="names0"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+      <SimpleForm.ColItem
+        label="测试3"
+        name="names3"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+    </SimpleForm>
+  );
+};
+```
+
 ## 参数
 
 | 参数               | 类型                            | 默认值 | 说明                                     |
