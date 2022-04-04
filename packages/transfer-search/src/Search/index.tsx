@@ -1,12 +1,11 @@
 import React from 'react';
-import { Row, Col, RowProps, ColProps } from 'antd';
 import SimpleForm, { SimpleFormProps } from 'carefree-antd-form';
 
 export interface SearchProps {
   /** 左侧表单配置 */
-  leftSearch: SimpleFormProps;
+  leftSearchConfig: SimpleFormProps;
   /** 右侧表单配置 */
-  rightSearch: SimpleFormProps;
+  rightSearchConfig: SimpleFormProps;
   /** 查询方法  */
   onSearch: (type: 'left' | 'right') => void;
   /** 值更新 */
@@ -14,7 +13,8 @@ export interface SearchProps {
 }
 
 export default (props: SearchProps) => {
-  const { leftSearch, rightSearch, onSearch, onValuesChange } = props;
+  const { leftSearchConfig, rightSearchConfig, onSearch, onValuesChange } =
+    props;
   return (
     <div
       style={{
@@ -28,10 +28,10 @@ export default (props: SearchProps) => {
           layout="vertical"
           isSearch
           colProps={{ span: 12 }}
-          {...leftSearch}
+          {...leftSearchConfig}
           onFinish={() => onSearch('left')}
           onRest={() => {
-            leftSearch.form?.resetFields();
+            leftSearchConfig.form?.resetFields();
           }}
           onValuesChange={(value, allValue) =>
             onValuesChange(value, allValue, 'left')
@@ -44,9 +44,9 @@ export default (props: SearchProps) => {
           isSearch
           layout="vertical"
           colProps={{ span: 12 }}
-          {...rightSearch}
+          {...rightSearchConfig}
           onRest={() => {
-            rightSearch.form?.resetFields();
+            rightSearchConfig.form?.resetFields();
           }}
           onFinish={() => onSearch('right')}
           onValuesChange={(value, allValue) =>

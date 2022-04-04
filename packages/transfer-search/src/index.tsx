@@ -24,9 +24,9 @@ export interface TransferSearchProps
     right: Partial<StoreProps['right']>;
   }>;
   /** 左侧 form */
-  leftForm?: SimpleFormProps['form'];
+  leftUseForm?: SimpleFormProps['form'];
   /** 右侧侧 form */
-  rightForm?: SimpleFormProps['form'];
+  rightUseForm?: SimpleFormProps['form'];
   /** 表格主键 */
   rowKey: string;
   /** 表格列 */
@@ -70,19 +70,26 @@ export interface TransferSearchRef {
   /** 更新当前组件 */
   forceUpdate: () => void;
   /** 左侧 form */
-  leftForm: SimpleFormProps['form'];
+  leftUseForm: SimpleFormProps['form'];
   /** 右侧侧 form */
-  rightForm: SimpleFormProps['form'];
+  rightUseForm: SimpleFormProps['form'];
 }
 
 const TransferSearch = (
   props: TransferSearchProps,
   ref: React.ForwardedRef<TransferSearchRef>,
 ) => {
-  const { Api, leftSearch, rightSearch, initValue, rowKey, columns } = props;
+  const {
+    Api,
+    leftSearchConfig,
+    rightSearchConfig,
+    initValue,
+    rowKey,
+    columns,
+  } = props;
   const [loading, setLoading] = React.useState({ left: false, right: false });
-  const [leftForm] = SimpleForm.useForm(props.leftForm);
-  const [rightForm] = SimpleForm.useForm(props.rightForm);
+  const [leftUseForm] = SimpleForm.useForm(props.leftUseForm);
+  const [rightUseForm] = SimpleForm.useForm(props.rightUseForm);
   const [_, setTime] = React.useState('');
   // 用于组件更新
   const forceUpdate = () => {
@@ -171,25 +178,25 @@ const TransferSearch = (
     onSearch,
     store,
     forceUpdate,
-    leftForm,
-    rightForm,
+    leftUseForm,
+    rightUseForm,
   }));
 
   return (
     <div>
       <Search
         onValuesChange={onValuesChange}
-        leftSearch={{
-          ...(leftSearch || {}),
+        leftSearchConfig={{
+          ...(leftSearchConfig || {}),
           initialValues:
             (initValue && initValue.left && initValue.left.search) || {},
-          form: leftForm,
+          form: leftUseForm,
         }}
-        rightSearch={{
-          ...(rightSearch || {}),
+        rightSearchConfig={{
+          ...(rightSearchConfig || {}),
           initialValues:
             (initValue && initValue.right && initValue.right.search) || {},
-          form: rightForm,
+          form: rightUseForm,
         }}
         onSearch={onSearch}
       />
