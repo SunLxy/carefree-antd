@@ -18,6 +18,8 @@
 | tableCardProps  | 表格 外层 card          | `CardProps`                                                                                                                                                                             |
 | tableConfig     | 表格配置                | `TableProps<any> & { apiName?: string,table?: { page?: number, pageSize?: number, dataSource?: any[],total?: number,selectRows?: any[], selectRowKeys?: any[],pagination?: PageProps,}` |
 
+[TableProps 类型参数](https://ant.design/components/table-cn/#API)
+
 **类型**
 
 ```ts
