@@ -9,6 +9,10 @@ group:
   path: /
 ---
 
+```bash
+ npm i carefree-antd-transfer
+```
+
 ## 参数
 
 | 参数             | 说明                    | 类型                                                                                                                                   |
