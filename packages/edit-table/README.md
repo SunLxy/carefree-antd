@@ -8,6 +8,29 @@
 
 ### 编辑表格 参数
 
+| 参数           | 说明                     | 类型                                                                                            |
+| :------------- | :----------------------- | :---------------------------------------------------------------------------------------------- |
+| columns        | 列                       | `ColumnsProps[]`                                                                                |
+| onSave         | 保存数据                 | `(data: any[], row: object, record?: object, indx?: number) => void`                            |
+| onBeforeSave   | 保存数据之前校验         | `(item: object, record: object, index: number) => boolean`                                      |
+| rowKey         | 主键                     | `string`                                                                                        |
+| optIsFirst     | 操作列是放在首位还是最后 | `boolean`                                                                                       |
+| isOpt          | 是否需要操作列           | `boolean`                                                                                       |
+| optConfig      | 操作配置                 | `ColumnsProps`                                                                                  |
+| isOptDelete    | 操作是否需要 删除 按钮   | `boolean`                                                                                       |
+| initValue      | 新增初始值               | `object`                                                                                        |
+| isAdd          | 是否存在新增按钮         | `boolean`                                                                                       |
+| onBeforeAdd    | 新增之前校验             | `() => boolean`                                                                                 |
+| onErr          | 行报错信息               | `(err: ValidateErrorEntity<any>) => void`                                                       |
+| onValuesChange | 表单值更新事件           | `(list: any[], value: object, allValue: object,id: string \| number, form: FormInstance)=>void` |
+| multiple       | 是否可以多行编辑         | `boolean`                                                                                       |
+| addBtnProps    | 新增按钮配置             | `AddBtnProps`                                                                                   |
+| store          | form 表单状态处理        | `Store`                                                                                         |
+
+[更多参数](https://ant.design/components/select-cn/#API)
+
+**类型**
+
 ```ts
 export interface EditableTableProps
   extends Omit<TableProps<any>, 'columns' | 'rowKey'> {
@@ -58,6 +81,16 @@ export interface EditableTableProps
 
 ### 单个 formItem 组件参数
 
+| 参数      | 说明                                    | 类型                                                                                                                                     |
+| :-------- | :-------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| preName   | 当前行数据存储父级的 name list 时不用传 | `ColumnsProps[]`                                                                                                                         |
+| itemValue | 当前行的所有数据                        | `(data: any[], row: object, record?: object, indx?: number) => void`                                                                     |
+| tipAttr   | Tooltip 组件属性                        | `(item: object, record: object, index: number) => boolean`                                                                               |
+| tip       | 错误提示                                | `string`                                                                                                                                 |
+| children  | 进行覆写,为方法时新增一个行参数 v       | `React.ReactElement \| ((control: { [name: string]: any }, meta: Meta, form: FormInstance<any>,v?: { record: any }) => React.ReactNode)` |
+
+[更多参数](https://github.com/react-component/field-form)
+
 ```ts
 /**  Item 组件  渲染的单个内部FromItem组件  */
 export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
@@ -82,6 +115,35 @@ export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
 ```
 
 ### 表格 列参数
+
+| 参数      | 说明                                                                                                      | 类型                                                                                                  |
+| :-------- | :-------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| editable  | 是否编辑                                                                                                  | `boolean`                                                                                             |
+| inputNode | 自定义 渲染编辑组件                                                                                       | `(data: any[], row: object, record?: object, indx?: number) => void`                                  |
+| rules     | 规则                                                                                                      | `(item: object, record: object, index: number) => boolean`                                            |
+| itemAttr  | formItem 表单 其他属性值                                                                                  | `string`                                                                                              |
+| attr      | formItem 表单 children 中组件参数                                                                         | `boolean`                                                                                             |
+| type      | 组件类型                                                                                                  | `boolean`                                                                                             |
+| isList    | 是否是 List                                                                                               | `ColumnsProps`                                                                                        |
+| listAttr  | list 组件参数                                                                                             | `boolean`                                                                                             |
+| tip       | 错误提示                                                                                                  | `object`                                                                                              |
+| tipAttr   | Tooltip 组件属性                                                                                          | `boolean`                                                                                             |
+| render    | 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染),other 参数 只有操作列才有 | `( value: any,record: any,index: number,other?: OtherProps,) => React.ReactNode \| RenderedCell<any>` |
+
+[更多参数](https://ant.design/components/table-cn/#Column)
+
+**OtherProps**
+
+| 参数       | 说明                                              | 类型                       |
+| :--------- | :------------------------------------------------ | :------------------------- | ------------------------------------------------ |
+| editingKey | 编辑中字段                                        | `any[]`                    |
+| editable   | 当前行 是否编辑                                   | `boolean`                  |
+| newAdd     | 处于编辑状态的 新增数据 key                       | `any[]`                    |
+| isNewAdd   | 是否新增的                                        | `boolean`                  |
+| save       | 保存 ，key:主键 ，record：行数据，index:下标      | `(key: string              | number, record: object, indx: number) => void`   |
+| cancel     | 取消 ， id：主键                                  | ` (id: string              | number) => void`                                 |
+| onDelete   | 删除 ，id：主键， rowItem 当前行数据 ，index:下标 | `(id: string               | number, rowItem: object, index: number) => void` |
+| edit       | 编辑 按钮 ，record 当前行数                       | `(record: object) => void` |
 
 ```ts
 // 表格 列参数
@@ -137,6 +199,19 @@ export interface OtherProps {
 ```
 
 ### ref 返回值
+
+| 参数       | 说明                                              | 类型                                                             |
+| :--------- | :------------------------------------------------ | :--------------------------------------------------------------- |
+| save       | 保存 ，key:主键 ，record：行数据，index:下标      | `(key: string \| number, record: object, indx: number) => void`  |
+| cancel     | 取消 ， id：主键                                  | `(id: string \| number) => void`                                 |
+| onDelete   | 删除 ，id：主键， rowItem 当前行数据 ，index:下标 | `(id: string \| number, rowItem: object, index: number) => void` |
+| edit       | 编辑 按钮 ，record 当前行数                       | `(record: object) => void`                                       |
+| add        | 新增                                              | `() => void`                                                     |
+| isEditing  | 是否编辑中                                        | `(record: any) => boolean`                                       |
+| isAddEdit  | 是否是新增                                        | `(record: any) => boolean`                                       |
+| editingKey | 编辑中字段                                        | `any[]`                                                          |
+| newAdd     | 处于编辑状态的 新增数据 key                       | `any[]`                                                          |
+| forms      | 收集 所有 表单                                    | `Store`                                                          |
 
 ```ts
 // ref 值
@@ -256,6 +331,37 @@ export default () => {
       inputNode: <InputNumber />,
     },
     {
+      title: 'age1',
+      dataIndex: 'age1',
+      width: '15%',
+      editable: true,
+      type: 'AutoComplete',
+      attr: {
+        style: { width: '100%' },
+        options: [
+          { label: '12', value: '12' },
+          { label: '1233', value: '1233' },
+        ],
+      },
+      rules: [{ required: true, message: '请输入' }],
+    },
+    {
+      title: 'age2',
+      dataIndex: 'age2',
+      width: '15%',
+      editable: true,
+      type: 'Select',
+      attr: {
+        style: { width: '100%' },
+        showSearch: true,
+        options: [
+          { label: 12, value: 12 },
+          { label: 14, value: 14 },
+        ],
+      },
+      rules: [{ required: true, message: '请输入' }],
+    },
+    {
       title: 'address',
       dataIndex: 'address',
       width: '20%',
@@ -263,6 +369,9 @@ export default () => {
       type: 'Input',
     },
   ];
+
+  console.log('data--->', data);
+
   return (
     <div>
       <Button
@@ -315,7 +424,10 @@ export default () => {
       </Button>
       <EditTable
         initValue={{ address: 2193 }}
-        onValuesChange={(list) => setData(list)}
+        onValuesChange={(list, value, allValue, id, form) => {
+          setData(list);
+          // console.log(list, value, allValue, id, form)
+        }}
         rowKey="key"
         optIsFirst={true}
         dataSource={data}
