@@ -9,7 +9,7 @@ group:
   path: /
 ---
 
-### 依赖安装
+## 依赖安装
 
 ```bash
  npm i carefree-antd-edit-table

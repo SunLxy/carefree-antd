@@ -1,6 +1,6 @@
 # carefree-antd-edit-table
 
-### 依赖安装
+## 依赖安装
 
 ```bash
  npm i carefree-antd-edit-table
