@@ -4,6 +4,7 @@
   "version": "1.0.43",
   "scripts": {
     "clean": "lerna clean --yes",
+    "build:ui": "npm run build && npm run copy:md",
     "build": "father-build",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "publish": "lerna publish",
@@ -11,6 +12,9 @@
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d docs-dist",
+    "copy:md": "npm run copy:md:lib && npm run copy:md:es",
+    "copy:md:lib": "lerna exec -- npm run copy:md:lib && npm run copy:md:es",
+    "copy:md:es": "lerna exec -- npm run copy:md:es ",
     "deploy": "npm run docs:build && npm run docs:deploy",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
@@ -47,7 +51,8 @@
     "umi-request": "^1.4.0",
     "yorkie": "2.0.0",
     "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14"
+    "@types/react-dom": "~17.0.14",
+    "copyfiles": "2.4.1"
   },
   "workspaces": {
     "packages": [

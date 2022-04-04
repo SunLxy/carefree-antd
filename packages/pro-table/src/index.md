@@ -9,7 +9,23 @@ group:
   path: /
 ---
 
+集成查询表单和表格，实现快速使用表单表格联合使用简单化，快速实现代码功能
+
 ### 参数
+
+| 参数            | 说明                    | 类型                                                                                                                                                                                    |
+| :-------------- | :---------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Api             | 接口调用 可以调用的接口 | `ApiProps`                                                                                                                                                                              |
+| columns         | 表格 columns            | `(v?: Store) => TableProps<any>['columns']\|TableProps<any>['columns']`                                                                                                                 |
+| main            | 状态 存储               | `Store`                                                                                                                                                                                 |
+| initialValues   | 初始值                  | `Store['store']`                                                                                                                                                                        |
+| searchHead      | 查询表单表头按钮        | `(v: Store) => React.ReactNode`                                                                                                                                                         |
+| searchCardProps | 查询表单 外层 card      | `CardProps`                                                                                                                                                                             |
+| tableHead       | 表格头部操作按钮        | `(v: Store) => React.ReactNode`                                                                                                                                                         |
+| tableCardProps  | 表格 外层 card          | `CardProps`                                                                                                                                                                             |
+| tableConfig     | 表格配置                | `TableProps<any> & { apiName?: string,table?: { page?: number, pageSize?: number, dataSource?: any[],total?: number,selectRows?: any[], selectRowKeys?: any[],pagination?: PageProps,}` |
+
+**类型**
 
 ```ts
 // 参数
@@ -30,6 +46,7 @@ export interface ProTableProps {
   tableCardProps?: CardProps;
   /** 表格配置 */
   tableConfig?: TableProps<any> & {
+    /** 接口名称 */
     apiName?: string;
     /** 表格数据初始值 **/
     table?: {
@@ -49,7 +66,9 @@ export interface ProTableProps {
     pagination?: PageProps;
   };
   /** 表格columns */
-  columns?: (v?: Store) => TableProps<any>['columns'];
+  columns?:
+    | ((v?: Store) => TableProps<any>['columns'])
+    | TableProps<any>['columns'];
   /** 接口调用  可以调用的接口 */
   Api?: ApiProps;
   /** 状态 存储 */
@@ -99,6 +118,7 @@ export default () => (
         method: 'POST',
       },
     }}
+    initialValues={{ search: { ces1: 123 } }}
     columns={[
       {
         title: '账号',

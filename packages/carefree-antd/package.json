@@ -12,7 +12,9 @@
   ],
   "scripts": {
     "build": "father-build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy:md:lib": "copyfiles -u 1 \"src/**/*.md\" lib",
+    "copy:md:es": "copyfiles -u 1 \"src/**/*.md\" es"
   },
   "peerDependencies": {
     "@ant-design/icons": "4.6.3",

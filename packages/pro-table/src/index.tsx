@@ -71,7 +71,9 @@ export interface ProTableProps {
     pagination?: PageProps;
   };
   /** 表格columns */
-  columns?: (v?: Store) => TableProps<any>['columns'];
+  columns?:
+    | ((v?: Store) => TableProps<any>['columns'])
+    | TableProps<any>['columns'];
   /** 接口调用  可以调用的接口 */
   Api?: ApiProps;
   /** 状态 存储 */
