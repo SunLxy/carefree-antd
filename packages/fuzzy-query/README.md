@@ -10,6 +10,17 @@ FuzzyQuery 模糊查询
 
 ### 参数
 
+| 参数            | 说明         | 类型                                                                        |
+| :-------------- | :----------- | :-------------------------------------------------------------------------- |
+| columns         | 表格 columns | `TablesProps['columns']`                                                    |
+| request         | 请求         | `( params: any) => Promise<{ label: any; value: any; [s: string]: any }[]>` |
+| debounceTimeout | 延迟时间     | `number`                                                                    |
+| tipWidth        | 提示框 宽度  | `number`                                                                    |
+
+[更多参数](https://ant.design/components/select-cn/#API)
+
+**类型**
+
 ```ts
 export interface FuzzyQueryProps extends SelectProps<any> {
   /** 表格标题 */
@@ -20,6 +31,8 @@ export interface FuzzyQueryProps extends SelectProps<any> {
   ) => Promise<{ label: any; value: any; [s: string]: any }[]>;
   /** 延迟时间 */
   debounceTimeout?: number;
+  /** 提示框 宽度 */
+  tipWidth?: number;
 }
 ```
 
@@ -60,5 +73,5 @@ const Query = () => {
     </div>
   );
 };
-ReactDOM.render(<Query />, _mount_);
+export default Query;
 ```
