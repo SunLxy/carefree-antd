@@ -143,16 +143,16 @@ export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
 
 **OtherProps**
 
-| 参数       | 说明                                              | 类型                                                            |
-| :--------- | :------------------------------------------------ | :-------------------------------------------------------------- | ------------------------------------------------ |
-| editingKey | 编辑中字段                                        | `any[]`                                                         |
-| editable   | 当前行 是否编辑                                   | `boolean`                                                       |
-| newAdd     | 处于编辑状态的 新增数据 key                       | `any[]`                                                         |
-| isNewAdd   | 是否新增的                                        | `boolean`                                                       |
-| save       | 保存 ，key:主键 ，record：行数据，index:下标      | `(key: string \| number, record: object, indx: number) => void` |
-| cancel     | 取消 ， id：主键                                  | `(id: string \| number) => void`                                |
-| onDelete   | 删除 ，id：主键， rowItem 当前行数据 ，index:下标 | `(id: string                                                    | number, rowItem: object, index: number) => void` |
-| edit       | 编辑 按钮 ，record 当前行数                       | `(record: object) => void`                                      |
+| 参数       | 说明                                              | 类型                                                             |
+| :--------- | :------------------------------------------------ | :--------------------------------------------------------------- |
+| editingKey | 编辑中字段                                        | `any[]`                                                          |
+| editable   | 当前行 是否编辑                                   | `boolean`                                                        |
+| newAdd     | 处于编辑状态的 新增数据 key                       | `any[]`                                                          |
+| isNewAdd   | 是否新增的                                        | `boolean`                                                        |
+| save       | 保存 ，key:主键 ，record：行数据，index:下标      | `(key: string \| number, record: object, indx: number) => void`  |
+| cancel     | 取消 ， id：主键                                  | `(id: string \| number) => void`                                 |
+| onDelete   | 删除 ，id：主键， rowItem 当前行数据 ，index:下标 | `(id: string \| number, rowItem: object, index: number) => void` |
+| edit       | 编辑 按钮 ，record 当前行数                       | `(record: object) => void`                                       |
 
 ```ts
 // 表格 列参数
