@@ -1,9 +1,8 @@
 # carefree-antd-form
 
-```bash
+````bash
  npm i carefree-antd-form
-```
-
+``
 > `SimpleForm`组件表单属性继承 `antd Form` 表单属性
 >
 > 1. `ItemWatch` 监听变化组件
@@ -14,13 +13,14 @@
 > 6. `useChildItemFun`和`getChildItemFun` 获取 form 内部更新单个字段值方法
 > 7. `useFormItemHide`和`HideItem` 用于组件隐藏使用
 > 8. `useSubscribe`、`FormSubscribeProvider` 、`useFormSubscribeProvider` 、`useSubscribeReginsterId` 用于收集 form 表单
+> 9. `Cols`:Col 组件加默认样式， `ColItem`:封装 Cols 和 Form.Item 组件 加默认参数，`ColWatchItem`:ColItem 和 监听组件进行合并
 
 ## 基础表单
 
 ```tsx
 import React from 'react';
 import SimpleForm from 'carefree-antd-form';
-import { Button } from 'antd';
+import { Button, Form } from 'antd';
 import 'antd/dist/antd.css';
 
 export default () => {
@@ -37,58 +37,98 @@ export default () => {
       <Button onClick={onClick}>检查form表单提交移除的项是否可以获取值</Button>
       <SimpleForm
         form={form}
+        name="tests"
         initialHide={{ name1: true }}
         watchList={{
-          namea: (value, allValue, forms, hide) => {
+          tests_namea: (value, allValue, forms, hide) => {
             const { updateValue } = hide;
             if (value === '12') {
-              hide.updateValue('name1', true);
+              hide.updateValue('tests_name1', true);
             } else {
-              hide.updateValue('name1', false);
+              hide.updateValue(['tests', 'name1'], false);
             }
             console.log('打印---》', value, allValue, hide, forms);
           },
         }}
-        colProps={{ xxl: 4, lg: 8 }}
+        colProps={{ span: 12 }}
         layout="vertical"
         config={[
           {
             label: '测试',
             name: 'namea',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea',
+            type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试1',
             name: 'name1',
             type: 'Input',
-            isHide: true,
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试2',
             name: 'name2',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试3',
             name: 'name3',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试4',
             name: 'name4',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
             label: '测试5',
-            name: 'name5',
-            type: 'Input',
+            // name: 'name5',
+            type: 'Custom',
+            // itemAttr:{ dependencies:["name5"]},
+            render: (...arg) => {
+              console.log(arg);
+              return <div>----测试5</div>;
+            },
+          },
+          {
+            label: '测试6',
+            name: 'name6',
+            type: 'Custom',
+            render: <div>----测试6</div>,
           },
         ]}
       />
     </div>
   );
 };
-```
+````
 
 ## 查询表单
 
@@ -171,41 +211,125 @@ export default () => {
         setState({ ...allValue });
       }}
     >
-      <Col span={6}>
-        <SimpleForm.Item
-          label="测试antd"
-          name="names0"
-          style={{ marginBottom: 5 }}
-        >
-          <Input />
-        </SimpleForm.Item>
-      </Col>
-      <Col span={6}>
-        <SimpleForm.Item
-          label="测试3"
-          name="names3"
-          style={{ marginBottom: 5 }}
-        >
-          <Input />
-        </SimpleForm.Item>
-      </Col>
+      <SimpleForm.ColItem
+        label="测试antd"
+        name="names0"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+      <SimpleForm.ColItem
+        label="测试3"
+        name="names3"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
       {getFieldValue(`names${0}`) !== '12' && (
-        <Col span={6}>
-          <SimpleForm.Item
-            label="测试4"
-            name="names4"
-            style={{ marginBottom: 5 }}
-          >
-            <Input />
-          </SimpleForm.Item>
-        </Col>
+        <SimpleForm.ColItem
+          label="测试4"
+          name="names4"
+          style={{ marginBottom: 5 }}
+        >
+          <Input />
+        </SimpleForm.ColItem>
       )}
     </SimpleForm>
   );
 };
 ```
 
+## 组合使用
+
+```tsx
+import React from 'react';
+import { Input, Col } from 'antd';
+import SimpleForm from 'carefree-antd-form';
+import 'antd/dist/antd.css';
+
+export default () => {
+  const [form] = SimpleForm.useForm();
+  const [state, setState] = React.useState({});
+  const { getFieldValue } = form;
+  const { updateValue } = SimpleForm.useChildItemFun(form);
+  console.log('组合--->', state);
+  return (
+    <SimpleForm
+      form={form}
+      layout="vertical"
+      isSearch={true}
+      config={[
+        {
+          label: '测试config',
+          name: 'namea',
+          type: 'Input',
+        },
+        {
+          label: '测试1config',
+          name: 'name1',
+          type: 'Input',
+        },
+      ]}
+      onValuesChange={(value, allValue) => {
+        setState({ ...allValue });
+      }}
+    >
+      <SimpleForm.ColItem
+        label="测试antd"
+        name="names0"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+      <SimpleForm.ColItem
+        label="测试3"
+        name="names3"
+        style={{ marginBottom: 5 }}
+      >
+        <Input />
+      </SimpleForm.ColItem>
+    </SimpleForm>
+  );
+};
+```
+
 ## 参数
+
+| 参数               | 类型                            | 默认值 | 说明                                     |
+| :----------------- | :------------------------------ | :----- | :--------------------------------------- |
+| config             | `SimpleFormConfigProps<T, K>[]` |        | 表单项配置集合                           |
+| isSearch           | `boolen`                        |        | 是否显示查询按钮和重置按钮               |
+| displayPre         | `number \| undefined`           |        | 只显示前面部分查询条件                   |
+| onRest             | `() => void`                    |        | 重置按钮条件                             |
+| searchBtnItem      | `FormItemProps`                 |        | 查询按钮 formItem 配置                   |
+| searchBtnProps     | `ButtonProps`                   |        | 查询按钮配置                             |
+| searchBtnRestProps | `ButtonProps`                   |        | 重置按钮配置                             |
+| rowProps           | `RowProps`                      |        | Row 配置                                 |
+| colProps           | `ColProps`                      |        | 每一项 Col 配置                          |
+| itemStyle          | `React.CSSProperties`           |        | 每个 item 中公共 style 样式              |
+| attrStyle          | `React.CSSProperties`           |        | 每个 表单输入控件公共属性 样式           |
+| attrProps          | `Partial<ItemChildAttr>`        |        | 每个 表单输入控件公共属性 除样式其他属性 |
+| watchList          | `WatchListProps`                |        | 监听字段                                 |
+| formHide           | `GetStoreProps`                 |        | Form.useFormItemHide 返回值              |
+| initialHide        | `{ [x: string]: boolean }`      |        | 初始值 隐藏显示 字段对应的值             |
+| subscribe          | `Subscribe`                     |        | 用于多个 form 表单                       |
+| children           | `React.ReactNode`               |        |                                          |
+
+**config 配置**
+
+| 参数       | 类型                                                                     | 默认值 | 说明                              |
+| :--------- | :----------------------------------------------------------------------- | :----- | :-------------------------------- |
+| type       | `ItemChildType`                                                          |        | 类型                              |
+| label      | `React.ReactNode`                                                        |        | formItem 表单 label 值            |
+| name       | `string \| number \| (string \| number)[]`                               |        | 类型                              |
+| itemAttr   | `Omit<FormItemProps, 'rules' \| 'label' \| 'name'> & { watch?: boolean}` |        | formItem 表单 其他属性值          |
+| attr       | `Partial<ItemChildAttr<T, K>>`                                           |        | formItem 表单 children 中组件参数 |
+| rules      | `Rule[]`                                                                 |        | formItem 表单 规则                |
+| render     | `React.ReactNode \| ((...arg: any) => React.ReactNode)`                  |        | 自定义渲染                        |
+| isItemList | `boolean`                                                                |        | 是否使用 list                     |
+| colProps   | `ColProps`                                                               |        | 每一项 Col 配置                   |
+
+**类型定义**
 
 ```ts
 export type ItemChildType =
