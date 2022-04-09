@@ -23,6 +23,9 @@
   "bugs": {
     "url": "https://github.com/SunLxy/carefree-antd/issues"
   },
+  "peerDependencies": {
+    "react": "17.x"
+  },
   "dependencies": {
     "@babel/runtime": "7.15.3",
     "rc-field-form": "1.25.0"
