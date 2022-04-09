@@ -64,7 +64,11 @@ class Hide extends React.Component<HideProps, HideState> {
     const { children } = this.props;
     // 默认 false 展示
     // 只是判断是否进行显示和隐藏
-    return !this.getValue() ? children : <React.Fragment />;
+    return !this.getValue() ? (
+      <React.Fragment>{children}</React.Fragment>
+    ) : (
+      <React.Fragment />
+    );
   }
 }
 
