@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd-transfer-search",
-  "version": "1.0.44",
+  "version": "1.0.45",
   "description": "穿梭框-查询",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -23,7 +23,7 @@
     "react": "17.x"
   },
   "dependencies": {
-    "carefree-antd-form": "1.0.44",
+    "carefree-antd-form": "1.0.45",
     "umi-request": "1.4.0"
   },
   "license": "MIT",
