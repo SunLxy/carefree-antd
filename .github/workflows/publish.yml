@@ -87,3 +87,4 @@ jobs:
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer-search/package.json
     - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer/package.json
+    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/from-utils/package.json
