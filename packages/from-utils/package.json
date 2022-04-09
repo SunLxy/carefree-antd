@@ -1,0 +1,35 @@
+{
+  "name": "carefree-rc-field-from-utils",
+  "version": "1.0.44",
+  "description": "根据 rc-field-from 封装的表单联动/隐藏/监听 组件或工具",
+  "author": "SunLxy <1011771396@qq.com>",
+  "homepage": "https://github.com/SunLxy/carefree-antd#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "esm",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SunLxy/carefree-antd.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/SunLxy/carefree-antd/issues"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.15.3",
+    "rc-field-form": "1.25.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.15.0",
+    "@types/react": "~17.0.43",
+    "@types/react-dom": "~17.0.14"
+  }
+}
