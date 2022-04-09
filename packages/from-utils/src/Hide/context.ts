@@ -14,12 +14,16 @@ export const HideContext = React.createContext<HideGetStoreProps>({
   getStoreState: warningFunc,
   setInitialValues: warningFunc,
   updateValue: warningFunc,
+  show: warningFunc,
+  hide: warningFunc,
   getItemStore: () => ({
     init: warningFunc,
     register: warningFunc,
     getStoreState: warningFunc,
     updateValue: warningFunc,
     getValue: warningFunc,
+    show: warningFunc,
+    hide: warningFunc,
   }),
 });
 

@@ -17,6 +17,8 @@ export interface HideGetItemStoreProps {
   getStoreState: (pathName?: InternalNamePath) => {
     [x: string]: boolean | undefined;
   };
+  show: (pathName: NamePath) => void;
+  hide: (pathName: NamePath) => void;
   updateValue: (pathName: NamePath, value: boolean) => void;
   getValue: (pathName: NamePath) => boolean | undefined;
 }
@@ -26,6 +28,8 @@ export interface HideGetStoreProps {
   getStoreState: (pathName?: InternalNamePath) => {
     [x: string]: boolean | undefined;
   };
+  show: (pathName: NamePath) => void;
+  hide: (pathName: NamePath) => void;
   getItemStore: () => HideGetItemStoreProps;
   setInitialValues: (init: {}, is: boolean) => void;
   updateValue: (pathName: NamePath, value: boolean) => void;

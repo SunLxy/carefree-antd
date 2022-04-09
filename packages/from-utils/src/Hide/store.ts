@@ -70,6 +70,8 @@ export class HideStore {
       getItemStore: this.getItemStore,
       setInitialValues: this.setInitialValues,
       updateValue: this.updateValue,
+      show: this.show,
+      hide: this.hide,
       // 批量更新
       bathUpdateValue: this.bathUpdateValue,
     };
@@ -82,6 +84,8 @@ export class HideStore {
       getStoreState: this.getStoreState,
       updateValue: this.updateValue,
       getValue: this.getValue,
+      show: this.show,
+      hide: this.hide,
       // 批量更新
       bathUpdateValue: this.bathUpdateValue,
     };
@@ -108,6 +112,14 @@ export class HideStore {
       this.store = setValue(this.store, path, bool);
     });
     this.bathNotifyObservers(Object.keys(value));
+  };
+
+  private hide = (pathName: NamePath) => {
+    this.updateValue(pathName, true);
+  };
+
+  private show = (pathName: NamePath) => {
+    this.updateValue(pathName, false);
   };
 
   // 更新值
