@@ -47,6 +47,7 @@ export default defineConfig({
       'packages/transfer/src',
       'packages/transfer-search/src',
       'packages/fuzzy-query/src',
+      'packages/from-utils/src',
     ],
   },
 

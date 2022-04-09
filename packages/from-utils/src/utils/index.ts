@@ -27,5 +27,8 @@ export const getNamePath = (path: NamePath) => {
   if (typeof path === 'string') {
     return path.split('_').filter((ite) => ite);
   }
+  if (typeof path === 'number') {
+    return [path];
+  }
   return path;
 };

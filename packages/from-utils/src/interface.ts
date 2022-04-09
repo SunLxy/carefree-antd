@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormProps } from 'rc-field-form';
-import { GetHideStoreProps } from './Hide/interface';
+import { HideGetStoreProps } from './Hide/interface';
 import {
   InternalFormInstance,
   InternalNamePath,
@@ -37,7 +37,7 @@ export interface CarefreeFormProps<M = ItemChildType, T = any, K = any>
   /** 监听字段 */
   watchList?: WatchListProps;
   /** Form.useFormItemHide 返回值  */
-  formHide?: GetHideStoreProps;
+  formHide?: HideGetStoreProps;
   /** 初始值 隐藏显示 字段对应的值 */
   initialHide?: { [x: string]: boolean };
   // 用于多个form表单
@@ -69,7 +69,7 @@ export interface WatchListProps {
     value: any,
     formValue?: any,
     child?: ChildPropsType,
-    hideContext?: GetHideStoreProps,
+    hideContext?: HideGetStoreProps,
     cx?: { forms: Subscribe['subForm']; hides: Subscribe['subHides'] },
   ) => void;
 }
