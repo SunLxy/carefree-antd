@@ -6,11 +6,11 @@
   "homepage": "https://github.com/SunLxy/carefree-antd#readme",
   "license": "MIT",
   "main": "lib/index.js",
-  "module": "lib/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",
-    "esm",
+    "es",
     "src"
   ],
   "repository": {
@@ -18,20 +18,22 @@
     "url": "git+https://github.com/SunLxy/carefree-antd.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "father-build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy:md:lib": "copyfiles -u 1 \"src/**/*.md\" lib",
+    "copy:md:es": "copyfiles -u 1 \"src/**/*.md\" es"
   },
   "bugs": {
     "url": "https://github.com/SunLxy/carefree-antd/issues"
   },
   "peerDependencies": {
-    "react": "17.x"
-  },
-  "dependencies": {
-    "@babel/runtime": "7.15.3",
-    "rc-field-form": "1.25.0"
+    "react": "17.x",
+    "rc-field-form": "^1.25.0"
   },
   "devDependencies": {
+    "rc-field-form": "^1.25.0",
     "@babel/core": "7.15.0",
+    "@babel/runtime": "7.15.3",
     "@types/react": "~17.0.43",
     "@types/react-dom": "~17.0.14"
   }

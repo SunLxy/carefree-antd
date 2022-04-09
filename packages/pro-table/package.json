@@ -3,7 +3,7 @@
   "version": "1.0.45",
   "description": "查询表单/表格/操作表头 集合成一个组合组件",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",

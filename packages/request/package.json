@@ -3,7 +3,7 @@
   "version": "1.0.45",
   "description": "简单处理 umi-request 请求参数",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",

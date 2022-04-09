@@ -3,7 +3,7 @@
   "version": "1.0.45",
   "description": "穿梭框",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",

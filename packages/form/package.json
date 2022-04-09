@@ -3,7 +3,7 @@
   "version": "1.0.45",
   "description": "`SimpleForm`组件表单属性继承 `antd Form` 表单属性",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "esm/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",
