@@ -19,7 +19,7 @@ npm i carefree-rc-field-from-utils
 
 为了简化使用 部分类型声明
 
-**每一项的 Form 配置**
+**Form 配置**
 
 ```ts
 // ItemChildType 为 string 类型的值 对应单个表单组件
