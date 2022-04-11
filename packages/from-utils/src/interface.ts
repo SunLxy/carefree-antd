@@ -11,6 +11,8 @@ import { Subscribe } from './Collect';
 
 export type ItemChildType = string | 'Custom';
 
+export type ItemChildAttr = any;
+
 /** config 配置项  */
 export interface CarefreeFormConfigProps<M = ItemChildType, T = any, K = any> {
   /** 类型 */
@@ -30,8 +32,11 @@ export interface CarefreeFormConfigProps<M = ItemChildType, T = any, K = any> {
   isHide?: boolean;
 }
 
-export interface CarefreeFormProps<M = ItemChildType, T = any, K = any>
-  extends FormProps {
+export interface CarefreeFormProps<
+  M = ItemChildType,
+  T = ItemChildAttr,
+  K = any,
+> extends FormProps {
   config?: CarefreeFormConfigProps<M, T, K>[];
   children?: React.ReactNode;
   /** 监听字段 */

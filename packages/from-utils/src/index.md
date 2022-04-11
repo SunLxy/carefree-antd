@@ -24,9 +24,14 @@ npm i carefree-rc-field-from-utils
 ```ts
 // ItemChildType 为 string 类型的值 对应单个表单组件
 export type ItemChildType = string | 'Custom'; // 默认 的类型
+// ItemChildAttr 为 any 类型 对应每个表单组件的参数
+export type ItemChildAttr = any; // 默认 的类型
 
-export interface CarefreeFormProps<M = ItemChildType, T = any, K = any>
-  extends FormProps {
+export interface CarefreeFormProps<
+  M = ItemChildType,
+  T = ItemChildAttr,
+  K = any,
+> extends FormProps {
   config?: CarefreeFormConfigProps<M, T, K>[];
   children?: React.ReactNode;
   /** 监听字段 */
