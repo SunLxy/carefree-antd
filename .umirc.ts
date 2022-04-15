@@ -11,6 +11,10 @@ export default defineConfig({
   proxy: {
     '/api': 'http://39.99.44.108:6666',
   },
+  navs: [
+    null,
+    { title: 'GitHub', path: 'https://github.com/SunLxy/carefree-antd' },
+  ],
   alias: {
     'carefree-antd-form': resolve(__dirname, './packages/form/src/index.ts'),
     'carefree-sortable': resolve(__dirname, './packages/sortable/src/index.ts'),
