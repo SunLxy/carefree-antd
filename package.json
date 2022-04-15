@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "carefree-antd-root",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "scripts": {
     "clean": "lerna clean --yes",
     "build:ui1": "npm run build && npm run copy:md",

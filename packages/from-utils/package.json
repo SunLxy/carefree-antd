@@ -1,6 +1,6 @@
 {
   "name": "carefree-rc-field-from-utils",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "description": "根据 rc-field-from 封装的表单联动/隐藏/监听 组件或工具",
   "author": "SunLxy <1011771396@qq.com>",
   "homepage": "https://github.com/SunLxy/carefree-antd#readme",
@@ -27,15 +27,15 @@
     "url": "https://github.com/SunLxy/carefree-antd/issues"
   },
   "peerDependencies": {
+    "rc-field-form": ">=1.25.0",
     "react": ">=17.x",
-    "react-dom": ">=17.x",
-    "rc-field-form": ">=1.25.0"
+    "react-dom": ">=17.x"
   },
   "devDependencies": {
-    "rc-field-form": "1.25.0",
     "@babel/core": "7.15.0",
     "@babel/runtime": "7.15.3",
     "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14"
+    "@types/react-dom": "~17.0.14",
+    "rc-field-form": "1.25.0"
   }
 }
