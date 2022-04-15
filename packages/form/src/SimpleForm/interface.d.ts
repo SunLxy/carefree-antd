@@ -156,5 +156,11 @@ export type ChildPropsType = (InternalFormInstance | {}) & {
 };
 export interface WatchListProps {
   /** 字段对应的 监听方法 */
-  [s: string]: (value: any, formValue?: any, child?: ChildPropsType) => void;
+  [s: string]: (
+    value: any,
+    formValue?: any,
+    child?: ChildPropsType,
+    hideContext?: GetStoreProps,
+    cx?: { forms: Subscribe['subForm']; hides: Subscribe['subHides'] },
+  ) => void;
 }

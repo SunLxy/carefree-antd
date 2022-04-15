@@ -11,7 +11,7 @@ import {
   GetStoreProps,
 } from './interface';
 
-class Store {
+export class HideStore {
   // 保存状态
   store = {};
 
@@ -151,7 +151,7 @@ const useStore = (form?: GetStoreProps) => {
     if (form) {
       formRef.current = form;
     } else {
-      const formStore: Store = new Store();
+      const formStore: HideStore = new HideStore();
       formRef.current = formStore.getStore();
     }
   }
