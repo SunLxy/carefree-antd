@@ -1,6 +1,7 @@
 import React from 'react';
 import { Popover, Select, SelectProps, Spin } from 'antd';
 import Table, { TablesProps } from './Table';
+import { DefaultOptionType } from 'rc-select/lib/Select';
 import { debounce } from 'lodash';
 export interface FuzzyQueryProps extends SelectProps<any> {
   /** 表格标题 */
@@ -133,13 +134,11 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
   const getOptions = () => {
     const result = dataSource.map((item) => {
       const { [ValueField]: value, [LableField]: label } = item;
-      // return { [ValueField]: value, [LableField]: label };
-      // 暂时 为了解决 antd select  fieldNames 问题
-      return { label, value };
+      return { [ValueField]: value, [LableField]: label };
     });
     return result;
   };
-  // 暂时 为了解决 antd select  fieldNames 问题
+
   const getValues = () => {
     if (Array.isArray(props.value) && labelInValue) {
       return props.value.map((item) => {
@@ -152,6 +151,27 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
       return { label, value };
     }
     return props.value;
+  };
+
+  const onValueChange = (
+    value: any,
+    option: DefaultOptionType | DefaultOptionType[],
+  ) => {
+    let newValue = value;
+    if (value && Array.isArray(value)) {
+      if (Array.isArray(props.value)) {
+        if (labelInValue) {
+          newValue = props.value.filter((oldItem) => {
+            return !!value.find((it) => it.value === oldItem[ValueField]);
+          });
+        } else {
+          newValue = props.value.filter((oldItem) => {
+            return !!value.find((it) => it === oldItem);
+          });
+        }
+      }
+    }
+    onChange && onChange(newValue, option);
   };
 
   return (
@@ -188,10 +208,11 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
           style={{ width: '100%' }}
           onSearch={debounceFetcher}
           showSearch
+          fieldNames={fieldNames}
           {...rest}
           value={getValues()}
           notFoundContent={fetching ? <Spin size="small" /> : null}
-          onChange={(value, item) => onChange && onChange(value, item)}
+          onChange={onValueChange}
           options={getOptions() as any}
           dropdownStyle={{ display: 'none' }}
         />
