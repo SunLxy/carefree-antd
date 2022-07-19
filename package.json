@@ -38,7 +38,7 @@
     "@umijs/fabric": "2.12.2",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
-    "@testing-library/react": "12.1.4",
+    "@testing-library/react": "12.1.5",
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.0.2",
     "@umijs/test": "^3.5.20",
