@@ -13,9 +13,7 @@
   ],
   "scripts": {
     "build": "father-build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "copy:md:lib": "copyfiles -u 1 \"src/**/*.md\" lib",
-    "copy:md:es": "copyfiles -u 1 \"src/**/*.md\" es"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
     "antd": ">=4.16.13",
