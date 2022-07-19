@@ -86,5 +86,5 @@ export interface ContextProps {
   /** Form.useForm() */
   form?: FormInstance<any>;
   /**   Form.useForm() 与这个一致 */
-  itemRefHook?: FormInstance<any>;
+  itemRefHook?: FormInstance<any> | null;
 }
