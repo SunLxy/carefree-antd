@@ -12,7 +12,7 @@ import { getNamePath } from './utils';
 export const FormContext = React.createContext<ContextProps>({});
 export const useFormContext = () => React.useContext(FormContext);
 
-export const FormParentNameContext = React.createContext<string | number>(
+export const FormParentNameContext = React.createContext<string | undefined>(
   undefined,
 );
 

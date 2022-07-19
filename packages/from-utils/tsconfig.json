@@ -9,13 +9,8 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "jsx": "react",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "@packages": ["packages/*"]
-    }
+    "baseUrl": "./"
   },
-  "include": ["./typings.d.ts", "packages/**/*.tsx", "packages/**/*.ts"],
-  "exclude": ["node_modules", "lib", "esm", "dist", "typings"]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

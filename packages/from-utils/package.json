@@ -10,7 +10,7 @@
   "types": "lib/index.d.ts",
   "files": [
     "lib",
-    "es",
+    "esm",
     "src"
   ],
   "repository": {
@@ -32,8 +32,8 @@
     "react-dom": ">=17.x"
   },
   "devDependencies": {
-    "@babel/core": "7.15.0",
-    "@babel/runtime": "7.15.3",
+    "@babel/core": "7.18.9",
+    "@babel/runtime": "7.18.9",
     "@types/react": "~17.0.43",
     "@types/react-dom": "~17.0.14",
     "rc-field-form": "1.25.0"
