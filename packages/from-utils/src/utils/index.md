@@ -26,3 +26,9 @@ group:
 转换成数组
 
 类型：`function toArray<T>(candidate?: T | T[] | false): T[]`
+
+## getRequired
+
+获取是否是必填
+
+类型：`function getRequired(required: boolean | undefined, rules: Rule[] | undefined, form: FormInstance) => boolean`
