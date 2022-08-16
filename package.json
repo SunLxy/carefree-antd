@@ -39,7 +39,7 @@
     "gh-pages": "3.2.3",
     "lerna": "5.0.0",
     "lint-staged": "11.2.6",
-    "antd": "4.19.5",
+    "antd": "4.22.5",
     "prettier": "2.7.1",
     "react-test-renderer": "17.0.2",
     "umi-request": "1.4.0",
