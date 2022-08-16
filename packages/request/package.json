@@ -27,7 +27,7 @@
     "@types/react-dom": "~17.0.14"
   },
   "dependencies": {
-    "query-string": "7.0.1",
+    "query-string": "7.1.1",
     "umi-request": "1.4.0"
   }
 }
