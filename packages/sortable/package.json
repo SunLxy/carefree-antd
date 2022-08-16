@@ -35,7 +35,7 @@
     "@types/lodash": "4.14.172",
     "@types/react": "~17.0.43",
     "@types/react-dom": "~17.0.14",
-    "@types/sortablejs": "1.10.7"
+    "@types/sortablejs": "1.13.0"
   },
   "dependencies": {
     "immutability-helper": "3.1.1",
