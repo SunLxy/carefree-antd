@@ -83,14 +83,23 @@ jobs:
     #       ```
     #       ${{ steps.changelog.outputs.compareurl }}
     #       ${{ steps.changelog.outputs.changelog }}
-   
-    - run: npm install @jsdevtools/npm-publish -g
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/form/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer-search/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer/package.json
-    - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/from-utils/package.json
+
+    # - run: npm install @jsdevtools/npm-publish -g
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/form/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer-search/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer/package.json
+    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/from-utils/package.json
+
+    - name: Publish 🚀
+      uses: SunLxy/npm-publish@main
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        cwd: packages
+        files: |
+        !store
+        !request
