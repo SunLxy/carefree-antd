@@ -101,5 +101,5 @@ jobs:
         token: ${{ secrets.NPM_TOKEN }}
         cwd: packages
         files: |
-        !store
-        !request
+          !store
+          !request
