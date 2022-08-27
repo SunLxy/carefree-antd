@@ -99,8 +99,7 @@ jobs:
       uses: SunLxy/npm-publish@main
       with:
         token: ${{ secrets.NPM_TOKEN }}
-        workspaces: packages/**
-        files: |
-          *
-          !store
-          !request
+        workspaces: | 
+          packages/*
+          !packages/store
+          !packages/request
