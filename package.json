@@ -38,7 +38,7 @@
     "dumi": "1.1.47",
     "lerna": "5.0.0",
     "lint-staged": "11.2.6",
-    "antd": "4.22.5",
+    "antd": "4.22.8",
     "prettier": "2.7.1",
     "react-test-renderer": "17.0.2",
     "umi-request": "1.4.0",
