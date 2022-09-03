@@ -36,7 +36,6 @@
     "@types/jest": "27.5.2",
     "@umijs/test": "^3.5.20",
     "dumi": "1.1.47",
-    "gh-pages": "3.2.3",
     "lerna": "5.0.0",
     "lint-staged": "11.2.6",
     "antd": "4.22.5",
@@ -45,8 +44,7 @@
     "umi-request": "1.4.0",
     "yorkie": "2.0.0",
     "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14",
-    "copyfiles": "2.4.1"
+    "@types/react-dom": "~17.0.14"
   },
   "workspaces": {
     "packages": [
