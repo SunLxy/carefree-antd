@@ -32,7 +32,7 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "@testing-library/react": "12.1.5",
-    "@testing-library/react-hooks": "7.0.2",
+    "@testing-library/react-hooks": "8.0.1",
     "@types/jest": "29.0.0",
     "@umijs/test": "^3.5.20",
     "dumi": "1.1.47",
