@@ -29,7 +29,7 @@
     "react": ">=17.x"
   },
   "devDependencies": {
-    "@babel/core": "7.18.10",
+    "@babel/core": "7.18.13",
     "@babel/runtime": "7.18.9",
     "@types/react": "~17.0.43",
     "rc-field-form": "1.25.0"
