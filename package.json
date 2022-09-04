@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "tsbb": "^3.7.6",
-    "@umijs/fabric": "2.12.2",
+    "@umijs/fabric": "2.14.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "@testing-library/react": "12.1.5",
