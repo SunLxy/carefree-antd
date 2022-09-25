@@ -150,7 +150,7 @@ export const itemRender = (
       ...itemOther
     } = itemAttr || {};
     const { style: inputStyle = {} } = attr || {};
-    let renderItem = undefined;
+    let renderItem: React.ReactNode = undefined;
     if (type === 'Input') {
       const inputAttr = attr as InputProps;
       const attrs = attrProps as InputProps;
@@ -260,7 +260,9 @@ export const itemRender = (
         />
       );
     } else if (type === 'Checkbox') {
-      const inputAttr = attr as CheckboxGroupProps;
+      const inputAttr = attr as React.ForwardRefExoticComponent<
+        CheckboxGroupProps & React.RefAttributes<HTMLDivElement>
+      >;
       const attrs = attrProps as CheckboxGroupProps;
       renderItem = (
         <Checkbox.Group
@@ -325,7 +327,7 @@ export const itemRender = (
       const inputAttr = attr as RangePickerProps;
       const attrs = attrProps as RangePickerProps;
       renderItem = (
-        <RangePicker
+        <DatePicker.RangePicker
           {...attrs}
           {...inputAttr}
           style={{ width: '100%', ...attrStyle, ...inputStyle }}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Input,
   FormProps,
   FormItemProps,
   ButtonProps,
@@ -21,6 +22,8 @@ import {
   TimePickerProps,
   UploadProps,
 } from 'antd';
+import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
+
 import { GetStoreProps } from './Hide/interface';
 import { RangePickerProps } from 'antd/lib/date-picker/index';
 
@@ -33,6 +36,38 @@ import {
 } from 'rc-field-form/lib/interface';
 
 import { Subscribe } from './Collect';
+
+interface ItemType<T, P> {
+  /** 类型 */
+  type: T;
+  /** formItem 表单 children 中组件参数*/
+  attr?: P;
+}
+
+export type ItemChild<T = any, P = any> =
+  | ItemType<'Input', InputProps>
+  | ItemType<'InputNumber', InputNumberProps>
+  | ItemType<'TextArea', TextAreaProps>
+  | ItemType<'Select', SelectProps<T>>
+  | ItemType<'AutoComplete', AutoCompleteProps>
+  | ItemType<'Cascader', CascaderProps<P>>
+  | ItemType<
+      'Checkbox',
+      React.ForwardRefExoticComponent<
+        CheckboxGroupProps & React.RefAttributes<HTMLDivElement>
+      >
+    >
+  | ItemType<'DatePicker', DatePickerProps>
+  | ItemType<'Mentions', MentionProps>
+  | ItemType<'Radio', RadioProps>
+  | ItemType<'Rate', RateProps>
+  | ItemType<'Slider', SliderSingleProps>
+  | ItemType<'Switch', SwitchProps>
+  | ItemType<'TimePicker', TimePickerProps>
+  | ItemType<'TreeSelect', TreeSelectProps>
+  | ItemType<'Upload', UploadProps>
+  | ItemType<'RangePicker', RangePickerProps>
+  | ItemType<'Custom', any>;
 
 export type ItemChildType =
   | 'Custom'
@@ -74,9 +109,8 @@ export type ItemChildAttr<T = any, K = any> =
   | RangePickerProps;
 
 /** config 配置项  */
-export interface SimpleFormConfigProps<T = any, K = any> {
-  /** 类型 */
-  type: ItemChildType;
+export type SimpleFormConfigProps<T = any, K = any> = {
+  // /** 类型 */
   /** formItem 表单 label 值 */
   label?: string | React.ReactNode;
   /** formItem 表单 name 值 */
@@ -86,7 +120,7 @@ export interface SimpleFormConfigProps<T = any, K = any> {
     /** 用于当前的Item项是否用于监听，(前提是watchList设置了) */ watch?: boolean;
   };
   /** formItem 表单 children 中组件参数*/
-  attr?: Partial<ItemChildAttr<T, K>>;
+  // attr?: ItemChild<T, K>;
   /** formItem 表单 规则*/
   rules?: Rule[];
   render?: React.ReactNode | ((...arg: any) => React.ReactNode);
@@ -96,7 +130,7 @@ export interface SimpleFormConfigProps<T = any, K = any> {
   colProps?: ColProps;
   // 是否启用组件隐藏显示
   isHide?: boolean;
-}
+} & ItemChild<T, K>;
 
 export interface SimpleFormProps<T = any, K = any> extends FormProps {
   config?: SimpleFormConfigProps<T, K>[];
