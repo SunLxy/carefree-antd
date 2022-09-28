@@ -155,8 +155,41 @@ export interface EditableCellItemProps extends Omit<FieldProps, 'label'> {
 | edit       | 编辑 按钮 ，record 当前行数                       | `(record: object) => void`                                       |
 
 ```ts
+interface ItemType<T, P> {
+  /** 类型 */
+  type: T;
+  /** formItem 表单 children 中组件参数*/
+  attr?: P;
+}
+
+export type ItemChild<T = any, P = any> =
+  | ItemType<'Input', InputProps>
+  | ItemType<'InputNumber', InputNumberProps>
+  | ItemType<'TextArea', TextAreaProps>
+  | ItemType<'Select', SelectProps<T>>
+  | ItemType<'AutoComplete', AutoCompleteProps>
+  | ItemType<'Cascader', CascaderProps<P>>
+  | ItemType<
+      'Checkbox',
+      React.ForwardRefExoticComponent<
+        CheckboxGroupProps & React.RefAttributes<HTMLDivElement>
+      >
+    >
+  | ItemType<'DatePicker', DatePickerProps>
+  | ItemType<'Mentions', MentionProps>
+  | ItemType<'Radio', RadioProps>
+  | ItemType<'Rate', RateProps>
+  | ItemType<'Slider', SliderSingleProps>
+  | ItemType<'Switch', SwitchProps>
+  | ItemType<'TimePicker', TimePickerProps>
+  | ItemType<'TreeSelect', TreeSelectProps>
+  | ItemType<'Upload', UploadProps>
+  | ItemType<'RangePicker', RangePickerProps>
+  | ItemType<'Custom', any>;
+
 // 表格 列参数
-export interface ColumnsProps extends ColumnType<any> {
+
+export type ColumnsProps = ColumnType<any> & {
   /** 是否编辑  */
   editable?: boolean;
   /** 自定义 渲染编辑组件 */
@@ -165,18 +198,16 @@ export interface ColumnsProps extends ColumnType<any> {
   rules?: Rule[];
   /** formItem 表单 其他属性值*/
   itemAttr?: Omit<FieldProps, 'rules' | 'label' | 'name'>;
-  /** formItem 表单 children 中组件参数*/
-  attr?: Partial<ItemChildAttr<any, any>>;
   /**组件类型  */
-  type?: ItemChildType;
-  /** 是否是 List */
-  isList?: boolean;
-  /** list 组件参数 */
-  listAttr?: Omit<ListProps, 'children' | 'name'>;
+  // type?: ItemChildType;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */
   tipAttr?: TooltipProps;
+  /** 是否是 List */
+  isList?: boolean;
+  /** list 组件参数 */
+  listAttr?: Omit<ListProps, 'children' | 'name'>;
   /** 自定义 渲染(列原始默认的自定义渲染,加了个 other 参数，不是编辑状态下的表格渲染)  ， other 参数 只有操作列才有 */
   render?: (
     value: any,
@@ -184,7 +215,7 @@ export interface ColumnsProps extends ColumnType<any> {
     index: number,
     other?: OtherProps,
   ) => React.ReactNode | RenderedCell<any>;
-}
+} & ItemChild<any, any>;
 
 // ColumnsProps 中  render 中的 other 参数值
 export interface OtherProps {

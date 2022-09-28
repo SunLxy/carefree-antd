@@ -4,7 +4,7 @@ import { FieldProps } from 'rc-field-form/lib/Field';
 import { ColumnType } from 'antd/lib/table';
 import { RenderedCell } from 'rc-table/lib/interface';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { ItemChildAttr, ItemChildType } from './utils';
+import { ItemChild } from './utils';
 import Store from './Store';
 import { FormInstance, Meta, Rule } from 'rc-field-form/lib/interface';
 import { ListProps } from 'rc-field-form/lib/List';
@@ -28,7 +28,7 @@ export interface OtherProps {
   edit: (record: object) => void;
 }
 
-export interface ColumnsProps extends ColumnType<any> {
+export type ColumnsProps = ColumnType<any> & {
   /** 是否编辑  */
   editable?: boolean;
   /** 自定义 渲染编辑组件 */
@@ -37,10 +37,6 @@ export interface ColumnsProps extends ColumnType<any> {
   rules?: Rule[];
   /** formItem 表单 其他属性值*/
   itemAttr?: Omit<FieldProps, 'rules' | 'label' | 'name'>;
-  /** formItem 表单 children 中组件参数*/
-  attr?: Partial<ItemChildAttr<any, any>>;
-  /**组件类型  */
-  type?: ItemChildType;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */
@@ -56,7 +52,7 @@ export interface ColumnsProps extends ColumnType<any> {
     index: number,
     other?: OtherProps,
   ) => React.ReactNode | RenderedCell<any>;
-}
+} & ItemChild<any, any>;
 
 /**  Item 组件  渲染的单个内部FromItem组件  */
 export interface EditableCellItemProps

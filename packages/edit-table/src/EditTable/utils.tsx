@@ -38,6 +38,38 @@ import {
   UploadProps,
 } from 'antd';
 
+interface ItemType<T, P> {
+  /** 类型 */
+  type: T;
+  /** formItem 表单 children 中组件参数*/
+  attr?: P;
+}
+
+export type ItemChild<T = any, P = any> =
+  | ItemType<'Input', InputProps>
+  | ItemType<'InputNumber', InputNumberProps>
+  | ItemType<'TextArea', TextAreaProps>
+  | ItemType<'Select', SelectProps<T>>
+  | ItemType<'AutoComplete', AutoCompleteProps>
+  | ItemType<'Cascader', CascaderProps<P>>
+  | ItemType<
+      'Checkbox',
+      React.ForwardRefExoticComponent<
+        CheckboxGroupProps & React.RefAttributes<HTMLDivElement>
+      >
+    >
+  | ItemType<'DatePicker', DatePickerProps>
+  | ItemType<'Mentions', MentionProps>
+  | ItemType<'Radio', RadioProps>
+  | ItemType<'Rate', RateProps>
+  | ItemType<'Slider', SliderSingleProps>
+  | ItemType<'Switch', SwitchProps>
+  | ItemType<'TimePicker', TimePickerProps>
+  | ItemType<'TreeSelect', TreeSelectProps>
+  | ItemType<'Upload', UploadProps>
+  | ItemType<'RangePicker', RangePickerProps>
+  | ItemType<'Custom', any>;
+
 export type ItemChildType =
   | 'Custom'
   | 'Input'
