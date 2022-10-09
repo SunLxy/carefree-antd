@@ -37,7 +37,7 @@ jobs:
       uses: jaywcjlove/create-tag-action@v1.3.12
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        package-path: ./package.json
+        package-path: ./packages/carefree-antd/package.json
 
     - name: Generate changelog
       id: changelog
