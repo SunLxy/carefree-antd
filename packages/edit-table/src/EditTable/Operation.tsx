@@ -4,7 +4,7 @@ import {
   ColumnsProps,
   EditableTableProps,
   RefEditTableProps,
-} from './interface.d';
+} from './interface';
 export type { ColumnsProps, EditableTableProps, RefEditTableProps };
 /** 操作列配置 */
 const operation = ({

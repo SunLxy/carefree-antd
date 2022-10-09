@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'antd';
 import RcForm from 'rc-field-form';
 import { getItem, getFieldId, toArray } from './utils';
-import { EditableCellItemProps } from './interface.d';
+import { EditableCellItemProps } from './interface';
 const EditableCell = ({
   editing,
   dataIndex,
