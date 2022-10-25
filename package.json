@@ -27,14 +27,14 @@
     ]
   },
   "devDependencies": {
-    "tsbb": "^3.7.6",
+    "tsbb": "3.7.8",
     "@umijs/fabric": "2.14.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "@testing-library/react": "13.3.0",
     "@testing-library/react-hooks": "8.0.1",
     "@types/jest": "29.0.0",
-    "@umijs/test": "^3.5.20",
+    "@umijs/test": "3.5.35",
     "dumi": "1.1.47",
     "lerna": "5.5.0",
     "lint-staged": "11.2.6",
@@ -43,8 +43,8 @@
     "react-test-renderer": "17.0.2",
     "umi-request": "1.4.0",
     "yorkie": "2.0.0",
-    "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14"
+    "@types/react": "17.0.51",
+    "@types/react-dom": "17.0.17"
   },
   "workspaces": {
     "packages": [
