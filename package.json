@@ -34,7 +34,7 @@
     "@testing-library/react": "13.3.0",
     "@testing-library/react-hooks": "8.0.1",
     "@types/jest": "29.0.0",
-    "@umijs/test": "^3.5.20",
+    "@umijs/test": "^4.0.0",
     "dumi": "1.1.47",
     "lerna": "5.5.0",
     "lint-staged": "11.2.6",
