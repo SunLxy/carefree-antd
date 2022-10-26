@@ -44,7 +44,7 @@
     "umi-request": "1.4.0",
     "yorkie": "2.0.0",
     "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14"
+    "@types/react-dom": "~18.0.0"
   },
   "workspaces": {
     "packages": [
