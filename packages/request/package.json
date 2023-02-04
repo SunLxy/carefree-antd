@@ -1,6 +1,6 @@
 {
   "name": "carefree-request",
-  "version": "1.0.48",
+  "version": "2.0.0",
   "description": "简单处理 umi-request 请求参数",
   "main": "lib/index.js",
   "module": "esm/index.js",
