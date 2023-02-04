@@ -1,10 +1,9 @@
 ---
 title: SorTable
-order: 2
+order: 1
 nav:
-  order: 1
   title: SorTable
-  path: /sortable
+  order: 7
 group:
   path: /
 ---
@@ -115,10 +114,10 @@ type OnEndProps = (
 ### 案例
 
 ```tsx
-import React, { useState, useRef } from 'react';
+import { getNewAndOld, onEnd } from 'carefree-sortable';
+import React, { useRef, useState } from 'react';
 import Sortable from 'sortablejs';
-import { onEnd, getNewAndOld } from 'carefree-sortable';
-export interface SortableProps {
+interface SortableProps {
   sortProps?: Sortable.Options;
   children?: React.ReactNode;
   nodeTag?: string;

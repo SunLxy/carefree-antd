@@ -21,12 +21,18 @@ export default defineConfig({
       { type: 'transfer-search', dir: './packages/transfer-search/src' },
       { type: 'fuzzy-query', dir: './packages/fuzzy-query/src' },
       { type: 'from-utils', dir: './packages/from-utils/src' },
+      // { type: 'sortable', dir: './packages/sortable/src' },
     ],
   },
-  // // navs: [
-  // //   null,
-  // //   { title: 'GitHub', path: 'https://github.com/SunLxy/carefree-antd' },
-  // // ],
+  themeConfig: {
+    socialLinks: {
+      github: 'https://github.com/SunLxy/carefree-antd',
+    },
+  },
+  // navs: [
+  //   null,
+  //   { title: 'GitHub', path: 'https://github.com/SunLxy/carefree-antd' },
+  // ],
   // alias: {
   //   'carefree-antd-form': resolve(__dirname, './packages/form/src/index.ts'),
   //   'carefree-sortable': resolve(__dirname, './packages/sortable/src/index.ts'),
