@@ -32,7 +32,7 @@
     "@babel/core": "7.20.12",
     "@babel/runtime": "7.20.13",
     "@types/immutability-helper": "2.6.3",
-    "@types/lodash": "4.14.184",
+    "@types/lodash": "4.14.191",
     "@types/sortablejs": "1.15.0"
   },
   "dependencies": {
