@@ -34,7 +34,7 @@
     "tsbb": "^3.7.6",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
-    "@types/jest": "29.0.0",
+    "@types/jest": "29.4.0",
     "dumi": "2.1.7",
     "lerna": "5.5.0",
     "lint-staged": "11.2.6",
