@@ -2,9 +2,8 @@
 title: start
 order: 1
 nav:
-  order: 9
-  title: FormUtils
-  path: /from-utils
+  title: 表单工具
+  order: 3
 group:
   path: /
 ---

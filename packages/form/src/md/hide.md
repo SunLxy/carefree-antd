@@ -2,11 +2,11 @@
 title: hide
 order: 4
 nav:
-  order: 2
-  title: SimpleForm
-  path: /form
+  title: 表单
+  order: 1
 group:
-  path: /
+  path: /form
+  order: 4
 ---
 
 通过设置 `isHide` 属性，判断表单项是否可以有隐藏操作
@@ -15,10 +15,9 @@ group:
 ## 基本使用
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -56,10 +55,9 @@ export default () => {
 ## 和 watch 一起使用
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -106,10 +104,9 @@ export default () => {
 ## 使用 useFormItemHide
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();

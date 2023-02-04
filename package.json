@@ -3,7 +3,6 @@
   "name": "carefree-antd-root",
   "version": "1.0.46",
   "scripts": {
-    "clean": "lerna clean --yes",
     "build:ui": "lerna exec -- tsbb build",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "publish": "lerna publish",
@@ -11,9 +10,12 @@
     "start": "dumi dev",
     "docs:build": "dumi build",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "test": "umi-test",
-    "test:update": "umi-test --updateSnapshot",
-    "test:coverage": "umi-test --coverage"
+    "clean": "lerna clean  --yes && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
+    "remove": " lerna exec -- rm -rf package-lock.json",
+    "remove:c": "rm -rf package-lock.json &&  npm run remove:yarn && npm run remove:lib && npm run remove:esm",
+    "remove:yarn": "lerna exec -- rm -rf yarn.lock",
+    "remove:lib": "lerna exec -- rm -rf ./lib",
+    "remove:esm": "lerna exec -- rm -rf ./esm"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -27,24 +29,21 @@
     ]
   },
   "devDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "tsbb": "^3.7.6",
-    "@umijs/fabric": "2.14.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
-    "@testing-library/react": "13.3.0",
-    "@testing-library/react-hooks": "8.0.1",
     "@types/jest": "29.0.0",
-    "@umijs/test": "^3.5.20",
-    "dumi": "1.1.47",
+    "dumi": "2.1.7",
     "lerna": "5.5.0",
     "lint-staged": "11.2.6",
-    "antd": "4.22.8",
+    "antd": "5.1.7",
     "prettier": "2.7.1",
-    "react-test-renderer": "17.0.2",
     "umi-request": "1.4.0",
     "yorkie": "2.0.0",
-    "@types/react": "~17.0.43",
-    "@types/react-dom": "~17.0.14"
+    "@types/react": "~18.0.27",
+    "@types/react-dom": "~18.0.10"
   },
   "workspaces": {
     "packages": [

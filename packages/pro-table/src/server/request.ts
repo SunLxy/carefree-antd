@@ -1,6 +1,12 @@
-import request, { RequestOptionsInit } from 'umi-request';
 import queryString from 'query-string';
-const API_Request = (
+import request, { RequestOptionsInit } from 'umi-request';
+
+declare global {
+  interface Window {
+    RequestResponse: Response;
+  }
+}
+const API_Request = async (
   url: string,
   options: RequestOptionsInit & { module?: string },
 ) => {
@@ -34,11 +40,22 @@ const API_Request = (
     const pre = /^\//.test(url);
     path = `/${module}${pre ? '' : '/'}${url}`;
   }
-  return request(path, {
-    requestType,
-    headers: { ...head },
-    data: body,
-    ...rest,
-  });
+  try {
+    const responseData = await request(path, {
+      requestType,
+      headers: { ...head },
+      data: body,
+      ...rest,
+      getResponse: true,
+    });
+    console.log(
+      '添加getResponse返回数据格式数据,可使用window.RequestResponse获取返回response--->',
+      responseData,
+    );
+    window.RequestResponse = responseData.response;
+    return responseData.data;
+  } catch (err) {
+    throw err;
+  }
 };
 export default API_Request;

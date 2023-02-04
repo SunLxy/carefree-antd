@@ -2,11 +2,11 @@
 title: start
 order: 1
 nav:
-  order: 2
-  title: SimpleForm
-  path: /form
+  title: 表单
+  order: 1
 group:
-  path: /
+  title: form
+  order: 1
 ---
 
 ```bash
@@ -28,10 +28,10 @@ group:
 ## 基础表单
 
 ```tsx
-import React from 'react';
+import { Button } from 'antd';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -143,9 +143,9 @@ export default () => {
 ## 查询表单
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => (
   <SimpleForm
@@ -191,10 +191,10 @@ export default () => (
 ## antd 使用表单
 
 ```tsx
-import React from 'react';
-import { Input, Col } from 'antd';
+import { Input } from 'antd';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -252,10 +252,10 @@ export default () => {
 ## 组合使用
 
 ```tsx
-import React from 'react';
-import { Input, Col } from 'antd';
+import { Input } from 'antd';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();

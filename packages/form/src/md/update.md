@@ -2,11 +2,11 @@
 title: update
 order: 2
 nav:
-  order: 2
-  title: SimpleForm
-  path: /form
+  title: 表单
+  order: 1
 group:
-  path: /
+  path: /form
+  order: 2
 ---
 
 `updateValue` 和 `bathUpdateValue` 方法更新表单值，可以触发 `onValuesChange` 事件
@@ -14,10 +14,9 @@ group:
 ## 基础更新
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -77,10 +76,9 @@ export default () => {
 调用 `getChildItemFun` 方法获取
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();

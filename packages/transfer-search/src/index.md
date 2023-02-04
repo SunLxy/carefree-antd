@@ -2,9 +2,8 @@
 title: 穿梭框-查询
 order: 1
 nav:
-  order: 2
-  title: Transfer-Search
-  path: /transfer-search
+  title: 穿梭框查询
+  order: 6
 group:
   path: /
 ---
@@ -118,8 +117,8 @@ export interface TransferSearchRef {
 ### 案例
 
 ```tsx
-import React from 'react';
 import TransferSearch from 'carefree-antd-transfer-search';
+import React from 'react';
 
 export default () => (
   <div>

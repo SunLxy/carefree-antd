@@ -39,11 +39,9 @@ export interface FuzzyQueryProps extends SelectProps<any> {
 ### 案例
 
 ```tsx
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { Input, Col, InputNumber, Button, Select, Form } from 'antd';
+import 'antd/dist/reset.css';
 import FuzzyQuery from 'carefree-fuzzy-query';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 const Query = () => {
   const [value, setValue] = React.useState([]);

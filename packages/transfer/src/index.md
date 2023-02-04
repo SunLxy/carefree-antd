@@ -2,9 +2,8 @@
 title: 穿梭框
 order: 1
 nav:
-  order: 2
-  title: Transfer
-  path: /transfer
+  title: 穿梭框
+  order: 5
 group:
   path: /
 ---
@@ -124,8 +123,8 @@ export interface TransferRef {
 ### 案例
 
 ```tsx
-import React from 'react';
 import Transfer from 'carefree-antd-transfer';
+import React from 'react';
 
 export default () => (
   <div>

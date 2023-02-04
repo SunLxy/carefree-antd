@@ -2,11 +2,11 @@
 title: watch
 order: 3
 nav:
-  order: 2
-  title: SimpleForm
-  path: /form
+  title: 表单
+  order: 1
 group:
-  path: /
+  path: /form
+  order: 3
 ---
 
 form 加 `watchList` 属性, 对表单项更新值进行监听
@@ -14,10 +14,9 @@ form 加 `watchList` 属性, 对表单项更新值进行监听
 ## 基础监听
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -59,10 +58,9 @@ export default () => {
 ## 多个监听联动
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -124,10 +122,9 @@ export default () => {
 ## 和 hide 一起使用
 
 ```tsx
-import React from 'react';
+import 'antd/dist/reset.css';
 import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
-import 'antd/dist/antd.css';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();

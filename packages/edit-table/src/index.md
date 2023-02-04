@@ -1,10 +1,9 @@
 ---
 title: 快速开始
-order: 1
+order: 2
 nav:
+  title: 编辑表格
   order: 2
-  title: EditTable
-  path: /edit-table
 group:
   path: /
 ---
@@ -282,11 +281,11 @@ export interface RefEditTableProps {
 ### 案例
 
 ```tsx
-import React from 'react';
-import { Input, Col, InputNumber, Button, Select, Form } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, InputNumber } from 'antd';
+import 'antd/dist/reset.css';
 import EditTable from 'carefree-antd-edit-table';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
+import React from 'react';
 const originData = [];
 
 for (let i = 0; i < 5; i++) {

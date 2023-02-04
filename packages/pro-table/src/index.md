@@ -2,9 +2,8 @@
 title: 快速开始
 order: 1
 nav:
-  order: 2
-  title: ProTable
-  path: /pro-table
+  title: proTable
+  order: 4
 group:
   path: /
 ---
@@ -105,10 +104,10 @@ export interface ApiProps {
 ### 案例
 
 ```tsx
-import React from 'react';
 import { Input } from 'antd';
-import ProTable from 'carefree-pro-table';
 import SimpleForm from 'carefree-antd-form';
+import ProTable from 'carefree-pro-table';
+import React from 'react';
 
 export default () => (
   <ProTable
