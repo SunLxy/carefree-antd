@@ -37,7 +37,7 @@
     "@types/jest": "29.0.0",
     "dumi": "2.1.7",
     "lerna": "5.5.0",
-    "lint-staged": "11.2.6",
+    "lint-staged": "13.1.0",
     "antd": "5.1.7",
     "prettier": "2.7.1",
     "umi-request": "1.4.0",
