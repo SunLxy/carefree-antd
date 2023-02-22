@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "`SimpleForm`组件表单属性继承 `antd Form` 表单属性",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -26,8 +26,8 @@
     "@babel/runtime": "7.20.13"
   },
   "dependencies": {
-    "carefree-antd-edit-table": "2.0.0",
-    "carefree-antd-form": "2.0.0",
-    "carefree-pro-table": "2.0.0"
+    "carefree-antd-edit-table": "2.0.1",
+    "carefree-antd-form": "2.0.1",
+    "carefree-pro-table": "2.0.1"
   }
 }
