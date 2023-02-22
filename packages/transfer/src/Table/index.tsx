@@ -1,5 +1,5 @@
-import React from 'react';
 import { Table, TableProps } from 'antd';
+import React from 'react';
 
 export interface TableGroupProps extends TableProps<any> {
   handleSelected: TableProps<any>['rowSelection']['onChange'];
@@ -29,7 +29,6 @@ export default (props: TableGroupProps) => {
       tableRest.pagination = pagination;
     }
   }
-  console.log(tableRest);
   return (
     <Table
       size="small"

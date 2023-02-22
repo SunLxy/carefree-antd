@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Table, Button, message } from 'antd';
+import { Button, message, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { useStore } from './Store';
-export { default as Store } from './Store';
+import { FormInstance } from 'rc-field-form/lib/interface';
+import React, { useState } from 'react';
 import {
   ColumnsProps,
   EditableTableProps,
   RefEditTableProps,
 } from './interface';
-import { FormInstance } from 'rc-field-form/lib/interface';
-import Tr, { EditForms } from './Tr';
-import Td, { EditableCellItem } from './Td';
 import Operation from './Operation';
+import { useStore } from './Store';
+import Td, { EditableCellItem } from './Td';
+import Tr, { EditForms } from './Tr';
+export { default as Store } from './Store';
 export type { ColumnsProps, EditableTableProps, RefEditTableProps };
 const EditableTable = (
   props: EditableTableProps,
@@ -83,11 +83,11 @@ const EditableTable = (
       return;
     }
     if (newAdd.length === 1 && !multiple) {
-      message.warn('只能新增一行');
+      message.warning('只能新增一行');
       return;
     }
     if (editingKey.length === 1 && !multiple) {
-      message.warn('只能编辑一行');
+      message.warning('只能编辑一行');
       return;
     }
     const id = (new Date().getTime() * Math.round(10)).toString();

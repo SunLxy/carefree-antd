@@ -1,8 +1,8 @@
-import React from 'react';
 import { Tooltip } from 'antd';
 import RcForm from 'rc-field-form';
-import { getItem, getFieldId, toArray } from './utils';
+import React from 'react';
 import { EditableCellItemProps } from './interface';
+import { getFieldId, getItem, toArray } from './utils';
 const EditableCell = ({
   editing,
   dataIndex,
@@ -99,7 +99,7 @@ export const EditableCellItem = (props: EditableCellItemProps) => {
             overlayInnerStyle={{ color: 'red' }}
             {...tipAttr}
             title={tip ? tip(errs) : errs}
-            visible={!!meta.errors.length}
+            open={!!meta.errors.length}
           >
             {childNode}
           </Tooltip>

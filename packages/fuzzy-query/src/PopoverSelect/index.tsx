@@ -1,8 +1,8 @@
-import React from 'react';
 import { Popover, Select, SelectProps, Spin } from 'antd';
-import Table, { TablesProps } from './Table';
-import { DefaultOptionType } from 'rc-select/lib/Select';
 import { debounce } from 'lodash';
+import { DefaultOptionType } from 'rc-select/lib/Select';
+import React from 'react';
+import Table, { TablesProps } from './Table';
 export interface FuzzyQueryProps extends SelectProps<any> {
   /** 表格标题 */
   columns?: TablesProps['columns'];
@@ -178,8 +178,8 @@ const PopoverSelect = (props: FuzzyQueryProps) => {
     <Popover
       trigger="click"
       placement="bottomLeft"
-      visible={visible}
-      onVisibleChange={(vis) => {
+      open={visible}
+      onOpenChange={(vis) => {
         setVisible(vis);
       }}
       content={
