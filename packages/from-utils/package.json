@@ -1,6 +1,6 @@
 {
   "name": "carefree-rc-field-from-utils",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "根据 rc-field-from 封装的表单联动/隐藏/监听 组件或工具",
   "author": "SunLxy <1011771396@qq.com>",
   "homepage": "https://github.com/SunLxy/carefree-antd#readme",
