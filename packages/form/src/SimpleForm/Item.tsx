@@ -1,54 +1,54 @@
-import React from 'react';
 import {
+  AutoComplete,
+  Cascader,
+  Checkbox,
+  Col,
+  DatePicker,
   Form,
   Input,
   InputNumber,
-  AutoComplete,
-  Cascader,
-  DatePicker,
-  Rate,
-  Slider,
-  TreeSelect,
-  Select,
-  Checkbox,
   Mentions,
   Radio,
+  Rate,
+  Select,
+  Slider,
   Switch,
   TimePicker,
+  TreeSelect,
   Upload,
-  Col,
 } from 'antd';
-import { SimpleFormConfigProps, ItemChildAttr } from '.';
-import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
 import { RangePickerProps } from 'antd/lib/date-picker/index';
+import { TextAreaProps } from 'antd/lib/input/TextArea';
+import React from 'react';
+import { ItemChildAttr, SimpleFormConfigProps } from '.';
 
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import {
-  FormItemProps,
-  ButtonProps,
-  ColProps,
-  InputProps,
   AutoCompleteProps,
+  Button,
+  ButtonProps,
   CascaderProps,
+  ColProps,
   DatePickerProps,
-  RateProps,
-  SliderSingleProps,
-  TreeSelectProps,
+  FormItemProps,
   InputNumberProps,
-  SelectProps,
+  InputProps,
   MentionProps,
-  RadioProps,
+  RadioGroupProps,
+  RateProps,
+  SelectProps,
+  SliderSingleProps,
   SwitchProps,
   TimePickerProps,
+  TreeSelectProps,
   UploadProps,
 } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
-import { useFormWatchList } from './Watch';
-import { WatchListProps, SimpleFormProps } from './interface';
 import FormColItem, { FormItemsProps } from './FormItem';
 import Hide from './Hide';
+import { SimpleFormProps, WatchListProps } from './interface';
+import { useFormWatchList } from './Watch';
 const { RangePicker } = DatePicker;
 
 const getPathName = (name, formName) => {
@@ -283,8 +283,8 @@ export const itemRender = (
         />
       );
     } else if (type === 'Radio') {
-      const inputAttr = attr as RadioProps;
-      const attrs = attrProps as RadioProps;
+      const inputAttr = attr as RadioGroupProps;
+      const attrs = attrProps as RadioGroupProps;
       renderItem = (
         <Radio.Group
           {...attrs}

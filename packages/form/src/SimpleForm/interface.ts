@@ -1,38 +1,37 @@
-import React from 'react';
 import {
-  Input,
-  FormProps,
-  FormItemProps,
-  ButtonProps,
-  RowProps,
-  ColProps,
-  InputProps,
   AutoCompleteProps,
+  ButtonProps,
   CascaderProps,
-  DatePickerProps,
-  RateProps,
-  SliderSingleProps,
-  TreeSelectProps,
-  InputNumberProps,
-  SelectProps,
   CheckboxProps,
+  ColProps,
+  DatePickerProps,
+  FormItemProps,
+  FormProps,
+  InputNumberProps,
+  InputProps,
   MentionProps,
-  RadioProps,
+  RadioGroupProps,
+  RateProps,
+  RowProps,
+  SelectProps,
+  SliderSingleProps,
   SwitchProps,
   TimePickerProps,
+  TreeSelectProps,
   UploadProps,
 } from 'antd';
 import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
+import React from 'react';
 
-import { GetStoreProps } from './Hide/interface';
 import { RangePickerProps } from 'antd/lib/date-picker/index';
+import { GetStoreProps } from './Hide/interface';
 
-import { TextAreaProps } from 'antd/lib/input/TextArea';
-import { Rule } from 'rc-field-form/lib/interface';
 import { FormInstance } from 'antd/lib/form/hooks/useForm';
+import { TextAreaProps } from 'antd/lib/input/TextArea';
 import {
   InternalFormInstance,
   InternalNamePath,
+  Rule,
 } from 'rc-field-form/lib/interface';
 
 import { Subscribe } from './Collect';
@@ -59,7 +58,7 @@ export type ItemChild<T = any, P = any> =
     >
   | ItemType<'DatePicker', DatePickerProps>
   | ItemType<'Mentions', MentionProps>
-  | ItemType<'Radio', RadioProps>
+  | ItemType<'Radio', RadioGroupProps>
   | ItemType<'Rate', RateProps>
   | ItemType<'Slider', SliderSingleProps>
   | ItemType<'Switch', SwitchProps>
@@ -98,7 +97,7 @@ export type ItemChildAttr<T = any, K = any> =
   | CheckboxProps
   | DatePickerProps
   | MentionProps
-  | RadioProps
+  | RadioGroupProps
   | RateProps
   | SliderSingleProps
   | SwitchProps
