@@ -1,54 +1,53 @@
-import React from 'react';
 import {
+  AutoComplete,
+  Cascader,
+  Checkbox,
+  Col,
+  DatePicker,
   Form,
   Input,
   InputNumber,
-  AutoComplete,
-  Cascader,
-  DatePicker,
-  Rate,
-  Slider,
-  TreeSelect,
-  Select,
-  Checkbox,
   Mentions,
   Radio,
+  Rate,
+  Select,
+  Slider,
   Switch,
   TimePicker,
+  TreeSelect,
   Upload,
-  Col,
 } from 'antd';
-import { SimpleFormConfigProps, ItemChildAttr } from '.';
-import { TextAreaProps } from 'antd/lib/input/TextArea';
 import { CheckboxGroupProps } from 'antd/lib/checkbox/Group';
 import { RangePickerProps } from 'antd/lib/date-picker/index';
+import { TextAreaProps } from 'antd/lib/input/TextArea';
+import React from 'react';
+import { ItemChildAttr, SimpleFormConfigProps } from '.';
 
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import {
-  FormItemProps,
+  AutoCompleteProps,
+  Button,
   ButtonProps,
   ColProps,
-  InputProps,
-  AutoCompleteProps,
-  CascaderProps,
   DatePickerProps,
-  RateProps,
-  SliderSingleProps,
-  TreeSelectProps,
+  FormItemProps,
   InputNumberProps,
-  SelectProps,
+  InputProps,
   MentionProps,
-  RadioProps,
+  RadioGroupProps,
+  RateProps,
+  SelectProps,
+  SliderSingleProps,
   SwitchProps,
   TimePickerProps,
+  TreeSelectProps,
   UploadProps,
 } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
 import { FormListFieldData, FormListOperation } from 'antd/lib/form/FormList';
-import { useFormWatchList } from './Watch';
-import { WatchListProps, SimpleFormProps } from './interface';
 import FormColItem, { FormItemsProps } from './FormItem';
 import Hide from './Hide';
+import { SimpleFormProps, WatchListProps } from './interface';
+import { useFormWatchList } from './Watch';
 const { RangePicker } = DatePicker;
 
 const getPathName = (name, formName) => {
@@ -150,9 +149,10 @@ export const itemRender = (
       ...itemOther
     } = itemAttr || {};
     const { style: inputStyle = {} } = attr || {};
-    let renderItem: React.ReactNode = undefined;
+    let renderItem: React.ReactNode | ((...arg: any) => React.ReactNode) =
+      undefined;
     if (type === 'Input') {
-      const inputAttr = attr as InputProps;
+      const inputAttr = attr;
       const attrs = attrProps as InputProps;
       renderItem = (
         <Input
@@ -163,7 +163,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'TextArea') {
-      const inputAttr = attr as TextAreaProps;
+      const inputAttr = attr;
       const attrs = attrProps as TextAreaProps;
       renderItem = (
         <Input.TextArea
@@ -174,7 +174,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'InputNumber') {
-      const inputAttr = attr as InputNumberProps;
+      const inputAttr = attr;
       const attrs = attrProps as InputNumberProps;
       renderItem = (
         <InputNumber
@@ -185,7 +185,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'AutoComplete') {
-      const inputAttr = attr as AutoCompleteProps;
+      const inputAttr = attr;
       const attrs = attrProps as AutoCompleteProps;
       renderItem = (
         <AutoComplete
@@ -196,7 +196,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Cascader') {
-      const inputAttr = attr as CascaderProps<any>;
+      const inputAttr = attr;
       const attrs = attrProps as any;
       renderItem = (
         <Cascader
@@ -207,7 +207,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'DatePicker') {
-      const inputAttr = attr as DatePickerProps;
+      const inputAttr = attr;
       const attrs = attrProps as DatePickerProps;
       renderItem = (
         <DatePicker
@@ -218,7 +218,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Rate') {
-      const inputAttr = attr as RateProps;
+      const inputAttr = attr;
       const attrs = attrProps as RateProps;
       renderItem = (
         <Rate
@@ -228,7 +228,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Slider') {
-      const inputAttr = attr as SliderSingleProps;
+      const inputAttr = attr;
       const attrs = attrProps as SliderSingleProps;
       renderItem = (
         <Slider
@@ -238,7 +238,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'TreeSelect') {
-      const inputAttr = attr as TreeSelectProps<any>;
+      const inputAttr = attr;
       const attrs = attrProps as TreeSelectProps<any>;
       renderItem = (
         <TreeSelect
@@ -249,7 +249,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Select') {
-      const inputAttr = attr as SelectProps<any>;
+      const inputAttr = attr;
       const attrs = attrProps as SelectProps<any>;
       renderItem = (
         <Select
@@ -260,9 +260,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Checkbox') {
-      const inputAttr = attr as React.ForwardRefExoticComponent<
-        CheckboxGroupProps & React.RefAttributes<HTMLDivElement>
-      >;
+      const inputAttr = attr;
       const attrs = attrProps as CheckboxGroupProps;
       renderItem = (
         <Checkbox.Group
@@ -272,7 +270,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Mentions') {
-      const inputAttr = attr as MentionProps;
+      const inputAttr = attr;
       const attrs = attrProps as MentionProps;
       renderItem = (
         <Mentions
@@ -283,8 +281,8 @@ export const itemRender = (
         />
       );
     } else if (type === 'Radio') {
-      const inputAttr = attr as RadioProps;
-      const attrs = attrProps as RadioProps;
+      const inputAttr = attr;
+      const attrs = attrProps as RadioGroupProps;
       renderItem = (
         <Radio.Group
           {...attrs}
@@ -293,7 +291,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Switch') {
-      const inputAttr = attr as SwitchProps;
+      const inputAttr = attr;
       const attrs = attrProps as SwitchProps;
       renderItem = (
         <Switch
@@ -303,7 +301,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'TimePicker') {
-      const inputAttr = attr as TimePickerProps;
+      const inputAttr = attr;
       const attrs = attrProps as TimePickerProps;
       renderItem = (
         <TimePicker
@@ -314,7 +312,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'Upload') {
-      const inputAttr = attr as UploadProps;
+      const inputAttr = attr;
       const attrs = attrProps as UploadProps;
       renderItem = (
         <Upload
@@ -324,7 +322,7 @@ export const itemRender = (
         />
       );
     } else if (type === 'RangePicker') {
-      const inputAttr = attr as RangePickerProps;
+      const inputAttr = attr;
       const attrs = attrProps as RangePickerProps;
       renderItem = (
         <DatePicker.RangePicker
