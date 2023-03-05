@@ -1,13 +1,17 @@
-import React from 'react';
-import { TableProps, TooltipProps, ButtonProps } from 'antd';
-import { FieldProps } from 'rc-field-form/lib/Field';
+import { ButtonProps, TableProps, TooltipProps } from 'antd';
 import { ColumnType } from 'antd/lib/table';
-import { RenderedCell } from 'rc-table/lib/interface';
-import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-import { ItemChild } from './utils';
-import Store from './Store';
-import { FormInstance, Meta, Rule } from 'rc-field-form/lib/interface';
+import { FieldProps } from 'rc-field-form/lib/Field';
+import {
+  FormInstance,
+  Meta,
+  Rule,
+  ValidateErrorEntity,
+} from 'rc-field-form/lib/interface';
 import { ListProps } from 'rc-field-form/lib/List';
+import { RenderedCell } from 'rc-table/lib/interface';
+import React from 'react';
+import Store from './Store';
+import { ItemChild } from './utils';
 
 export interface OtherProps {
   /** 编辑中字段 */
@@ -28,7 +32,7 @@ export interface OtherProps {
   edit: (record: object) => void;
 }
 
-export type ColumnsProps = ColumnType<any> & {
+export type ColumnsProps<T = any, K = any> = ColumnType<any> & {
   /** 是否编辑  */
   editable?: boolean;
   /** 自定义 渲染编辑组件 */
@@ -52,7 +56,7 @@ export type ColumnsProps = ColumnType<any> & {
     index: number,
     other?: OtherProps,
   ) => React.ReactNode | RenderedCell<any>;
-} & ItemChild<any, any>;
+} & ItemChild<T, K>;
 
 /**  Item 组件  渲染的单个内部FromItem组件  */
 export interface EditableCellItemProps
