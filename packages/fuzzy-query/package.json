@@ -1,6 +1,6 @@
 {
   "name": "carefree-fuzzy-query",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "description": "模糊查询 - 加标题展示",
   "main": "lib/index.js",
   "module": "esm/index.js",

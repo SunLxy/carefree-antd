@@ -1,6 +1,6 @@
 {
   "name": "carefree-antd-form",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "description": "`SimpleForm`组件表单属性继承 `antd Form` 表单属性",
   "main": "lib/index.js",
   "module": "esm/index.js",
