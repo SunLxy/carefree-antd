@@ -189,7 +189,7 @@ export type ItemChild<T = any, P = any> =
 
 // 表格 列参数
 
-export type ColumnsProps = ColumnType<any> & {
+export type ColumnsProps<T = any, K = any> = ColumnType<any> & {
   /** 是否编辑  */
   editable?: boolean;
   /** 自定义 渲染编辑组件 */
@@ -198,8 +198,6 @@ export type ColumnsProps = ColumnType<any> & {
   rules?: Rule[];
   /** formItem 表单 其他属性值*/
   itemAttr?: Omit<FieldProps, 'rules' | 'label' | 'name'>;
-  /**组件类型  */
-  // type?: ItemChildType;
   /** 错误提示  */
   tip?: (errs: string) => React.ReactNode;
   /** Tooltip 组件属性  */
@@ -215,7 +213,7 @@ export type ColumnsProps = ColumnType<any> & {
     index: number,
     other?: OtherProps,
   ) => React.ReactNode | RenderedCell<any>;
-} & ItemChild<any, any>;
+} & ItemChild<T, K>;
 
 // ColumnsProps 中  render 中的 other 参数值
 export interface OtherProps {
@@ -282,11 +280,11 @@ export interface RefEditTableProps {
 ### 案例
 
 ```tsx
-import React from 'react';
-import { Input, Col, InputNumber, Button, Select, Form } from 'antd';
-import EditTable from 'carefree-antd-edit-table';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, InputNumber } from 'antd';
 import 'antd/dist/antd.css';
+import EditTable from 'carefree-antd-edit-table';
+import React from 'react';
 const originData = [];
 
 for (let i = 0; i < 5; i++) {
