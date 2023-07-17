@@ -1,14 +1,12 @@
+import { getValue, setValue } from 'rc-field-form/lib/utils/valueUtil';
 import React from 'react';
-import {
-  setValue,
-  setValues,
-  getValue,
-} from 'rc-field-form/lib/utils/valueUtil';
+import { setValues } from '../utils';
+
 import {
   HideFieldEntity,
-  NamePath,
-  InternalNamePath,
   HideGetStoreProps,
+  InternalNamePath,
+  NamePath,
 } from './interface';
 
 export class HideStore {
