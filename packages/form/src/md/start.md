@@ -28,10 +28,10 @@ group:
 ## 基础表单
 
 ```tsx
-import React from 'react';
-import SimpleForm from 'carefree-antd-form';
-import { Button, Form } from 'antd';
+import { Button } from 'antd';
 import 'antd/dist/antd.css';
+import SimpleForm from 'carefree-antd-form';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -67,6 +67,21 @@ export default () => {
             label: '测试',
             name: 'namea',
             type: 'Input',
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea2',
+            type: 'Radio',
+            attr: {
+              options: [{ label: '323', value: '' }],
+            },
+            rules: [{ required: true, message: '请输入价格组名称' }],
+          },
+          {
+            label: '测试',
+            name: 'namea222',
+            type: 'Select',
             rules: [{ required: true, message: '请输入价格组名称' }],
           },
           {
@@ -143,9 +158,9 @@ export default () => {
 ## 查询表单
 
 ```tsx
-import React from 'react';
-import SimpleForm from 'carefree-antd-form';
 import 'antd/dist/antd.css';
+import SimpleForm from 'carefree-antd-form';
+import React from 'react';
 
 export default () => (
   <SimpleForm
@@ -191,10 +206,10 @@ export default () => (
 ## antd 使用表单
 
 ```tsx
-import React from 'react';
-import { Input, Col } from 'antd';
-import SimpleForm from 'carefree-antd-form';
+import { Input } from 'antd';
 import 'antd/dist/antd.css';
+import SimpleForm from 'carefree-antd-form';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
@@ -252,10 +267,10 @@ export default () => {
 ## 组合使用
 
 ```tsx
-import React from 'react';
-import { Input, Col } from 'antd';
-import SimpleForm from 'carefree-antd-form';
+import { Input } from 'antd';
 import 'antd/dist/antd.css';
+import SimpleForm from 'carefree-antd-form';
+import React from 'react';
 
 export default () => {
   const [form] = SimpleForm.useForm();
