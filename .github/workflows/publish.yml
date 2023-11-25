@@ -16,7 +16,7 @@ jobs:
       with:
         node-version: 16
     - name: Generate changelog
-      uses: jaywcjlove/changelog-generator@v1.5.7
+      uses: jaywcjlove/changelog-generator@v1.9.6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         filter-author: (SunLxy|dependabot\[bot\]|Renovate Bot)
@@ -41,7 +41,7 @@ jobs:
 
     - name: Generate changelog
       id: changelog
-      uses: jaywcjlove/changelog-generator@v1.5.7
+      uses: jaywcjlove/changelog-generator@v1.9.6
       if: steps.create_tag.outputs.successful
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
