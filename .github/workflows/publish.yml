@@ -25,7 +25,6 @@ jobs:
     - run: npm install 
     - run: npm run build:ui 
     - run: npm run docs:build
-    - run: npm run deploy
 
     - name: Create Doc
       uses: peaceiris/actions-gh-pages@v3
@@ -104,3 +103,9 @@ jobs:
           packages/*
           !packages/store
           !packages/request
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs-dist
