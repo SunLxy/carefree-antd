@@ -9,6 +9,7 @@
     "release": "npm run build && npm publish",
     "start": "dumi dev",
     "docs:build": "dumi build",
+    "deploy": "gh-pages -d dist",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "clean": "lerna clean  --yes && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
     "remove": " lerna exec -- rm -rf package-lock.json",
@@ -29,6 +30,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "6.1.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "tsbb": "^3.7.6",
