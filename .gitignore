@@ -10,7 +10,7 @@ node_modules
 **/lib
 /.vscode
 .dumi
-
+docs-dist
 # misc
 .DS_Store
 npm-debug.log*
