@@ -29,8 +29,8 @@
     "react": ">=17.x"
   },
   "devDependencies": {
-    "@babel/core": "7.20.12",
-    "@babel/runtime": "7.20.13",
+    "@babel/core": "7.25.9",
+    "@babel/runtime": "7.25.9",
     "@types/react": "~18.0.0",
     "rc-field-form": "1.27.3"
   }
