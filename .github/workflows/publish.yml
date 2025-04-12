@@ -23,7 +23,7 @@ jobs:
         filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
         
     - run: npm install 
-    - run: npm run build:ui 
+    - run: npm run build:all
     - run: npm run docs:build
 
     - name: Create Doc
