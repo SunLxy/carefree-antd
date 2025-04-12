@@ -4,7 +4,6 @@
   "version": "1.0.46",
   "scripts": {
     "build:all": "lerna exec -- npm run build",
-    "build:ui": "lerna exec -- tsbb build",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "publish": "lerna publish",
     "release": "npm run build && npm publish",
