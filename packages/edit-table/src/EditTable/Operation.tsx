@@ -1,5 +1,4 @@
-import React from 'react';
-import { Popconfirm, Typography, Space } from 'antd';
+import { Popconfirm, Space, Typography } from 'antd';
 import {
   ColumnsProps,
   EditableTableProps,

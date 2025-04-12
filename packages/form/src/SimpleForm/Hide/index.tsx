@@ -9,6 +9,7 @@ export interface HideProps {
   name: NamePath;
   initialValue?: boolean;
   formName: string | number;
+  children?: React.ReactNode;
 }
 
 class Hide extends React.Component<HideProps, HideState> {

@@ -1,5 +1,5 @@
 ---
-title: 快速开始
+title: 编辑表格1
 order: 2
 nav:
   title: 编辑表格

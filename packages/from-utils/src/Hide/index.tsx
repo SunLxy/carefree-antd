@@ -1,7 +1,7 @@
 import React from 'react';
+import { useFormParentNameContext } from './../hooks';
 import { HideContext } from './context';
 import { HideGetStoreProps, NamePath } from './interface';
-import { useFormParentNameContext } from './../hooks';
 
 export interface HideState {}
 
@@ -10,6 +10,7 @@ export interface HideProps {
   name: NamePath;
   initialValue?: boolean;
   formName?: string | number;
+  children?: any;
 }
 
 class Hide extends React.Component<HideProps, HideState> {

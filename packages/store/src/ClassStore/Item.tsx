@@ -4,6 +4,7 @@ import { StoreContext } from './useStore';
 interface ItemChildProps {
   name: string | string[];
   storeContext: any;
+  children?: any;
 }
 
 class ItemChild extends React.Component<ItemChildProps, {}> {

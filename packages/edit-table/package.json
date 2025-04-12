@@ -12,8 +12,13 @@
     "README.md"
   ],
   "scripts": {
-    "build": "father-build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.json",
+    "watch": "tsbb watch"
+  },
+  "dependencies": {
+    "@carefrees/valtio": "~0.0.13"
   },
   "peerDependencies": {
     "antd": ">=4.16.13",

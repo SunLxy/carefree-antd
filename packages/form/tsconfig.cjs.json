@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "esnext",
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "importHelpers": false,
     "esModuleInterop": true,
@@ -9,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "skipLibCheck": true,
-    "outDir": "esm",
+    "outDir": "lib",
     "baseUrl": "./src",
     "rootDir": "./src"
   },
