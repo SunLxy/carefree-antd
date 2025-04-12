@@ -22,9 +22,9 @@ jobs:
         filter-author: (SunLxy|dependabot\[bot\]|Renovate Bot)
         filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
         
-    - run: npm install 
-    - run: npm run build:all
-    - run: npm run docs:build
+    - run: yarn 
+    - run: yarn build:all
+    - run: yarn docs:build
 
     - name: Create Doc
       uses: peaceiris/actions-gh-pages@v4
