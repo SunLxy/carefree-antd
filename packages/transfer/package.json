@@ -12,10 +12,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run build:esm && npm run build:cjs",
-    "build:cjs": "tsc --project tsconfig.cjs.json",
-    "build:esm": "tsc --project tsconfig.json",
-    "watch": "tsbb watch"
+    "build": "rslib build",
+    "watch": "rslib build --watch"
   },
   "peerDependencies": {
     "@ant-design/icons": ">=4.7.0",

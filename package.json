@@ -29,7 +29,9 @@
     ]
   },
   "devDependencies": {
-    "tsbb": "4.2.5",
+    "@rsbuild/plugin-react": "^1.1.1",
+    "@rslib/core": "^0.5.5",
+    "@rsbuild/plugin-svgr": "~1.0.7",
     "typescript": "5.1.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
