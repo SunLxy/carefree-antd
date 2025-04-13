@@ -40,7 +40,8 @@ export class EditTableBaseInstance extends ProxyInstanceObject<EditTableInstance
 
   /**所有表单实例*/
   public formInstance = new Map<string, FormInstance<any>>([]);
-
+  /**记录编辑时行数据*/
+  public formInstanceMapValues = new Map<string, object>([]);
   /**初始化状态值*/
   main_store = () => {
     const newStore = {
@@ -101,6 +102,7 @@ export class EditTableBaseInstance extends ProxyInstanceObject<EditTableInstance
     const { editingKeys = [], newAddKeys = [] } = this.store;
     const newEditingKeys = editingKeys.filter((k) => `${k}` !== `${key}`);
     const newNewAddKeys = newAddKeys.filter((k) => `${k}` !== `${key}`);
+    this.formInstanceMapValues.delete(`${key}`);
     this._setRefStore({
       editingKeys: newEditingKeys,
       newAddKeys: newNewAddKeys,
@@ -158,6 +160,7 @@ export class EditTableBaseInstance extends ProxyInstanceObject<EditTableInstance
       const editItem = { ...rowData };
       const { editingKeys = [] } = this.store;
       const key = this.formateKeyToString(rowData[this.rowKey]);
+      this.formInstanceMapValues.set(key, { ...rowData });
       this._setRefStore({ editingKeys: [...editingKeys].concat([key]) });
       this.restToKeyFormValue(key, editItem);
     }
@@ -171,8 +174,20 @@ export class EditTableBaseInstance extends ProxyInstanceObject<EditTableInstance
     }
     if (isCancel) {
       const key = this.formateKeyToString(rowData[this.rowKey]);
+      const oldRowData = this.formInstanceMapValues.get(key);
+      const newListData = [...(this.dataSource || [])];
+      const fix = newListData.findIndex(
+        (item) => key === `${item[this.rowKey]}`,
+      );
+      if (fix > -1) {
+        const item = newListData[index];
+        newListData.splice(fix, 1, { ...(oldRowData || item) });
+      } else {
+        newListData.push(oldRowData);
+      }
+      this.onSave && this.onSave(newListData, rowData, oldRowData, index);
       this.removeOperateKey(key);
-      this.restToKeyFormValue(key, {});
+      this.restToKeyFormValue(key, oldRowData);
     }
   };
 

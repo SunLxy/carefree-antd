@@ -65,7 +65,13 @@ export interface EditableTableBaseProps
   /** 列 **/
   columns: ColumnsBaseProps[];
   /** 保存数据 */
-  onSave: (data: any[], row: object, record?: object, indx?: number) => void;
+  onSave: (
+    data: any[],
+    row: object,
+    record?: object,
+    indx?: number,
+    type?: 'onEditCancel' | 'onSaveRow' | 'onDeleteRow' | 'onAddRow',
+  ) => void;
   /** 保存数据之前校验 */
   onBeforeSave?: (item: object, record: object, index: number) => boolean;
   /**主键  */
