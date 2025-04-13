@@ -1,11 +1,11 @@
 import {
   ProxyInstanceObject,
   ProxyInstanceObjectStoreType,
+  useSnapshot,
 } from '@carefrees/valtio';
 import { message } from 'antd';
 import { FormInstance, ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { createContext, useContext, useRef } from 'react';
-import { useSnapshot } from 'valtio';
 
 export interface EditTableInstanceStoreType
   extends ProxyInstanceObjectStoreType {
