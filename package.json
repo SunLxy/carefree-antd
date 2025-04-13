@@ -12,12 +12,8 @@
     "start": "dumi dev",
     "docs:build": "dumi build",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "clean": "lerna clean  --yes && npm run remove && rm -rf ./package-lock.json && rm -rf node_modules && npm run remove:c ",
-    "remove": " lerna exec -- rm -rf package-lock.json",
-    "remove:c": "rm -rf package-lock.json &&  npm run remove:yarn && npm run remove:lib && npm run remove:esm",
-    "remove:yarn": "lerna exec -- rm -rf yarn.lock",
-    "remove:lib": "lerna exec -- rm -rf ./lib",
-    "remove:esm": "lerna exec -- rm -rf ./esm"
+    "clean": "kt rm -rf --dirs=lib --dirs=esm --dirs=dist",
+    "clean:all": "kt rm -rf --files=yarn.lock --files=package-lock.json --dirs=node_modules --dirs=lib --dirs=esm --dirs=dist --dirs=.dumi --dirs=docs-dist"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -31,6 +27,7 @@
     ]
   },
   "devDependencies": {
+    "carefree-kt": "~1.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "eslint-config-prettier": "8.6.0",
