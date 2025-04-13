@@ -7,6 +7,7 @@
   "main": "dist/rslib.config.js",
   "types": "dist/rslib.config.d.ts",
   "files": [
+    "dist",
     "src",
     "README.md",
     "tsconfig.json"
