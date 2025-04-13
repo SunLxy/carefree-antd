@@ -15,7 +15,7 @@ group:
 - 在子集组件中可以使用`EditableTableBase.useEditInstanceContext()`获取`EditTableBaseInstance`实例和状态数据
 - 编辑状态时取消编辑还原编辑之前的数据
 
-<span style='color:red' >📢 注意：如果自定义编辑列的时候，调用编辑(使用实例中`onEditRow`方法时，会自动进行存储)时没有进行存储数据，在取消编辑时，不会还原编辑之前的数据)</span>
+<span style='color:red' >📢 注意：如果自定义编辑列的时候，调用编辑（使用实例中`onEditRow`方法时，会自动进行存储）时没有进行存储数据，在取消编辑时，不会还原编辑之前的数据</span>
 
 ## 依赖安装
 
