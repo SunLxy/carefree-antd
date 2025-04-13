@@ -23,7 +23,7 @@ jobs:
         filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
         
     - run: yarn 
-    - run: yarn build:all
+    - run: yarn build
     - run: yarn docs:build
 
     - name: Create Doc
@@ -69,31 +69,6 @@ jobs:
           ```
           ${{ steps.changelog.outputs.compareurl }}
           ${{ steps.changelog.outputs.changelog }}
-
-    # - uses: fregante/release-with-changelog@v3
-    #   if: steps.create_tag.outputs.successful
-    #   with:
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     name: ${{ steps.create_tag.outputs.tag }}
-    #     tag: ${{ steps.create_tag.outputs.tag }}
-    #     body: |
-    #       ```bash
-    #       npm i carefree-antd@${{steps.create_tag.outputs.version}}
-
-    #       ```
-    #       ${{ steps.changelog.outputs.compareurl }}
-    #       ${{ steps.changelog.outputs.changelog }}
-
-    # - run: npm install @jsdevtools/npm-publish -g
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/form/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/carefree-antd/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/sortable/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/edit-table/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/pro-table/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/fuzzy-query/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer-search/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/transfer/package.json
-    # - run: npm-publish --token="${{ secrets.NPM_TOKEN }}" ./packages/from-utils/package.json
 
     - name: Publish 🚀
       uses: SunLxy/npm-publish@main

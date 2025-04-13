@@ -3,7 +3,9 @@
   "name": "carefree-antd-root",
   "version": "1.0.46",
   "scripts": {
-    "build:all": "lerna exec -- npm run build",
+    "build:rslib:config": "npm run-script build --workspace @rslib/config",
+    "build:all": "lerna exec --ignore @rslib/config -- npm run build",
+    "build": "npm run build:rslib:config && npm run build:all",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "publish": "lerna publish",
     "release": "npm run build && npm publish",
@@ -29,10 +31,6 @@
     ]
   },
   "devDependencies": {
-    "@rsbuild/plugin-react": "^1.1.1",
-    "@rslib/core": "^0.5.5",
-    "@rsbuild/plugin-svgr": "~1.0.7",
-    "typescript": "5.1.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "eslint-config-prettier": "8.6.0",
@@ -48,9 +46,7 @@
     "@types/react": "~18.0.27",
     "@types/react-dom": "~18.0.10"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
