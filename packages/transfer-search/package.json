@@ -24,9 +24,5 @@
     "carefree-antd-form": "2.0.3",
     "umi-request": "1.4.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "7.20.12",
-    "@babel/runtime": "7.20.13"
-  }
+  "license": "MIT"
 }

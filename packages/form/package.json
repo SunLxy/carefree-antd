@@ -21,9 +21,5 @@
     "classnames": "2.3.2",
     "react": ">=17.x"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "7.20.12",
-    "@babel/runtime": "7.20.13"
-  }
+  "license": "MIT"
 }

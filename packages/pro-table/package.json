@@ -22,10 +22,6 @@
     "react": ">=17.x"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "7.20.12",
-    "@babel/runtime": "7.20.13"
-  },
   "dependencies": {
     "carefree-antd-form": "2.0.3",
     "carefree-utils": "^1.0.15",
