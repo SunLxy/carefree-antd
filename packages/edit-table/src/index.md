@@ -14,6 +14,12 @@ group:
  npm i carefree-antd-edit-table
 ```
 
+## 引入
+
+```ts
+import EditTable from 'carefree-antd-edit-table';
+```
+
 ### 编辑表格 参数
 
 | 参数           | 说明                     | 类型                                                                                            |

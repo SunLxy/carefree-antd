@@ -272,7 +272,7 @@ interface EditorTableProps extends EditTableType {
   Item: typeof EditableCellItem;
 }
 
-const EditorTable = InitEditTable as EditorTableProps;
+export const EditorTable = InitEditTable as EditorTableProps;
 
 EditorTable.useStore = useStore;
 EditorTable.Item = EditableCellItem;
