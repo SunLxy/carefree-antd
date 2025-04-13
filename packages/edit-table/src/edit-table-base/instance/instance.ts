@@ -250,13 +250,13 @@ export const useEditTableBaseInstance = (instance?: EditTableBaseInstance) => {
     if (instance) {
       ref.current = instance;
     } else {
-      ref.current = new EditTableBaseInstance();
+      ref.current = new EditTableBaseInstance().main_ctor();
     }
   }
   return ref.current;
 };
 export const EditTableBaseInstanceContext = createContext(
-  new EditTableBaseInstance(),
+  new EditTableBaseInstance().main_ctor(),
 );
 
 export const useEditTableBaseInstanceContext = () => {
