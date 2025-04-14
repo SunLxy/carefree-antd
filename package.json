@@ -3,9 +3,7 @@
   "name": "carefree-antd-root",
   "version": "1.0.46",
   "scripts": {
-    "build:rslib:config": "npm run-script build --workspace @rslib/config",
-    "build:all": "lerna exec --ignore @rslib/config -- npm run build",
-    "build": "npm run build:rslib:config && npm run build:all",
+    "build": "lerna exec -- npm run build",
     "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "publish": "lerna publish",
     "release": "npm run build && npm publish",

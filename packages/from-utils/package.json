@@ -18,8 +18,8 @@
     "url": "git+https://github.com/SunLxy/carefree-antd.git"
   },
   "scripts": {
-    "build": "rslib build",
-    "watch": "rslib build --watch"
+    "build": "carefrees-rslib build",
+    "watch": "carefrees-rslib build --watch"
   },
   "bugs": {
     "url": "https://github.com/SunLxy/carefree-antd/issues"

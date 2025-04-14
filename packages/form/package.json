@@ -12,8 +12,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "rslib build",
-    "watch": "rslib build --watch"
+    "build": "carefrees-rslib build",
+    "watch": "carefrees-rslib build --watch"
   },
   "peerDependencies": {
     "@ant-design/icons": ">=4.7.0",
