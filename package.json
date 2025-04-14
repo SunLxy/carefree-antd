@@ -25,6 +25,7 @@
     ]
   },
   "devDependencies": {
+    "@carefrees/rslib": "0.0.5",
     "carefree-kt": "~1.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
