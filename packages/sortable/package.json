@@ -30,7 +30,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/immutability-helper": "2.6.3",
-    "@types/lodash": "4.14.191",
+    "@types/lodash": "4.17.20",
     "@types/sortablejs": "1.15.0"
   },
   "dependencies": {
