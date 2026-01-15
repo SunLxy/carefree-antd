@@ -1,6 +1,6 @@
 {
-  "name": "carefree-pro-table",
-  "version": "2.0.4",
+  "name": "@carefrees/antd-pro-table",
+  "version": "0.0.0",
   "description": "查询表单/表格/操作表头 集合成一个组合组件",
   "main": "lib/index.js",
   "module": "esm/index.js",
