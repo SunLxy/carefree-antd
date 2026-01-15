@@ -9,6 +9,7 @@
     "release": "npm run build && npm publish",
     "start": "dumi dev",
     "docs:build": "dumi build",
+    "docs:preview": "dumi preview",
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "clean": "kt rm -rf --dirs=lib --dirs=esm --dirs=dist",
     "clean:all": "kt rm -rf --files=yarn.lock --files=package-lock.json --dirs=node_modules --dirs=lib --dirs=esm --dirs=dist --dirs=.dumi --dirs=docs-dist"

@@ -16,7 +16,7 @@
     "watch": "carefrees-rslib build --watch"
   },
   "dependencies": {
-    "@carefrees/valtio": "~0.0.14"
+    "@carefrees/valtio": "~0.0.16"
   },
   "peerDependencies": {
     "antd": ">=4.16.13",
