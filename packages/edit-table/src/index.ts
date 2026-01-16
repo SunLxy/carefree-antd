@@ -1,4 +1,6 @@
-import EditTable from './EditTable';
-export * from './EditTable';
-export * from './edit-table-base';
-export default EditTable;
+export * from './config';
+export * from './config/cell';
+export * from './config/operation.cell';
+export * from './context';
+export * from './table';
+export * from './utils';

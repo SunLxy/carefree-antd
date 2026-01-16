@@ -1,6 +1,7 @@
 {
   "name": "@carefrees/antd-transfer",
   "version": "0.0.0",
+  "private": true,
   "description": "穿梭框",
   "main": "lib/index.js",
   "module": "esm/index.js",

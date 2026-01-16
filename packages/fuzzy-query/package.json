@@ -1,6 +1,7 @@
 {
   "name": "@carefrees/antd-fuzzy-query",
   "version": "0.0.0",
+  "private": true,
   "description": "模糊查询 - 加标题展示",
   "main": "lib/index.js",
   "module": "esm/index.js",

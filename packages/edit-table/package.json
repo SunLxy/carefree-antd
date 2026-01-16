@@ -1,6 +1,7 @@
 {
   "name": "@carefrees/antd-edit-table",
   "version": "0.0.0",
+  "private": true,
   "description": "`EditTable` 表格编辑组件",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -16,11 +17,10 @@
     "watch": "carefrees-rslib build --watch"
   },
   "dependencies": {
-    "@carefrees/valtio": "~0.0.16"
+    "@carefrees/table-async-validator": "~0.0.10"
   },
   "peerDependencies": {
-    "antd": ">=4.16.13",
-    "rc-field-form": ">=1.22.0",
+    "antd": ">=5.x",
     "react": ">=17.x"
   },
   "license": "MIT"
