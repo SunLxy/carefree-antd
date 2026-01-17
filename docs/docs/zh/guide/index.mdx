@@ -1,0 +1,446 @@
+# 介绍
+
+:::tip
+
+通过`Layout`组件，实现项目整体页面布局。
+
+使开发者专注于业务逻辑的实现。
+
+:::
+
+[项目案例预览](https://autumn-fairy-tales.github.io/fairys-admin-react/example)
+
+## 项目目录结构
+
+```dir
+
+.
+├── package.json
+├── public
+│   └── logo.png
+├── README.md
+├── rsbuild.config.ts
+├── src
+│   ├── assets
+│   │   └── logo.png
+│   ├── auth
+│   │   ├── index.tsx
+│   │   ├── login.tsx
+│   │   └── utils.ts
+│   ├── docs
+│   │   ├── 404.tsx
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── detail
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── env.d.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── menu.ts
+│   ├── pages
+│   │   ├── *.tsx
+│   │   ├── 404.tsx
+│   │   ├── about
+│   │   │   └── page.tsx
+│   │   ├── detail
+│   │   │   └── page.tsx
+│   │   ├── home
+│   │   │   ├── aaa
+│   │   │   │   └── page.tsx
+│   │   │   ├── aaa copy
+│   │   │   │   └── page.tsx
+│   │   │   ├── dd
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── lazy
+│   │   │   └── page.tsx
+│   │   ├── list
+│   │   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── test
+│   │       └── page.tsx
+│   └── routes.tsx
+└── tsconfig.json
+
+```
+
+## rsbuild.config.ts 配置
+
+```ts title="rsbuild.config.ts"
+
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import tailwindcss from '@tailwindcss/postcss';
+import { getLoadingHtmlTags, RsbuildReactRoutesPlugin } from '@fairys/admin-tools-react-plugins';
+import { pluginMockServer } from 'rspack-plugin-mock/rsbuild'
+
+export default defineConfig({
+  output: {
+    assetPrefix: '/fairys-admin-react/',
+  },
+  server: {
+    base: '/fairys-admin-react/',
+    // The plugin will read the `proxy` option from the `server`
+    proxy: {
+      '/api': 'http://example.com',
+    },
+  },
+  html: {
+    title: 'Fairys Admin React',
+    favicon: './public/logo.png',
+    tags: getLoadingHtmlTags('Fairys'),
+  },
+  plugins: [
+    pluginMockServer(),
+    pluginReact(),
+    RsbuildReactRoutesPlugin({
+      watchDirs: [{ dir: 'src/docs', routePrefix: '/docs' }],
+    }),
+  ],
+  tools: {
+    postcss: (_, { addPlugins }) => {
+      addPlugins([tailwindcss()]);
+    },
+  },
+});
+
+```
+
+:::warning 注意
+
+当`loadType = lazy`时，如果需要开启页面缓存，建议同时配置`keepAliveBasePath`值。否则页面缓存第一次打开不生效，需要再次打开才生效。
+
+`keepAliveBasePath` 配置不可和 `FairysRoot` 组件中的 `isOutletKeepAlive` 配置同时开启。
+
+当配置 `keepAliveBasePath` 时，`FairysRoot` 组件中的 `isOutletKeepAlive` 设置为 `false`, 否则控制台会报错。
+
+:::
+
+
+## mock 配置
+
+使用[`rspack-plugin-mock`](https://github.com/pengzhanbo/rspack-plugin-mock)插件配置mock数据。
+
+
+## 整体项目代码
+
+[项目模版](https://autumn-fairy-tales.github.io/fairys-admin-react/template.zip)
+
+**项目入口**
+
+```tsx title="src/index.tsx"
+
+import ReactDOM from 'react-dom/client';
+
+import {
+  settingDataInstance,
+  authDataInstance,
+  appPluginDataInstance,
+  notificationDataInstance,
+  FairysWatermarkBase,
+} from '@fairys/admin-tools-react';
+
+import { AuthRoot } from './auth';
+
+settingDataInstance.ctor({
+  projectName: 'Fairys Admin',
+  themeColor: '#af52de',
+});
+
+const rootEl = document.getElementById('root');
+if (rootEl) {
+  const root = ReactDOM.createRoot(rootEl);
+  root.render(
+    <FairysWatermarkBase zIndex={99} className="h-full w-full" content={['Fairys', 'Happy Working']}>
+      <AuthRoot />
+    </FairysWatermarkBase>,
+  );
+}
+
+```
+
+**权限入口代码**
+
+```tsx title="src/auth/index.tsx"
+import { useEffect, useMemo } from 'react';
+import {
+  menuDataInstance,
+  routerDataInstance,
+  accountDataInstance,
+  FairysRoot,
+  useAuthDataInstance,
+  authDataInstance,
+  loadingFadeOut,
+  FairysEnterLoading,
+} from '@fairys/admin-tools-react';
+
+import { Login } from './login';
+import { onGetAuth } from './utils';
+import type { MenuItemType } from '@fairys/admin-tools-react';
+import type { RouteObject } from 'react-router';
+import { Layout } from '@fairys/admin-tools-react';
+import Home from '@/pages/page';
+
+// 菜单数据
+export const menuItems: MenuItemType[] = [
+  {
+    title: '主菜单',
+    path: 'main-menu',
+    isMain: true,
+    icon: 'ant-design:home-outlined',
+    items: [
+      {
+        title: '首页',
+        path: '/',
+        icon: 'ant-design:home-outlined',
+        isTabFixed: true,
+      },
+      {
+        title: '异步',
+        path: '/lazy',
+        icon: 'ant-design:home-outlined',
+      },
+      {
+        title: '详情',
+        path: '/detail',
+        icon: 'ant-design:info-circle-outlined',
+      },
+    ],
+  },
+];
+
+// 路由数据
+export const routes: RouteObject[] = [
+  {
+    path: '/',
+    Component: Layout,
+    children: [
+      {
+        index: true,
+        path: '/',
+        Component: Home,
+      },
+      {
+        path: '/list',
+        // Component: List,
+        lazy: () => import('@/pages/list/page'),
+      },
+      {
+        path: '/detail',
+        // Component: Detail,
+        lazy: () => import('@/pages/detail/page'),
+      },
+      {
+        path: '/about',
+        // Component: About,
+        lazy: () => import('@/pages/about/page'),
+      },
+      {
+        path: '/lazy',
+        lazy: () => import('@/pages/lazy/page'),
+      },
+      {
+        path: '*',
+        element: <div>404</div>
+      }
+    ]
+  }
+];
+
+
+export const AuthRoot = () => {
+  useMemo(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      loadingFadeOut();
+    }
+    authDataInstance.updatedStatus(token ? 'RequestAuth' : 'Login');
+  }, []);
+  const [authState] = useAuthDataInstance();
+  const status = authState.status;
+
+  const onSetInfo = () => {
+    menuDataInstance.ctor(menuItems);
+    // 可以对 routes 进行处理
+    routerDataInstance.createHashRouter(routes);
+    // 如果获取权限成功则设置状态为 auth
+    authDataInstance.updatedStatus('Auth');
+    /**移除页面加载动画*/
+    loadingFadeOut();
+  };
+
+  const onAuth = () => {
+    authDataInstance.updatedStatus('Loading');
+    onGetAuth().then(() => {
+      /**移除页面加载动画*/
+      onSetInfo();
+    });
+  };
+  // 如果初始时Loading,则获取权限
+  useEffect(() => {
+    if (status === 'RequestAuth') {
+      onAuth();
+    }
+  }, []);
+
+  if (status === 'Login') {
+    return <Login onLogin={onSetInfo} />;
+  } else if (status === 'RequestAuth' || status === 'Loading') {
+    return <FairysEnterLoading loading />;
+  }
+  if (status === 'NoAuth') {
+    return <div>NoAuth</div>;
+  }
+  return <FairysRoot isOutletKeepAlive={false} router={routerDataInstance.router} keepAlive={true} />;
+};
+
+```
+
+**登录入口代码**
+
+```tsx title="src/auth/login.tsx"
+
+import { Fragment, useState } from 'react';
+import { onLogin } from './server';
+import { accountDataInstance, FairysEnterLoading } from '@fairys/admin-tools-react';
+import { FairysLoginPage } from '@fairys/admin-tools-react';
+
+const rules = {
+  username: (value: string) => {
+    if (!value) {
+      return '用户名不能为空';
+    }
+    return '';
+  },
+  password: (value: string) => {
+    if (!value) {
+      return '密码不能为空';
+    }
+    return '';
+  },
+};
+interface LoginProps {
+  onLogin: () => void;
+}
+
+export const Login = (props: LoginProps) => {
+  const [loading, setLoading] = useState(false);
+  const formInstance = FairysLoginPage.useForm();
+  const onLoginClick = () => {
+    formInstance
+      .validate()
+      .then((values) => {
+        setLoading(true);
+        onLogin(values.value)
+          .then((res) => {
+            if (res.code === 200) {
+              console.log('登录成功', res);
+              localStorage.setItem('token', res.data.token || '');
+              accountDataInstance.updated({
+                userName: res.data.userName || '',
+                userAvatar: res.data.userAvatar || '',
+              });
+              props.onLogin();
+            }
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  return (
+    <Fragment>
+      <FairysLoginPage
+        mainClassName="bg-white dark:bg-gray-900 px-[50px] py-[50px]"
+        title="登录"
+        form={formInstance}
+        rules={rules}
+      >
+        <FairysLoginPage.FormItem name="username" label="用户名" required>
+          <FairysLoginPage.FormItemInput placeholder="请输入用户名" />
+        </FairysLoginPage.FormItem>
+        <FairysLoginPage.FormItem name="password" label="密码" required>
+          <FairysLoginPage.FormItemInput placeholder="请输入密码" type="password" />
+        </FairysLoginPage.FormItem>
+        <button
+          onClick={onLoginClick}
+          className="bg-(--fairys-theme-color)/90 rounded-sm text-white py-[9px] mt-[20px] hover:bg-(--fairys-theme-color) cursor-pointer transition-all duration-300"
+          type="button"
+        >
+          登录
+        </button>
+      </FairysLoginPage>
+      <FairysEnterLoading loading={loading} tips="登录中" />
+    </Fragment>
+  );
+};
+
+```
+
+**接口请求代码**
+
+```tsx title="src/auth/server.tsx"
+
+import axios from 'axios';
+
+const requestAuth = async () => {
+  return axios.post('/api/auth', {}).then((res) => {
+    return res.data;
+  });
+};
+
+export const onLogin = async (params: any = {}) => {
+  return axios.post('/api/login', params).then((res) => {
+    return res.data;
+  });
+};
+
+export const onGetAuth = async () => {
+  return requestAuth();
+};
+
+```
+
+```ts title="mock/index.mock.ts"
+
+import { defineMock } from 'rspack-plugin-mock/helper'
+
+export default defineMock([
+  {
+    url: '/api/login',
+    delay: 2000,
+    body: {
+      code: 200,
+      message: 'success',
+      data: {
+        token: '123456',
+        userName: 'fairys',
+        userAvatar: 'https://gravatar.com/userimage/233185585/f004e2e1534508a34caef161ef76d9f2.jpeg?size=256',
+      },
+    },
+  },
+  {
+    url: '/api/auth',
+    delay: 1000,
+    body: {
+      code: 200,
+      message: 'success',
+      data: {
+        /**菜单权限*/
+        menusPermissions: [],
+        /**按钮权限*/
+        btnsPermissions: [],
+        /**忽略权限(忽略权限不会进行权限判断，不分按钮还是菜单,在判断时始终为true)*/
+        ignorePermissions: [],
+      },
+    },
+  }
+])
+```

@@ -1,0 +1,17 @@
+{
+  "name": "docs",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://github.com/SunLxy/carefree-antd",
+  "description": "文档",
+  "scripts": {
+    "build": "rspress build",
+    "dev": "rspress dev",
+    "preview": "rspress preview"
+  },
+  "devDependencies": {
+    "@rspress/plugin-preview": "~1.47.0",
+    "@types/node": "^24.3.0",
+    "rspress": "^1.47.0"
+  }
+}

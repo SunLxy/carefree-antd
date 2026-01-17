@@ -1,49 +1,42 @@
 {
+  "name": "root",
   "private": true,
-  "name": "carefree-antd-root",
-  "version": "1.0.46",
   "scripts": {
-    "build": "lerna exec -- npm run build",
-    "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
-    "publish": "lerna publish",
-    "release": "npm run build && npm publish",
-    "start": "dumi dev",
-    "docs:build": "dumi build",
-    "docs:preview": "dumi preview",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
-    "clean": "kt rm -rf --dirs=lib --dirs=esm --dirs=dist",
-    "clean:all": "kt rm -rf --files=yarn.lock --files=package-lock.json --dirs=node_modules --dirs=lib --dirs=esm --dirs=dist --dirs=.dumi --dirs=docs-dist"
+    "prepare": "husky install",
+    "----@carefrees/form-utils----": "--------start-------",
+    "build:edit-table": "npm run-script build --workspace @carefrees/antd-edit-table",
+    "watch:edit-table": "npm run-script watch --workspace @carefrees/antd-edit-table",
+    "build:all": "npm run build:edit-table",
+    "build:docs": "npm run-script build --workspace docs",
+    "start:docs": "npm run-script dev --workspace docs",
+    "version": "lerna version --force-publish=* --no-changelog --no-git-tag-version --no-push",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "dependencies": {
+    "@carefrees/rslib": "~0.1.1",
+    "husky": "~9.1.7",
+    "lerna": "~9.0.3",
+    "prettier": "~3.8.0",
+    "pretty-quick": "~4.2.2",
+    "lint-staged": "~16.2.7",
+    "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7"
   },
   "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+    "*.{js,jsx,tsx,ts,less,md,json}": "prettier --write"
   },
-  "devDependencies": {
-    "@carefrees/rslib": "0.0.5",
-    "carefree-kt": "~1.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "eslint-config-prettier": "8.6.0",
-    "eslint-plugin-prettier": "4.2.1",
-    "@types/jest": "29.4.0",
-    "dumi": "2.4.20",
-    "lerna": "5.5.0",
-    "lint-staged": "13.1.0",
-    "antd": "5.24.6",
-    "prettier": "2.7.1",
-    "umi-request": "1.4.0",
-    "yorkie": "2.0.0",
-    "@types/react": "~18.0.27",
-    "@types/react-dom": "~18.0.10"
+  "engines": {
+    "node": ">=18.0.0"
   },
   "workspaces": [
+    "docs",
     "packages/*"
   ]
 }
