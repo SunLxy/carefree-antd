@@ -1,5 +1,5 @@
 import { useChildInstanceContextOperationState } from '@carefrees/table-async-validator';
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, Space } from 'antd';
 import { useMemo } from 'react';
 import { useEditTableInstanceContextState } from './../context';
 
@@ -10,12 +10,13 @@ import { useEditTableInstanceContextState } from './../context';
 
 export interface OperationCellProps<T = Record<PropertyKey, any>> {
   rowData: T;
+  operationPosition?: 'left' | 'right';
 }
 
 export function OperationCell<T = Record<PropertyKey, any>>(
   props: OperationCellProps<T>,
 ) {
-  const { rowData } = props;
+  const { rowData, operationPosition = 'right' } = props;
   const [operationState, childInstance] =
     useChildInstanceContextOperationState();
   const [state, editInstance] = useEditTableInstanceContextState();
@@ -72,7 +73,14 @@ export function OperationCell<T = Record<PropertyKey, any>>(
       );
     }
     return list;
-  }, [rowKey]);
+  }, [rowKey, operationPosition]);
+
+  const _operationButton = useMemo(() => {
+    if (operationPosition === 'right') {
+      return [...operationButton].reverse();
+    }
+    return operationButton;
+  }, [operationButton, operationPosition]);
 
   const operationEditButton = useMemo(() => {
     return [
@@ -102,6 +110,7 @@ export function OperationCell<T = Record<PropertyKey, any>>(
           className="carefrees-antd-edit-table-operation-cell-cancel-button"
           size="small"
           type="link"
+          danger
         >
           取消
         </Button>
@@ -111,14 +120,20 @@ export function OperationCell<T = Record<PropertyKey, any>>(
 
   if (typeof customOperationCell === 'function') {
     return (
-      <div className="carefrees-antd-edit-table-operation-cell">
-        {customOperationCell(operationButton, operationEditButton, operation)}
-      </div>
+      <Space
+        direction="horizontal"
+        className="carefrees-antd-edit-table-operation-cell"
+      >
+        {customOperationCell(_operationButton, operationEditButton, operation)}
+      </Space>
     );
   }
   return (
-    <div className="carefrees-antd-edit-table-operation-cell">
-      {!!operation ? operationEditButton : operationButton}
-    </div>
+    <Space
+      direction="horizontal"
+      className="carefrees-antd-edit-table-operation-cell"
+    >
+      {!!operation ? operationEditButton : _operationButton}
+    </Space>
   );
 }

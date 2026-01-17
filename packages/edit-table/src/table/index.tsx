@@ -20,7 +20,10 @@ import './../styles/index.css';
 export interface EditTableBaseProps<
   T = any,
   M extends EditTableInstanceStateType = EditTableInstanceStateType,
-> extends Omit<TableProps<T>, 'columns' | 'rowKey' | 'dataSource'> {
+> extends Omit<
+    TableProps<T>,
+    'columns' | 'rowKey' | 'dataSource' | 'onChange'
+  > {
   columns: TableConfigColumnType[];
   name?: string;
   rowKey?: PropertyKey;
@@ -39,7 +42,7 @@ export interface EditTableBaseProps<
    * left: 左侧
    * right: 右侧
    */
-  operationPosition?: 'left' | 'right';
+  operationPosition?: 'left' | 'right' | undefined;
   /**操作按钮是否固定在左侧或右侧*/
   operationFixed?: boolean;
   /**编辑表格实例*/
@@ -54,6 +57,13 @@ export interface EditTableBaseProps<
     operationEditButton: React.ReactNode,
     operation?: 'add' | 'edit',
   ) => React.ReactNode;
+  /***
+   * 数据变化回调
+   * @param dataSource 数据
+   */
+  onChange?: ChildInstance<T>['onChangeRows'];
+  /**字段对应的校验规则*/
+  rules?: ChildInstance<T>['rules'];
 }
 
 export function EditTableBase<
@@ -74,6 +84,8 @@ export function EditTableBase<
     childInstance: _childInstance,
     maxCount = 0,
     customOperationCell,
+    onChange,
+    rules,
     ...rest
   } = props;
   const editInstance = useEditTableInstance<M, T>(_editInstance);
@@ -93,6 +105,9 @@ export function EditTableBase<
   /**设置行数据的主键值，对应一行中所有列的错误信息*/
   childInstance.rowKey = rowKey || 'rowId';
   childInstance.enableOperationState = enableOperationState;
+  childInstance.onChangeRows = onChange;
+  /**设置校验规则*/
+  childInstance.rules = rules;
 
   const _columns = useMemo(() => {
     const _columns = columns.map((item) => {
@@ -175,7 +190,12 @@ export function EditTableBase<
           width: 80,
           fixed: operationFixed ? operationPosition : undefined,
           render: (_: any, rowData: T) => {
-            return <OperationCell<T> rowData={rowData} />;
+            return (
+              <OperationCell<T>
+                rowData={rowData}
+                operationPosition={operationPosition}
+              />
+            );
           },
         } as unknown as TableConfigColumnType,
       ].concat(_columns);
@@ -184,10 +204,15 @@ export function EditTableBase<
         {
           title: '操作',
           align: 'center',
-          width: 80,
+          width: 120,
           fixed: operationFixed ? operationPosition : undefined,
           render: (_: any, rowData: T) => {
-            return <OperationCell<T> rowData={rowData} />;
+            return (
+              <OperationCell<T>
+                rowData={rowData}
+                operationPosition={operationPosition}
+              />
+            );
           },
         } as unknown as TableConfigColumnType,
       ]);
@@ -210,7 +235,9 @@ export function EditTableBase<
       <ChildInstanceContext.Provider value={childInstance}>
         <div className="carefrees-antd-edit-table">
           <Table
+            bordered
             size="small"
+            pagination={false}
             {...rest}
             rowKey={rowKey}
             dataSource={_value}
@@ -218,7 +245,14 @@ export function EditTableBase<
           />
           {isCanAdd ? (
             <div className="carefrees-antd-edit-table-add-row">
-              <Button type="dashed" block>
+              <Button
+                type="dashed"
+                block
+                onClick={() => {
+                  console.log('添加一行数据');
+                  childInstance.onClickAddRowOperation({});
+                }}
+              >
                 添加一行数据
               </Button>
             </div>

@@ -2,3 +2,6 @@
   color: var(--ant-color-primary, #1677ff);
   border-color: var(--ant-color-primary, #1677ff);
 }
+.carefrees-antd-edit-table .carefrees-antd-edit-table-add-row {
+  padding-top: 20px;
+}

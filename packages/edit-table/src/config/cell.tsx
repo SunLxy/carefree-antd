@@ -63,14 +63,14 @@ export function CellInput<T = Record<PropertyKey, any>>(props: CellProps<T>) {
 
   const onValueChange = (event: any) => {
     // 对值进行处理
-    const _event = event;
+    let _event = event;
     if (
-      _event &&
-      _event.target &&
-      typeof _event.target === 'object' &&
-      valuePropName in _event.target
+      event &&
+      event?.target &&
+      typeof event?.target === 'object' &&
+      valuePropName in event?.target
     ) {
-      return (_event.target as HTMLInputElement)[valuePropName];
+      _event = (event.target as HTMLInputElement)[valuePropName];
     }
     childInstance.updatedRowData(rowKey, { [dataIndex]: _event });
   };
@@ -134,10 +134,14 @@ export function CellInput<T = Record<PropertyKey, any>>(props: CellProps<T>) {
 /**纯数据渲染*/
 export function CellText<T = Record<PropertyKey, any>>(props: CellProps<T>) {
   const { rowData, currentIndex, dataIndex, render } = props;
-  const [state, _, childInstance] = useChildInstanceContextState();
+  const [state, _, _o, childInstance] = useChildInstanceContextState();
   const rowKey = rowData[childInstance.rowKey];
   const _value = state?.[rowKey]?.[dataIndex];
-  return <Fragment>{render?.(_value, rowData, currentIndex)}</Fragment>;
+  console.log(_value);
+  if (typeof render === 'function') {
+    return <Fragment>{render?.(_value, rowData, currentIndex)}</Fragment>;
+  }
+  return <Fragment>{_value}</Fragment>;
 }
 
 export function Cell<T = Record<PropertyKey, any>>(props: CellProps<T>) {

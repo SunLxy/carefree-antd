@@ -17,7 +17,7 @@
     "watch": "carefrees-rslib build --watch"
   },
   "dependencies": {
-    "@carefrees/table-async-validator": "~0.0.10"
+    "@carefrees/table-async-validator": "~0.0.11"
   },
   "peerDependencies": {
     "antd": ">=5.x",
